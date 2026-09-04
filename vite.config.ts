@@ -16,5 +16,9 @@ export default defineConfig({
     // maplibre-gl ships its own web worker; pre-bundling it breaks the worker URL in dev.
     optimizeDeps: { exclude: ["maplibre-gl"] },
   },
+  // Outside the Lovable sandbox, zero-config nitro defaults to the cloudflare-module
+  // preset, which outputs a Cloudflare Worker bundle Netlify can't run. This site is
+  // deployed on Netlify, so pin the nitro preset that targets Netlify Functions instead.
+  nitro: { preset: "netlify" },
 });
 
