@@ -4,20 +4,20 @@ import { LegalPage } from "@/components/legal/LegalPage";
 export const Route = createFileRoute("/legal/community-guidelines")({
   head: () => ({
     meta: [
-      { title: "Community Guidelines — In Bound" },
+      { title: "Community Guidelines — Bricxley" },
       {
         name: "description",
         content:
-          "The behaviour expected from tenants, owners and agents on In Bound: honest listings, declared brokerage and respectful communication.",
+          "The behaviour expected from tenants, owners and agents on Bricxley: honest listings, declared brokerage and respectful communication.",
       },
-      { property: "og:title", content: "Community Guidelines — In Bound" },
+      { property: "og:title", content: "Community Guidelines — Bricxley" },
       { property: "og:description", content: "Honest listings. Declared roles. Respectful conversations." },
     ],
   }),
   component: () => (
     <LegalPage
       title="Community Guidelines"
-      intro="A marketplace is only as trustworthy as the behaviour it rewards. These are the standards In Bound holds everyone to."
+      intro="A marketplace is only as trustworthy as the behaviour it rewards. These are the standards Bricxley holds everyone to."
       sections={[
         {
           heading: "Be who you say you are",
@@ -37,7 +37,7 @@ export const Route = createFileRoute("/legal/community-guidelines")({
         },
         {
           heading: "Communicate respectfully",
-          body: "No harassment, discrimination or pressure tactics. Keep conversations inside In Bound Chat until both sides agree otherwise.",
+          body: "No harassment, discrimination or pressure tactics. Keep conversations inside Bricxley Chat until both sides agree otherwise.",
         },
         {
           heading: "Report, don’t retaliate",

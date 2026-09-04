@@ -1,15 +1,15 @@
+import { BRAND } from "@/lib/brand";
 import { cn } from "@/lib/utils";
 
 /**
- * In Bound wordmark. The mark is an "I" bar meeting a "B"-shaped doorway arch —
- * two forms binding into a single home boundary / location pin.
+ * Bricxley temporary wordmark. The mark combines a doorway with a minimal B.
  */
-export function LogoMark({ className }: { className?: string }) {
+export function BricxleyMark({ className }: { className?: string }) {
   return (
     <svg
       viewBox="0 0 32 32"
       role="img"
-      aria-label="In Bound logo"
+      aria-label="Bricxley logo"
       className={cn("h-8 w-8", className)}
     >
       <rect x="0.75" y="0.75" width="30.5" height="30.5" rx="9.5" className="fill-navy" />
@@ -26,7 +26,7 @@ export function LogoMark({ className }: { className?: string }) {
   );
 }
 
-export function Logo({
+export function BricxleyLogo({
   className,
   showTagline = false,
 }: {
@@ -35,13 +35,11 @@ export function Logo({
 }) {
   return (
     <span className={cn("flex items-center gap-2.5", className)}>
-      <LogoMark />
+      <BricxleyMark />
       <span className="flex flex-col leading-none">
-        <span className="text-[1.05rem] font-extrabold tracking-tight">
-          In<span className="text-primary">&nbsp;Bound</span>
-        </span>
+        <span className="text-[1.05rem] font-extrabold tracking-tight">{BRAND.name}</span>
         {showTagline ? (
-          <span className="mt-1 text-xs text-muted-foreground">Let’s bound together.</span>
+          <span className="mt-1 text-xs text-muted-foreground">Rent with clarity.</span>
         ) : null}
       </span>
     </span>

@@ -36,7 +36,7 @@ export function OwnerCard({ lister }: { lister: Lister }) {
       </div>
       <p className="mt-4 flex gap-2 rounded-lg bg-muted p-3 text-xs text-muted-foreground">
         <Lock className="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden />
-        Phone numbers stay private. Start a secure In Bound chat — contact details are shared only
+        Phone numbers stay private. Start a secure Bricxley chat — contact details are shared only
         when both sides choose to.
       </p>
     </div>

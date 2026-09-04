@@ -170,7 +170,7 @@ export function FilterSidebar({
 
         <div>
           <Label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-            Minimum Bound Score
+            Minimum Bricxley Score
           </Label>
           <p className="mt-2 text-sm font-bold">{filters.minScore || "Any"}</p>
           <Slider

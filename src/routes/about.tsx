@@ -13,20 +13,20 @@ const pillars = [
   },
   {
     title: "Better connections",
-    text: "Renting is a relationship. In Bound is built to start it well and keep it in one honest thread.",
+    text: "Renting is a relationship. Bricxley is built to start it well and keep it in one honest thread.",
   },
 ];
 
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: "About In Bound — Verified rentals, transparent people" },
+      { title: "About Bricxley — Verified rentals, transparent people" },
       {
         name: "description",
         content:
-          "In Bound is a trusted rental marketplace helping tenants, owners and verified agents find each other and rent transparently in Hyderabad.",
+          "Bricxley is a trusted rental marketplace helping tenants, owners and verified agents find each other and rent transparently in Hyderabad.",
       },
-      { property: "og:title", content: "About In Bound" },
+      { property: "og:title", content: "About Bricxley" },
       {
         property: "og:description",
         content: "Verified rentals. Transparent people. Better connections.",
@@ -42,7 +42,7 @@ function AboutPage() {
       <PageHero
         eyebrow="About"
         title="Verified rentals. Transparent people. Better connections."
-        subtitle="In Bound brings tenants, property owners, verified agents and the right homes together through trust, transparency and technology. Let’s bound together."
+        subtitle="Bricxley brings tenants, property owners, verified agents and the right homes together through trust, transparency and technology. Rent with clarity."
       />
 
       <section className="container-page py-16">
@@ -63,8 +63,8 @@ function AboutPage() {
             trust layer right here means it works anywhere.
           </p>
           <p className="mt-4 max-w-2xl text-sm text-muted-foreground">
-            This is an early product. Listing content, Bound Scores and locality data shown today are
-            illustrative placeholders — the architecture is designed so each becomes a real,
+            This is an early product. Listing content, Bricxley Scores and locality data shown today
+            are illustrative placeholders — the architecture is designed so each becomes a real,
             verifiable signal as the platform grows.
           </p>
         </div>

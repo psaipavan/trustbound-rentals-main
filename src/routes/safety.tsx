@@ -6,11 +6,11 @@ import { FinalCta } from "@/components/home/FinalCta";
 const principles = [
   {
     title: "Your number stays yours",
-    text: "Conversations begin inside In Bound Chat. Phone numbers are exchanged only when both people choose to share them.",
+    text: "Conversations begin inside Bricxley Chat. Phone numbers are exchanged only when both people choose to share them.",
   },
   {
     title: "₹0 to view a property",
-    text: "In Bound does not require tenants to pay money simply to view a property. Any request for a viewing payment can be reported.",
+    text: "Bricxley does not require tenants to pay money simply to view a property. Any request for a viewing payment can be reported.",
   },
   {
     title: "Agents are labelled as agents",
@@ -25,13 +25,13 @@ const principles = [
 export const Route = createFileRoute("/safety")({
   head: () => ({
     meta: [
-      { title: "Safety & trust at In Bound" },
+      { title: "Safety & trust at Bricxley" },
       {
         name: "description",
         content:
-          "How In Bound handles fake listings, hidden brokerage, spam calls, outdated listings and viewing-fee scams.",
+          "How Bricxley handles fake listings, hidden brokerage, spam calls, outdated listings and viewing-fee scams.",
       },
-      { property: "og:title", content: "Safety & trust at In Bound" },
+      { property: "og:title", content: "Safety & trust at Bricxley" },
       {
         property: "og:description",
         content: "Verification, transparent brokerage, secure chat and moderation-ready reporting.",

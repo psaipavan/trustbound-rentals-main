@@ -2,7 +2,7 @@
  * Map canvas colours.
  *
  * The map renders to a WebGL canvas, so it cannot consume Tailwind classes.
- * These hex values mirror the In Bound design tokens defined in styles.css and
+ * These hex values mirror the Bricxley design tokens defined in styles.css and
  * are the single source of truth for map paint properties.
  */
 export const mapColors = {

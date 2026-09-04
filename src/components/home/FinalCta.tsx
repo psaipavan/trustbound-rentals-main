@@ -9,10 +9,10 @@ export function FinalCta() {
           A better rental begins with a better connection.
         </h2>
         <p className="mx-auto mt-4 max-w-xl text-muted-foreground">
-          Whether you're looking for a home or looking for the right tenant, In Bound brings both
+          Whether you're looking for a home or looking for the right tenant, Bricxley brings both
           sides together.
         </p>
-        <p className="mt-6 text-lg font-bold text-primary">Let’s bound together.</p>
+        <p className="mt-6 text-lg font-bold text-primary">Rent with clarity.</p>
         <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
           <Button asChild size="lg">
             <Link to="/rent">Find a Home</Link>

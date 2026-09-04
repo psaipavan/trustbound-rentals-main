@@ -26,6 +26,10 @@ import { Route as LegalCommunityGuidelinesRouteImport } from './routes/legal.com
 import { Route as LegalPrivacyRouteImport } from './routes/legal.privacy'
 import { Route as LegalTermsRouteImport } from './routes/legal.terms'
 import { Route as PropertyPropertyIdRouteImport } from './routes/property.$propertyId'
+import { Route as TenantInterestsRouteImport } from './routes/tenant.interests'
+import { Route as TenantVisitsRouteImport } from './routes/tenant.visits'
+import { Route as PropertyPropertyIdInterestRouteImport } from './routes/property.$propertyId.interest'
+import { Route as TenantInterestsInterestIdRouteImport } from './routes/tenant.interests.$interestId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -113,6 +117,28 @@ const PropertyPropertyIdRoute = PropertyPropertyIdRouteImport.update({
   path: '/property/$propertyId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TenantInterestsRoute = TenantInterestsRouteImport.update({
+  id: '/tenant/interests',
+  path: '/tenant/interests',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TenantVisitsRoute = TenantVisitsRouteImport.update({
+  id: '/tenant/visits',
+  path: '/tenant/visits',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PropertyPropertyIdInterestRoute =
+  PropertyPropertyIdInterestRouteImport.update({
+    id: '/interest',
+    path: '/interest',
+    getParentRoute: () => PropertyPropertyIdRoute,
+  } as any)
+const TenantInterestsInterestIdRoute =
+  TenantInterestsInterestIdRouteImport.update({
+    id: '/$interestId',
+    path: '/$interestId',
+    getParentRoute: () => TenantInterestsRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -131,7 +157,11 @@ export interface FileRoutesByFullPath {
   '/legal/community-guidelines': typeof LegalCommunityGuidelinesRoute
   '/legal/privacy': typeof LegalPrivacyRoute
   '/legal/terms': typeof LegalTermsRoute
-  '/property/$propertyId': typeof PropertyPropertyIdRoute
+  '/property/$propertyId': typeof PropertyPropertyIdRouteWithChildren
+  '/tenant/interests': typeof TenantInterestsRouteWithChildren
+  '/tenant/visits': typeof TenantVisitsRoute
+  '/property/$propertyId/interest': typeof PropertyPropertyIdInterestRoute
+  '/tenant/interests/$interestId': typeof TenantInterestsInterestIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -150,7 +180,11 @@ export interface FileRoutesByTo {
   '/legal/community-guidelines': typeof LegalCommunityGuidelinesRoute
   '/legal/privacy': typeof LegalPrivacyRoute
   '/legal/terms': typeof LegalTermsRoute
-  '/property/$propertyId': typeof PropertyPropertyIdRoute
+  '/property/$propertyId': typeof PropertyPropertyIdRouteWithChildren
+  '/tenant/interests': typeof TenantInterestsRouteWithChildren
+  '/tenant/visits': typeof TenantVisitsRoute
+  '/property/$propertyId/interest': typeof PropertyPropertyIdInterestRoute
+  '/tenant/interests/$interestId': typeof TenantInterestsInterestIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -170,7 +204,11 @@ export interface FileRoutesById {
   '/legal/community-guidelines': typeof LegalCommunityGuidelinesRoute
   '/legal/privacy': typeof LegalPrivacyRoute
   '/legal/terms': typeof LegalTermsRoute
-  '/property/$propertyId': typeof PropertyPropertyIdRoute
+  '/property/$propertyId': typeof PropertyPropertyIdRouteWithChildren
+  '/tenant/interests': typeof TenantInterestsRouteWithChildren
+  '/tenant/visits': typeof TenantVisitsRoute
+  '/property/$propertyId/interest': typeof PropertyPropertyIdInterestRoute
+  '/tenant/interests/$interestId': typeof TenantInterestsInterestIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -192,6 +230,10 @@ export interface FileRouteTypes {
     | '/legal/privacy'
     | '/legal/terms'
     | '/property/$propertyId'
+    | '/tenant/interests'
+    | '/tenant/visits'
+    | '/property/$propertyId/interest'
+    | '/tenant/interests/$interestId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -211,6 +253,10 @@ export interface FileRouteTypes {
     | '/legal/privacy'
     | '/legal/terms'
     | '/property/$propertyId'
+    | '/tenant/interests'
+    | '/tenant/visits'
+    | '/property/$propertyId/interest'
+    | '/tenant/interests/$interestId'
   id:
     | '__root__'
     | '/'
@@ -230,6 +276,10 @@ export interface FileRouteTypes {
     | '/legal/privacy'
     | '/legal/terms'
     | '/property/$propertyId'
+    | '/tenant/interests'
+    | '/tenant/visits'
+    | '/property/$propertyId/interest'
+    | '/tenant/interests/$interestId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -249,7 +299,9 @@ export interface RootRouteChildren {
   LegalCommunityGuidelinesRoute: typeof LegalCommunityGuidelinesRoute
   LegalPrivacyRoute: typeof LegalPrivacyRoute
   LegalTermsRoute: typeof LegalTermsRoute
-  PropertyPropertyIdRoute: typeof PropertyPropertyIdRoute
+  PropertyPropertyIdRoute: typeof PropertyPropertyIdRouteWithChildren
+  TenantInterestsRoute: typeof TenantInterestsRouteWithChildren
+  TenantVisitsRoute: typeof TenantVisitsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -373,8 +425,59 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PropertyPropertyIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/tenant/interests': {
+      id: '/tenant/interests'
+      path: '/tenant/interests'
+      fullPath: '/tenant/interests'
+      preLoaderRoute: typeof TenantInterestsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tenant/visits': {
+      id: '/tenant/visits'
+      path: '/tenant/visits'
+      fullPath: '/tenant/visits'
+      preLoaderRoute: typeof TenantVisitsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/property/$propertyId/interest': {
+      id: '/property/$propertyId/interest'
+      path: '/interest'
+      fullPath: '/property/$propertyId/interest'
+      preLoaderRoute: typeof PropertyPropertyIdInterestRouteImport
+      parentRoute: typeof PropertyPropertyIdRoute
+    }
+    '/tenant/interests/$interestId': {
+      id: '/tenant/interests/$interestId'
+      path: '/$interestId'
+      fullPath: '/tenant/interests/$interestId'
+      preLoaderRoute: typeof TenantInterestsInterestIdRouteImport
+      parentRoute: typeof TenantInterestsRoute
+    }
   }
 }
+
+interface PropertyPropertyIdRouteChildren {
+  PropertyPropertyIdInterestRoute: typeof PropertyPropertyIdInterestRoute
+}
+
+const PropertyPropertyIdRouteChildren: PropertyPropertyIdRouteChildren = {
+  PropertyPropertyIdInterestRoute: PropertyPropertyIdInterestRoute,
+}
+
+const PropertyPropertyIdRouteWithChildren =
+  PropertyPropertyIdRoute._addFileChildren(PropertyPropertyIdRouteChildren)
+
+interface TenantInterestsRouteChildren {
+  TenantInterestsInterestIdRoute: typeof TenantInterestsInterestIdRoute
+}
+
+const TenantInterestsRouteChildren: TenantInterestsRouteChildren = {
+  TenantInterestsInterestIdRoute: TenantInterestsInterestIdRoute,
+}
+
+const TenantInterestsRouteWithChildren = TenantInterestsRoute._addFileChildren(
+  TenantInterestsRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -393,7 +496,9 @@ const rootRouteChildren: RootRouteChildren = {
   LegalCommunityGuidelinesRoute: LegalCommunityGuidelinesRoute,
   LegalPrivacyRoute: LegalPrivacyRoute,
   LegalTermsRoute: LegalTermsRoute,
-  PropertyPropertyIdRoute: PropertyPropertyIdRoute,
+  PropertyPropertyIdRoute: PropertyPropertyIdRouteWithChildren,
+  TenantInterestsRoute: TenantInterestsRouteWithChildren,
+  TenantVisitsRoute: TenantVisitsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

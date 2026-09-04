@@ -1,7 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import type { ReactNode } from "react";
 
-const STORAGE_KEY = "inbound.saved.v1";
+const STORAGE_KEY = "bricxley.saved.v1";
 
 type SavedContextValue = {
   saved: string[];

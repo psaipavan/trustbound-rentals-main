@@ -31,7 +31,7 @@ export function ReportModal({ propertyId }: { propertyId: string }) {
         <DialogHeader>
           <DialogTitle>Report this listing</DialogTitle>
           <DialogDescription>
-            Reports go to the In Bound moderation queue for human review. Listings are never removed
+            Reports go to the Bricxley moderation queue for human review. Listings are never removed
             automatically.
           </DialogDescription>
         </DialogHeader>

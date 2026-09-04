@@ -1,5 +1,5 @@
 /**
- * Hyderabad geography for the In Bound prototype.
+ * Hyderabad geography for the Bricxley prototype.
  *
  * Coordinates are real, publicly known locality/landmark centroids. Individual
  * demo properties are placed near — not exactly at — these points.

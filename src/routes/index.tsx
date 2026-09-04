@@ -31,13 +31,13 @@ import { localities } from "@/data/localities";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "In Bound — Verified rentals in Hyderabad" },
+      { title: "Bricxley — Verified rentals in Hyderabad" },
       {
         name: "description",
         content:
           "Discover verified rentals, connect safely with owners and verified agents, schedule visits and rent transparently in Hyderabad.",
       },
-      { property: "og:title", content: "In Bound — Let’s bound together." },
+      { property: "og:title", content: "Bricxley — Rent with clarity." },
       {
         property: "og:description",
         content:
@@ -62,7 +62,7 @@ const tenantBenefits = [
   { icon: BadgeCheck, text: "Verified identities on both sides" },
   { icon: IndianRupee, text: "Transparent brokerage, shown upfront" },
   { icon: IndianRupee, text: "No hidden viewing fees" },
-  { icon: Lock, text: "Secure In Bound Chat" },
+  { icon: Lock, text: "Secure Bricxley Chat" },
   { icon: BellRing, text: "Real-time availability" },
   { icon: Heart, text: "Saved properties and comparison" },
   { icon: CalendarCheck, text: "Visit scheduling" },
@@ -72,7 +72,7 @@ const tenantBenefits = [
 const frustrations = [
   {
     title: "“The flat was rented two weeks ago.”",
-    text: "Listings age silently. In Bound asks owners and agents to re-confirm availability, and stamps every card with when it was last confirmed.",
+    text: "Listings age silently. Bricxley asks owners and agents to re-confirm availability, and stamps every card with when it was last confirmed.",
   },
   {
     title: "“I was told it was owner-direct.”",
@@ -80,11 +80,11 @@ const frustrations = [
   },
   {
     title: "“My phone rang for a month.”",
-    text: "Conversations start inside In Bound Chat. Numbers are exchanged only when both people choose to.",
+    text: "Conversations start inside Bricxley Chat. Numbers are exchanged only when both people choose to.",
   },
   {
     title: "“I paid just to see the house.”",
-    text: "In Bound does not require tenants to pay money simply to view a property. ₹0 viewing fee, stated everywhere.",
+    text: "Bricxley does not require tenants to pay money simply to view a property. ₹0 viewing fee, stated everywhere.",
   },
 ];
 
@@ -169,7 +169,7 @@ function Home() {
           <SectionHeading
             eyebrow="Agents"
             title={<span id="agents-heading">Verified Agent Marketplace</span>}
-            subtitle="Good agents aren’t the problem — hidden ones are. Every agent listing on In Bound states who they are, which agency they represent and exactly what the brokerage is."
+            subtitle="Good agents aren’t the problem — hidden ones are. Every agent listing on Bricxley states who they are, which agency they represent and exactly what the brokerage is."
           />
           <div className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
             {[
@@ -210,17 +210,17 @@ function Home() {
 
       <SafetySection />
 
-      <section className="container-page py-20" aria-labelledby="bound-ai-heading">
+      <section className="container-page py-20" aria-labelledby="bricxley-ai-heading">
         <div className="grid items-center gap-10 lg:grid-cols-2">
           <div>
             <SectionHeading
               eyebrow="Coming soon"
               title={
-                <span id="bound-ai-heading">
-                  <span className="text-primary">Bound AI</span>, your rental co-pilot
+                <span id="bricxley-ai-heading">
+                  <span className="text-primary">Bricxley AI</span>, your rental co-pilot
                 </span>
               }
-              subtitle="Ask about homes, budgets and localities in plain language. Bound AI is a preview experience — it will never present generated information as verified fact."
+              subtitle="Ask about homes, budgets and localities in plain language. Bricxley AI is a preview experience — it will never present generated information as verified fact."
             />
           </div>
           <div className="surface-card p-6">
@@ -246,7 +246,7 @@ function Home() {
           align="center"
           eyebrow="Why we built this"
           title={<span id="frustrations-heading">Built around real rental frustrations</span>}
-          subtitle="We haven’t invented customer quotes. These are the problems In Bound is designed to remove."
+          subtitle="We haven’t invented customer quotes. These are the problems Bricxley is designed to remove."
         />
         <div className="mt-10 grid gap-5 md:grid-cols-2">
           {frustrations.map((f) => (

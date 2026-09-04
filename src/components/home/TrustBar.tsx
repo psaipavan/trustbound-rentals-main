@@ -14,7 +14,7 @@ const items = [
   {
     icon: Lock,
     title: "Secure Conversations",
-    text: "Talk through In Bound Chat without sharing your number.",
+    text: "Talk through Bricxley Chat without sharing your number.",
   },
   {
     icon: IndianRupee,
@@ -25,7 +25,7 @@ const items = [
 
 export function TrustBar() {
   return (
-    <section className="container-page -mt-1 py-12" aria-label="Why In Bound is different">
+    <section className="container-page -mt-1 py-12" aria-label="Why Bricxley is different">
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {items.map((item) => (
           <div key={item.title} className="surface-card hover-lift p-5">

@@ -26,7 +26,7 @@ export function BoundAiLauncher() {
   const [messages, setMessages] = useState<Msg[]>([
     {
       role: "ai",
-      text: "Hi, I’m Bound AI. I can help you shortlist homes and understand localities. This is a design preview — answers are illustrative and not verified facts.",
+      text: "Hi, I’m Bricxley AI. I can help you shortlist homes and understand localities. This is a design preview — answers are illustrative and not verified facts.",
     },
   ]);
 
@@ -51,14 +51,14 @@ export function BoundAiLauncher() {
         className="fixed bottom-5 right-5 z-40 rounded-full shadow-[var(--shadow-lift)]"
       >
         <Sparkles className="h-4 w-4" />
-        Bound AI
+        Bricxley AI
       </Button>
 
       <Sheet open={open} onOpenChange={setOpen}>
         <SheetContent side="right" className="flex w-full flex-col p-6 sm:max-w-md">
           <SheetHeader className="p-0 text-left">
             <SheetTitle className="flex items-center gap-2">
-              <Sparkles className="h-4 w-4 text-primary" aria-hidden /> Bound AI
+              <Sparkles className="h-4 w-4 text-primary" aria-hidden /> Bricxley AI
             </SheetTitle>
             <SheetDescription>
               Preview assistant. Responses are illustrative and should not be treated as verified

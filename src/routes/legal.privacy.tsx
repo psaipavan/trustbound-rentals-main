@@ -4,13 +4,13 @@ import { LegalPage } from "@/components/legal/LegalPage";
 export const Route = createFileRoute("/legal/privacy")({
   head: () => ({
     meta: [
-      { title: "Privacy Policy — In Bound" },
+      { title: "Privacy Policy — Bricxley" },
       {
         name: "description",
         content:
-          "How In Bound handles your personal data, phone number privacy and controlled contact sharing.",
+          "How Bricxley handles your personal data, phone number privacy and controlled contact sharing.",
       },
-      { property: "og:title", content: "Privacy Policy — In Bound" },
+      { property: "og:title", content: "Privacy Policy — Bricxley" },
       { property: "og:description", content: "Your number stays private until you choose to share it." },
     ],
   }),
@@ -25,7 +25,7 @@ export const Route = createFileRoute("/legal/privacy")({
         },
         {
           heading: "Controlled contact sharing",
-          body: "Conversations happen inside In Bound Chat. Contact details are exchanged only when both people explicitly choose to share them.",
+          body: "Conversations happen inside Bricxley Chat. Contact details are exchanged only when both people explicitly choose to share them.",
         },
         {
           heading: "What we store",

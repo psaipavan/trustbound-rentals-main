@@ -63,13 +63,13 @@ export const Route = createFileRoute("/rent")({
   }),
   head: () => ({
     meta: [
-      { title: "Rent Homes in Hyderabad | In Bound" },
+      { title: "Rent Homes in Hyderabad | Bricxley" },
       {
         name: "description",
         content:
           "Browse verified rentals in Gachibowli, Madhapur, Kondapur and more on a live map. Brokerage shown upfront, availability confirmed, ₹0 viewing fees.",
       },
-      { property: "og:title", content: "Rent Homes in Hyderabad | In Bound" },
+      { property: "og:title", content: "Rent Homes in Hyderabad | Bricxley" },
       {
         property: "og:description",
         content: "Verified rentals on a live map, with transparent brokerage and secure chat.",
@@ -181,7 +181,7 @@ function RentPage() {
               <SelectItem value="newest">Newest</SelectItem>
               <SelectItem value="rent-asc">Rent: Low to High</SelectItem>
               <SelectItem value="rent-desc">Rent: High to Low</SelectItem>
-              <SelectItem value="score">Highest Bound Score</SelectItem>
+              <SelectItem value="score">Highest Bricxley Score</SelectItem>
             </SelectContent>
           </Select>
           <Button

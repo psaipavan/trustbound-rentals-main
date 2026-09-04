@@ -11,7 +11,7 @@ export const steps = [
   {
     icon: MessagesSquare,
     title: "Connect",
-    text: "Talk through In Bound without immediately revealing your number.",
+    text: "Talk through Bricxley without immediately revealing your number.",
   },
   { icon: CalendarCheck, title: "Visit", text: "Schedule property visits directly." },
   { icon: Scale, title: "Decide", text: "Compare saved homes transparently." },
@@ -26,7 +26,7 @@ export function HowItWorks() {
         eyebrow="The journey"
         title={
           <span id="how-heading">
-            How <span className="text-primary">In Bound</span> works
+            How <span className="text-primary">Bricxley</span> works
           </span>
         }
         subtitle="Six steps that take you from searching to signing — with the same people, in one place."

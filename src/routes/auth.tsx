@@ -1,13 +1,14 @@
 import { useState } from "react";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { Building2, KeyRound, Mail, Smartphone, UserRound } from "lucide-react";
 import { toast } from "sonner";
-import { Logo } from "@/components/brand/Logo";
+import { BricxleyLogo } from "@/components/brand/Logo";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
+import { dashboardForRole, useSession } from "@/lib/auth/session";
 
 const roles = [
   { key: "tenant", label: "Tenant", icon: UserRound, text: "I’m looking for a home" },
@@ -15,16 +16,26 @@ const roles = [
   { key: "agent", label: "Agent", icon: Building2, text: "I represent an agency" },
 ] as const;
 
+type AuthSearch = { redirect?: string };
+
+export function getSafeRedirect(redirect: string | undefined) {
+  return redirect?.startsWith("/") && !redirect.startsWith("//") && !redirect.includes("\\")
+    ? redirect
+    : undefined;
+}
+
 export const Route = createFileRoute("/auth")({
+  validateSearch: (search: Record<string, unknown>): AuthSearch =>
+    typeof search["redirect"] === "string" ? { redirect: search["redirect"] } : {},
   head: () => ({
     meta: [
-      { title: "Log in or join In Bound" },
+      { title: "Log in or join Bricxley" },
       {
         name: "description",
         content:
-          "Sign in to In Bound as a tenant, owner or verified agent to save homes, chat securely and schedule visits.",
+          "Sign in to Bricxley as a tenant, owner or verified agent to save homes, chat securely and schedule visits.",
       },
-      { property: "og:title", content: "Log in or join In Bound" },
+      { property: "og:title", content: "Log in or join Bricxley" },
       {
         property: "og:description",
         content: "Choose your role and continue with email, phone OTP or Google.",
@@ -36,20 +47,25 @@ export const Route = createFileRoute("/auth")({
 
 function AuthPage() {
   const [role, setRole] = useState<(typeof roles)[number]["key"]>("tenant");
+  const { signIn } = useSession();
+  const search = Route.useSearch();
+  const navigate = useNavigate({ from: "/auth" });
 
-  const notReady = () =>
-    toast.info("Accounts aren’t connected yet", {
-      description: "This prototype ships the sign-in experience; the backend connects next.",
-    });
+  const continueAsRole = () => {
+    signIn(role);
+    const destination = getSafeRedirect(search.redirect) ?? dashboardForRole(role);
+    toast.success(`Signed in as ${role}`);
+    void navigate({ to: destination });
+  };
 
   return (
     <div className="gradient-hero min-h-[80vh] py-16">
       <div className="container-page">
         <div className="mx-auto max-w-md">
           <div className="surface-card p-7 shadow-[var(--shadow-panel)]">
-            <Logo showTagline />
+            <BricxleyLogo showTagline />
 
-            <h1 className="mt-7 text-2xl font-extrabold">Welcome to In Bound</h1>
+            <h1 className="mt-7 text-2xl font-extrabold">Welcome to Bricxley</h1>
             <p className="mt-1.5 text-sm text-muted-foreground">
               Choose your role, then continue. You can change this later in your profile.
             </p>
@@ -69,7 +85,10 @@ function AuthPage() {
                   )}
                 >
                   <r.icon
-                    className={cn("h-4 w-4", role === r.key ? "text-primary" : "text-muted-foreground")}
+                    className={cn(
+                      "h-4 w-4",
+                      role === r.key ? "text-primary" : "text-muted-foreground",
+                    )}
                     aria-hidden
                   />
                   <p className="mt-1.5 text-sm font-bold">{r.label}</p>
@@ -97,7 +116,7 @@ function AuthPage() {
                   <Label htmlFor="password">Password</Label>
                   <Input id="password" type="password" placeholder="••••••••" />
                 </div>
-                <Button className="w-full" onClick={notReady}>
+                <Button className="w-full" onClick={continueAsRole}>
                   Continue as {role}
                 </Button>
               </TabsContent>
@@ -107,7 +126,7 @@ function AuthPage() {
                   <Label htmlFor="phone">Mobile number</Label>
                   <Input id="phone" type="tel" placeholder="+91 98XXX XXXXX" />
                 </div>
-                <Button className="w-full" onClick={notReady}>
+                <Button className="w-full" onClick={continueAsRole}>
                   Send OTP
                 </Button>
                 <p className="text-xs text-muted-foreground">
@@ -118,10 +137,11 @@ function AuthPage() {
             </Tabs>
 
             <div className="my-5 flex items-center gap-3 text-xs text-muted-foreground">
-              <span className="h-px flex-1 bg-border" /> or <span className="h-px flex-1 bg-border" />
+              <span className="h-px flex-1 bg-border" /> or{" "}
+              <span className="h-px flex-1 bg-border" />
             </div>
 
-            <Button variant="outline" className="w-full" onClick={notReady}>
+            <Button variant="outline" className="w-full" onClick={continueAsRole}>
               Continue with Google
             </Button>
 

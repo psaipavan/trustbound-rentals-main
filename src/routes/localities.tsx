@@ -6,13 +6,13 @@ import { localities } from "@/data/localities";
 export const Route = createFileRoute("/localities")({
   head: () => ({
     meta: [
-      { title: "Explore Hyderabad localities — In Bound" },
+      { title: "Explore Hyderabad localities — Bricxley" },
       {
         name: "description",
         content:
           "Gachibowli, Financial District, HITEC City, Kondapur, Madhapur and more — understand each neighbourhood before you rent.",
       },
-      { property: "og:title", content: "Explore Hyderabad localities — In Bound" },
+      { property: "og:title", content: "Explore Hyderabad localities — Bricxley" },
       {
         property: "og:description",
         content: "Neighbourhood guides for renters relocating across Hyderabad.",

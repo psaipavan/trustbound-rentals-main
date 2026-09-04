@@ -18,7 +18,7 @@ export function Hero() {
             <br />
             Meet the right people.
             <br />
-            Move <span className="text-primary">In Bound</span>.
+            Move with <span className="text-primary">Bricxley</span>.
           </h1>
 
           <p className="mx-auto mt-5 max-w-xl animate-[fade-up_0.8s_cubic-bezier(0.16,1,0.3,1)_both] text-base text-muted-foreground sm:text-lg">
@@ -27,7 +27,7 @@ export function Hero() {
           </p>
 
           <p className="mt-4 text-sm font-semibold tracking-wide text-primary">
-            Let’s bound together.
+            Rent with clarity.
           </p>
 
           <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">

@@ -17,13 +17,13 @@ const preferences = [
 export const Route = createFileRoute("/flatmates")({
   head: () => ({
     meta: [
-      { title: "Find a Flatmate — coming soon to In Bound" },
+      { title: "Find a Flatmate — coming soon to Bricxley" },
       {
         name: "description",
         content:
-          "The In Bound flatmate module is in design. Match on area, budget, move-in date and lifestyle — with the same verification and privacy rules.",
+          "The Bricxley flatmate module is in design. Match on area, budget, move-in date and lifestyle — with the same verification and privacy rules.",
       },
-      { property: "og:title", content: "Find a Flatmate — coming soon to In Bound" },
+      { property: "og:title", content: "Find a Flatmate — coming soon to Bricxley" },
       {
         property: "og:description",
         content: "Flatmate matching built on the same verified, privacy-first foundation.",

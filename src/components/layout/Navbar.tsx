@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { Heart, Menu } from "lucide-react";
-import { Logo } from "@/components/brand/Logo";
+import { BricxleyLogo } from "@/components/brand/Logo";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { useSaved } from "@/lib/saved-store";
@@ -21,8 +21,8 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-50 border-b border-border/70 bg-background/85 backdrop-blur-md">
       <nav className="container-page flex h-16 items-center justify-between gap-4">
-        <Link to="/" className="shrink-0" aria-label="In Bound home">
-          <Logo />
+        <Link to="/" className="shrink-0" aria-label="Bricxley home">
+          <BricxleyLogo />
         </Link>
 
         <ul className="hidden items-center gap-1 lg:flex">
@@ -60,7 +60,7 @@ export function Navbar() {
           </SheetTrigger>
           <SheetContent side="right" className="w-[86vw] max-w-sm p-6">
             <SheetTitle className="sr-only">Navigation</SheetTitle>
-            <Logo showTagline />
+            <BricxleyLogo showTagline />
             <ul className="mt-8 space-y-1">
               {links.map((l) => (
                 <li key={l.to}>

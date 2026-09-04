@@ -22,7 +22,7 @@ export function LegalPage({
           ))}
         </div>
         <p className="mt-6 text-center text-xs text-muted-foreground">
-          © 2026 In Bound. Prototype document — not legal advice.
+          © 2026 Bricxley. Prototype document — not legal advice.
         </p>
       </section>
     </>

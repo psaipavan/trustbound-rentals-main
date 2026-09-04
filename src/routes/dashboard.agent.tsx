@@ -15,13 +15,13 @@ import { inr } from "@/lib/format";
 export const Route = createFileRoute("/dashboard/agent")({
   head: () => ({
     meta: [
-      { title: "Agent dashboard — In Bound" },
+      { title: "Agent dashboard — Bricxley" },
       {
         name: "description",
         content:
-          "Verified agents manage properties, leads, visits, messages, brokerage settings and verification on In Bound.",
+          "Verified agents manage properties, leads, visits, messages, brokerage settings and verification on Bricxley.",
       },
-      { property: "og:title", content: "Agent dashboard — In Bound" },
+      { property: "og:title", content: "Agent dashboard — Bricxley" },
       {
         property: "og:description",
         content: "Transparency that separates legitimate agents from impostors.",
@@ -57,7 +57,7 @@ const sections = [
     key: "messages",
     label: "Messages",
     icon: MessagesSquare,
-    description: "Secure In Bound Chat threads.",
+    description: "Secure Bricxley Chat threads.",
     items: ["Unread", "Active", "Contact sharing requests", "Archived"],
   },
   {

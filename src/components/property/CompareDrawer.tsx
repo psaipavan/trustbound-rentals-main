@@ -14,7 +14,7 @@ const rows = [
   { key: "furnishing", label: "Furnishing" },
   { key: "brokerage", label: "Brokerage" },
   { key: "availability", label: "Availability" },
-  { key: "score", label: "Demo Bound Score" },
+  { key: "score", label: "Demo Bricxley Score" },
   { key: "total", label: "Est. move-in cost" },
 ] as const;
 

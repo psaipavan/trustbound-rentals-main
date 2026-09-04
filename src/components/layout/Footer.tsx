@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Instagram, Linkedin, Twitter } from "lucide-react";
-import { Logo } from "@/components/brand/Logo";
+import { BricxleyLogo } from "@/components/brand/Logo";
 
 const columns = [
   {
@@ -42,10 +42,10 @@ export function Footer() {
     <footer className="mt-24 border-t border-border bg-navy text-navy-foreground">
       <div className="container-page grid gap-10 py-14 md:grid-cols-2 lg:grid-cols-6">
         <div className="lg:col-span-2">
-          <Logo />
+          <BricxleyLogo />
           <p className="mt-4 max-w-xs text-sm text-navy-foreground/70">
-            Let’s bound together. A trusted rental marketplace for tenants, owners and verified
-            agents in Hyderabad.
+            Rent with clarity. A trusted rental marketplace for tenants, owners and verified agents
+            in Hyderabad.
           </p>
           <div className="mt-5 flex gap-2">
             {[Twitter, Instagram, Linkedin].map((Icon, i) => (
@@ -80,7 +80,7 @@ export function Footer() {
 
       <div className="border-t border-navy-foreground/12">
         <div className="container-page flex flex-col gap-2 py-6 text-xs text-navy-foreground/60 sm:flex-row sm:items-center sm:justify-between">
-          <p>© 2026 In Bound. All rights reserved.</p>
+          <p>© 2026 Bricxley. All rights reserved.</p>
           <p>Prototype experience — listing data shown is illustrative.</p>
         </div>
       </div>

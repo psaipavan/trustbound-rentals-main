@@ -27,13 +27,13 @@ const benefits = [
 export const Route = createFileRoute("/list-property")({
   head: () => ({
     meta: [
-      { title: "List your property on In Bound — Hyderabad rentals" },
+      { title: "List your property on Bricxley — Hyderabad rentals" },
       {
         name: "description",
         content:
-          "Post your rental on In Bound. Control your privacy, manage inquiries, schedule visits and keep availability accurate.",
+          "Post your rental on Bricxley. Control your privacy, manage inquiries, schedule visits and keep availability accurate.",
       },
-      { property: "og:title", content: "List your property on In Bound" },
+      { property: "og:title", content: "List your property on Bricxley" },
       {
         property: "og:description",
         content: "Find the right tenant without the noise.",
@@ -134,7 +134,7 @@ function ListPropertyPage() {
 
           <p className="rounded-lg bg-muted p-3 text-xs text-muted-foreground">
             Agents must declare brokerage. It is displayed on the listing before any tenant makes
-            contact — brokerage is never hidden on In Bound.
+            contact — brokerage is never hidden on Bricxley.
           </p>
 
           <Button type="submit" size="lg" className="w-full">

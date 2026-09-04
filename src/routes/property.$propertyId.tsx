@@ -1,11 +1,11 @@
+import { useEffect } from "react";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { Heart, MapPin } from "lucide-react";
+import { Heart, MapPin, Share2 } from "lucide-react";
+import { toast } from "sonner";
 import { PropertyGallery } from "@/components/property/PropertyGallery";
 import { BoundScorePanel } from "@/components/property/BoundScore";
 import { VerificationBadge } from "@/components/property/VerificationBadge";
 import { AgentCard, OwnerCard } from "@/components/property/ListerCard";
-import { SecureChat } from "@/components/property/SecureChat";
-import { VisitScheduler } from "@/components/property/VisitScheduler";
 import { CostBreakdown } from "@/components/property/CostBreakdown";
 import { ReportModal } from "@/components/property/ReportModal";
 import { AvailabilityControl } from "@/components/property/AvailabilityControl";
@@ -15,6 +15,9 @@ import { getProperty, properties } from "@/data/properties";
 import { hoursAgo, inr } from "@/lib/format";
 import { useSaved } from "@/lib/saved-store";
 import { cn } from "@/lib/utils";
+import { useSession } from "@/lib/auth/session";
+import { useTenantInterestsQuery } from "@/lib/workflow/query";
+import { trackWorkflowEvent } from "@/lib/analytics";
 
 export const Route = createFileRoute("/property/$propertyId")({
   loader: ({ params }) => {
@@ -25,11 +28,11 @@ export const Route = createFileRoute("/property/$propertyId")({
   head: ({ loaderData }) => {
     if (!loaderData) {
       return {
-        meta: [{ title: "Listing unavailable — In Bound" }, { name: "robots", content: "noindex" }],
+        meta: [{ title: "Listing unavailable — Bricxley" }, { name: "robots", content: "noindex" }],
       };
     }
     const { property } = loaderData;
-    const title = `${property.title}, ${property.locality} — ${inr(property.rent)}/month | In Bound`;
+    const title = `${property.title}, ${property.locality} — ${inr(property.rent)}/month | Bricxley`;
     const description = `${property.bhk}BHK ${property.propertyType.toLowerCase()} in ${property.locality}, Hyderabad. Deposit ${inr(property.deposit)}. Brokerage ${property.brokerage > 0 ? inr(property.brokerage) : "₹0"}.`;
     return {
       meta: [
@@ -63,8 +66,40 @@ export const Route = createFileRoute("/property/$propertyId")({
 function PropertyDetail() {
   const { property } = Route.useLoaderData();
   const { isSaved, toggle } = useSaved();
+  const { actor } = useSession();
+  const { data: interests = [] } = useTenantInterestsQuery(actor);
   const saved = isSaved(property.id);
   const isAgent = property.lister.type === "agent";
+  const activeInterest = interests.find(
+    (interest) =>
+      interest.propertyId === property.id &&
+      (interest.status === "DRAFT" ||
+        interest.status === "SUBMITTED" ||
+        interest.status === "ACCEPTED"),
+  );
+
+  useEffect(() => {
+    trackWorkflowEvent("property_viewed", { propertyId: property.id });
+  }, [property.id]);
+
+  const shareProperty = async () => {
+    const shareData = {
+      title: property.title,
+      text: `${property.title} in ${property.locality}`,
+      url: window.location.href,
+    };
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+        return;
+      }
+      await navigator.clipboard.writeText(window.location.href);
+      toast.success("Listing link copied");
+    } catch (error) {
+      if (error instanceof DOMException && error.name === "AbortError") return;
+      toast.error("We couldn't share this listing. Please copy the link from your browser.");
+    }
+  };
 
   const facts: [string, string][] = [
     ["Rent", `${inr(property.rent)} / month`],
@@ -109,17 +144,26 @@ function PropertyDetail() {
                     {property.locality}, {property.city}
                   </p>
                 </div>
-                <button
-                  type="button"
-                  onClick={() => toggle(property.id)}
-                  aria-pressed={saved}
-                  className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-sm font-medium transition hover:border-primary"
-                >
-                  <Heart
-                    className={cn("h-4 w-4", saved ? "fill-destructive text-destructive" : "")}
-                  />
-                  {saved ? "Saved" : "Save"}
-                </button>
+                <div className="flex flex-wrap gap-2">
+                  <button
+                    type="button"
+                    onClick={() => toggle(property.id)}
+                    aria-pressed={saved}
+                    className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-sm font-medium transition hover:border-primary"
+                  >
+                    <Heart
+                      className={cn("h-4 w-4", saved ? "fill-destructive text-destructive" : "")}
+                    />
+                    {saved ? "Saved" : "Save"}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => void shareProperty()}
+                    className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-sm font-medium transition hover:border-primary"
+                  >
+                    <Share2 className="h-4 w-4" aria-hidden /> Share
+                  </button>
+                </div>
               </div>
 
               <div className="mt-4 flex flex-wrap gap-1.5">
@@ -180,7 +224,6 @@ function PropertyDetail() {
 
             <LocationNearby property={property} />
 
-
             <CostBreakdown property={property} />
           </div>
 
@@ -193,8 +236,26 @@ function PropertyDetail() {
               <p className="text-sm text-muted-foreground">
                 Deposit {inr(property.deposit)} · Maintenance {inr(property.maintenance)}
               </p>
-              <SecureChat listerLabel={property.lister.name} />
-              <VisitScheduler propertyTitle={property.title} />
+              {activeInterest ? (
+                <Button asChild className="h-11 w-full">
+                  <Link
+                    to="/tenant/interests/$interestId"
+                    params={{ interestId: activeInterest.id }}
+                  >
+                    <Heart className="h-4 w-4" aria-hidden /> Interest Sent
+                  </Link>
+                </Button>
+              ) : property.status === "available" ? (
+                <Button asChild className="h-11 w-full">
+                  <Link to="/property/$propertyId/interest" params={{ propertyId: property.id }}>
+                    <Heart className="h-4 w-4" aria-hidden /> I&apos;m Interested
+                  </Link>
+                </Button>
+              ) : (
+                <Button className="h-11 w-full" disabled>
+                  Currently unavailable
+                </Button>
+              )}
               <p className="text-center text-xs font-semibold text-verified">
                 ₹0 viewing fee — never pay to see a home.
               </p>

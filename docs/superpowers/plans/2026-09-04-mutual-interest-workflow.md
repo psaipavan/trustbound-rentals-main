@@ -116,7 +116,7 @@
   ```ts
   test("creates one submitted interest for an available property", async () => {
     const result = await service.createInterest(tenant, {
-      propertyId: "ib-001", moveInDate: "2026-10-01", occupants: 2,
+      propertyId: "br-001", moveInDate: "2026-10-01", occupants: 2,
       occupationType: "Working Professional", leasePreference: "11 months", message: "Quiet household",
     });
     expect(result.status).toBe("SUBMITTED");
@@ -153,7 +153,7 @@
 
 - [ ] **Step 3: Implement `createMockWorkflowRepository()` and `WorkflowService`.**
 
-  Seed only the minimum demo actors and records in the repository, not React components: a tenant, the `u-anita` owner already represented by `ib-001`, and optional example records for dashboard states. Every mutation must authorize the actor before changing its cloned records. `createInterest` checks property existence and `status === "available"`; it rejects active duplicate statuses `DRAFT`, `SUBMITTED`, and `ACCEPTED`. `acceptInterest` allows only the matching lister, changes `SUBMITTED` to `ACCEPTED`, creates a single conversation keyed by interest id, and records `interest_accepted` and `match_created` through the Task 7 boundary after it exists.
+  Seed only the minimum demo actors and records in the repository, not React components: a tenant, the `u-anita` owner already represented by `br-001`, and optional example records for dashboard states. Every mutation must authorize the actor before changing its cloned records. `createInterest` checks property existence and `status === "available"`; it rejects active duplicate statuses `DRAFT`, `SUBMITTED`, and `ACCEPTED`. `acceptInterest` allows only the matching lister, changes `SUBMITTED` to `ACCEPTED`, creates a single conversation keyed by interest id, and records `interest_accepted` and `match_created` through the Task 7 boundary after it exists.
 
 - [ ] **Step 4: Implement visits and contact consent as service-owned state.**
 
@@ -191,7 +191,7 @@
 
 - [ ] **Step 4: Implement persisted mock session and redirect-safe sign-in.**
 
-  `SessionProvider` reads/writes `inbound.session.v1` in local storage after mount. `signIn(role)` creates a role-specific demo actor and `signOut()` clears it. In `/auth`, validate `redirect` begins with `/` and does not begin with `//`; on continuing, persist the selected role and navigate to redirect or its role dashboard. Keep the existing role-selection visual design and public browsing behavior.
+  `SessionProvider` reads/writes `bricxley.session.v1` in local storage after mount. `signIn(role)` creates a role-specific demo actor and `signOut()` clears it. In `/auth`, validate `redirect` begins with `/` and does not begin with `//`; on continuing, persist the selected role and navigate to redirect or its role dashboard. Keep the existing role-selection visual design and public browsing behavior.
 
 - [ ] **Step 5: Wrap the root with `SessionProvider` without changing public nav rendering yet.**
 

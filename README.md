@@ -1,16 +1,16 @@
 # TrustBound Rentals
 
-Create a premium, modern, production-quality rental marketplace web application called **In Bound**.
+Create a premium, modern, production-quality rental marketplace web application called **Bricxley**.
 
 Brand tagline:
 
-**“Let’s bound together.”**
+**“Rent with clarity.”**
 
 The meaning of the brand is that the platform brings tenants, property owners, verified agents and the right homes together through trust, transparency and technology.
 
 Do NOT build this as another generic property-listing website or as a clone of NoBroker, Housing.com, MagicBricks, 99acres, Zillow or Airbnb.
 
-The core identity of In Bound should be:
+The core identity of Bricxley should be:
 
 **Verified rentals. Transparent people. Better connections.**
 
@@ -20,7 +20,7 @@ The platform should feel trustworthy, modern, minimal, premium, youthful and tec
 
 # PRODUCT VISION
 
-In Bound should help users complete the entire early rental journey:
+Bricxley should help users complete the entire early rental journey:
 
 Discover → Verify → Connect → Visit → Decide → Move In
 
@@ -53,13 +53,13 @@ Privacy should be one important feature inside a much larger trust-first rental 
 
 Company name:
 
-**In Bound**
+**Bricxley**
 
 Tagline:
 
-**Let’s bound together.**
+**Rent with clarity.**
 
-Create a sophisticated wordmark for “In Bound”.
+Create a sophisticated wordmark for “Bricxley”.
 
 Do not use cartoon houses or generic real-estate clip art.
 
@@ -101,7 +101,7 @@ Suggested palette:
 
 Deep Navy / Charcoal for primary text and premium sections.
 
-Emerald or Teal as the main In Bound accent.
+Emerald or Teal as the main Bricxley accent.
 
 Warm off-white backgrounds.
 
@@ -140,7 +140,7 @@ Create a sticky navigation bar.
 
 Left:
 
-In Bound logo.
+Bricxley logo.
 
 Center:
 
@@ -174,9 +174,9 @@ Headline:
 
 **Find your space.
 Meet the right people.
-Move In Bound.**
+Move Bricxley.**
 
-Highlight “In Bound” using the brand accent.
+Highlight “Bricxley” using the brand accent.
 
 Supporting copy:
 
@@ -184,7 +184,7 @@ Supporting copy:
 
 Display the brand tagline:
 
-**Let’s bound together.**
+**Rent with clarity.**
 
 Primary CTA:
 
@@ -327,17 +327,17 @@ Include a CTA:
 
 ---
 
-# BOUND SCORE
+# BRICXLEY SCORE
 
-Introduce a unique In Bound concept called:
+Introduce a unique Bricxley concept called:
 
-**Bound Score**
+**Bricxley Score**
 
-The Bound Score represents the trust quality of the listing.
+The Bricxley Score represents the trust quality of the listing.
 
 For prototype purposes clearly label it:
 
-**Demo Bound Score**
+**Demo Bricxley Score**
 
 Example:
 
@@ -469,7 +469,7 @@ Do NOT immediately reveal tenant or owner phone numbers.
 
 Create:
 
-**In Bound Chat**
+**Bricxley Chat**
 
 CTA:
 
@@ -517,7 +517,7 @@ Show:
 
 Add a safety message:
 
-“In Bound does not require tenants to pay money simply to view a property.”
+“Bricxley does not require tenants to pay money simply to view a property.”
 
 ---
 
@@ -571,7 +571,7 @@ Create moderation-ready architecture.
 
 ---
 
-# HOW IN BOUND WORKS
+# HOW BRICXLEY WORKS
 
 Create a visually strong section with six steps.
 
@@ -585,7 +585,7 @@ Understand who posted the property and its verification status.
 
 3. Connect
 
-Talk through In Bound without immediately revealing your number.
+Talk through Bricxley without immediately revealing your number.
 
 4. Visit
 
@@ -599,7 +599,7 @@ Compare saved homes transparently.
 
 Complete the rental journey.
 
-Use a connecting visual line between the steps to reinforce the “Bound Together” branding.
+Use a connecting visual line between the steps to reinforce the “Rent with clarity” branding.
 
 ---
 
@@ -741,7 +741,7 @@ Use placeholders where real data will later be connected.
 
 Design a future-ready assistant called:
 
-**Bound AI**
+**Bricxley AI**
 
 Purpose:
 
@@ -819,7 +819,7 @@ Brokerage
 
 Availability
 
-Bound Score
+Bricxley Score
 
 ---
 
@@ -853,13 +853,13 @@ Title:
 
 **Rent without second guessing everything.**
 
-Show common rental risks and how In Bound addresses them.
+Show common rental risks and how Bricxley addresses them.
 
 Fake Listings → Verification & reporting
 
 Hidden Brokerage → Brokerage shown upfront
 
-Spam → Secure In Bound Chat
+Spam → Secure Bricxley Chat
 
 Outdated Listings → Availability confirmations
 
@@ -875,7 +875,7 @@ Keep messaging professional.
 
 # TESTIMONIALS
 
-Do NOT create fake named people claiming to be real In Bound customers.
+Do NOT create fake named people claiming to be real Bricxley customers.
 
 Until actual customer testimonials exist, replace testimonial sections with:
 
@@ -899,11 +899,11 @@ Headline:
 
 Supporting text:
 
-“Whether you're looking for a home or looking for the right tenant, In Bound brings both sides together.”
+“Whether you're looking for a home or looking for the right tenant, Bricxley brings both sides together.”
 
 Tagline prominently displayed:
 
-**Let’s bound together.**
+**Rent with clarity.**
 
 Buttons:
 
@@ -917,9 +917,9 @@ Buttons:
 
 Logo
 
-In Bound
+Bricxley
 
-Let’s bound together.
+Rent with clarity.
 
 Sections:
 
@@ -947,7 +947,7 @@ Social icons.
 
 Footer:
 
-© 2026 In Bound. All rights reserved.
+© 2026 Bricxley. All rights reserved.
 
 ---
 
@@ -1123,7 +1123,7 @@ Footer
 
 Do NOT simply visually modify the existing Prophall site.
 
-Reimagine the experience around the In Bound brand.
+Reimagine the experience around the Bricxley brand.
 
 Remove all references to:
 
@@ -1155,26 +1155,16 @@ The experience should communicate:
 
 The user should understand within five seconds:
 
-“What is In Bound?”
+“What is Bricxley?”
 
 Answer:
 
-**In Bound is a trusted rental marketplace that helps tenants, owners and verified agents find each other, communicate safely and rent transparently.**
+**Bricxley is a trusted rental marketplace that helps tenants, owners and verified agents find each other, communicate safely and rent transparently.**
 
 Brand closing statement:
 
-**In Bound**
-**Let’s bound together.**
-
-This project was built with [Lovable](https://lovable.dev).
-
-## Build with Lovable
-
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/a3ba6cfa-9623-4d3a-b837-0fe4d857dd9b).
-
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
+**Bricxley**
+**Rent with clarity.**
 
 ## Development
 

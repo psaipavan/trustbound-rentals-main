@@ -100,7 +100,7 @@ export function VisitScheduler({ propertyTitle }: { propertyTitle: string }) {
               <ShieldCheck className="h-4 w-4" aria-hidden /> ₹0 viewing fee
             </p>
             <p className="mt-1 text-xs text-muted-foreground">
-              In Bound does not require tenants to pay money simply to view a property.
+              Bricxley does not require tenants to pay money simply to view a property.
             </p>
           </div>
 

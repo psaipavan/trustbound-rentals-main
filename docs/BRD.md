@@ -1,15 +1,15 @@
 # Business Requirements Document (BRD)
 
-## In Bound — Trust-First Rental Marketplace
+## Bricxley — Trust-First Rental Marketplace
 
 **Document status:** Current prototype baseline  
-**Product:** In Bound  
+**Product:** Bricxley  
 **Primary market:** Hyderabad, India  
-**Tagline:** *Let's bound together.*
+**Tagline:** *Rent with clarity.*
 
 ## 1. Purpose
 
-In Bound is a rental marketplace designed to make the early rental journey more trustworthy and transparent. It connects tenants with property owners and clearly identified, verified agents, helping users discover a home, assess trust signals, make contact, schedule a visit, and decide with confidence.
+Bricxley is a rental marketplace designed to make the early rental journey more trustworthy and transparent. It connects tenants with property owners and clearly identified, verified agents, helping users discover a home, assess trust signals, make contact, schedule a visit, and decide with confidence.
 
 This document records the business scope represented by the current repository. It distinguishes the working front-end prototype from the capabilities required for a production launch.
 
@@ -21,7 +21,7 @@ Renters in Hyderabad can encounter fake or stale listings, agents presenting the
 
 **Verified rentals. Transparent people. Better connections.**
 
-In Bound should support the journey below while making trust visible throughout:
+Bricxley should support the journey below while making trust visible throughout:
 
 `Discover → Verify → Connect → Visit → Decide → Move In`
 
@@ -56,7 +56,7 @@ Target values are intentionally not set in this prototype and should be agreed b
 - A responsive rental marketplace experience for Hyderabad.
 - Discovery of illustrative rental listings by locality, property type, BHK, budget, move-in date, and additional filters.
 - List, map, and split-map discovery views with Hyderabad locality search.
-- Property detail pages with gallery, amenities, availability, lister type, verification labels, a demo Bound Score, and transparent cost breakdown.
+- Property detail pages with gallery, amenities, availability, lister type, verification labels, a demo Bricxley Score, and transparent cost breakdown.
 - Save-home and property-comparison interactions in the browser.
 - Owner, tenant, and agent dashboard previews.
 - Listing form, visit-request flow, secure-chat interface, report flow, contact form, and role-based sign-in screens.
@@ -68,7 +68,7 @@ Target values are intentionally not set in this prototype and should be agreed b
 - Persistent database storage for users, listings, messages, saved homes, visits, reports, or dashboards.
 - Live property publication and moderation workflow.
 - Actual identity, ownership, property, or agent verification.
-- A live Bound Score calculation or auditable verification history.
+- A live Bricxley Score calculation or auditable verification history.
 - Real-time chat, contact-consent controls, notifications, or phone-number exchange.
 - Payments, agreements, rent collection, or move-in management.
 - Live locality market data, inventory feeds, analytics, or CRM integrations.
@@ -79,7 +79,7 @@ Target values are intentionally not set in this prototype and should be agreed b
 ### 7.1 Rental discovery
 
 - **FR-01:** A tenant can browse rental listings in Hyderabad.
-- **FR-02:** A tenant can search by locality or place and filter by property type, BHK, budget, move-in date, furnishing, lister type, amenities, parking, pets, verification, brokerage, and Bound Score.
+- **FR-02:** A tenant can search by locality or place and filter by property type, BHK, budget, move-in date, furnishing, lister type, amenities, parking, pets, verification, brokerage, and Bricxley Score.
 - **FR-03:** A tenant can change between list, map, and split-map views and sort results.
 - **FR-04:** The application must display an empty state when no listing matches the chosen criteria.
 
@@ -88,7 +88,7 @@ Target values are intentionally not set in this prototype and should be agreed b
 - **FR-05:** Each listing must show rent, deposit, maintenance, brokerage, configuration, furnishing, amenities, availability, and locality.
 - **FR-06:** Each listing must clearly label whether the lister is an owner or agent. Agent brokerage must be visible before a tenant contacts the lister.
 - **FR-07:** Listings may show owner, property, agent, and direct-owner verification indicators only when supported by a real verification process in production.
-- **FR-08:** Each listing may show a Bound Score with an explanation of its inputs and verification status. The current score is explicitly demo data.
+- **FR-08:** Each listing may show a Bricxley Score with an explanation of its inputs and verification status. The current score is explicitly demo data.
 - **FR-09:** A tenant can save listings and compare selected listings within the browser; production must persist these preferences to the user account.
 
 ### 7.3 Connection and visits
@@ -165,7 +165,7 @@ Before a public production launch, the platform should have:
 
 1. Authenticated accounts and role-based permissions.
 2. Persistent, validated data for listings, messages, reports, visits, and saved homes.
-3. Defined and operational verification workflows, plus a transparent Bound Score methodology.
+3. Defined and operational verification workflows, plus a transparent Bricxley Score methodology.
 4. Moderation tooling and service-level expectations for report handling.
 5. Consent-based contact sharing, security review, privacy controls, and approved legal documents.
 6. Production data sources for properties and localities, plus analytics and monitoring.
@@ -174,7 +174,7 @@ Before a public production launch, the platform should have:
 ## 14. Open Decisions
 
 - What evidence is required for owner, property, and agent verification?
-- Which Bound Score inputs are displayed, weighted, and appealable?
+- Which Bricxley Score inputs are displayed, weighted, and appealable?
 - What are the service-level targets for reviewing listings, reports, and visit requests?
 - How and when may users exchange contact details?
 - Will launch inventory come from direct owner onboarding, agencies, partners, or data feeds?

@@ -25,7 +25,7 @@ export function SecureChat({ listerLabel }: { listerLabel: string }) {
       { role: "you", text },
       {
         role: "them",
-        text: "Message delivered through In Bound chat. In the live product the owner or agent replies here — your phone number stays private until you choose to share it.",
+        text: "Message delivered through Bricxley chat. In the live product the owner or agent replies here — your phone number stays private until you choose to share it.",
       },
     ]);
     setInput("");
@@ -41,7 +41,7 @@ export function SecureChat({ listerLabel }: { listerLabel: string }) {
       </DialogTrigger>
       <DialogContent className="max-w-lg">
         <DialogHeader>
-          <DialogTitle>In Bound Chat</DialogTitle>
+          <DialogTitle>Bricxley Chat</DialogTitle>
           <DialogDescription>
             You’re messaging {listerLabel}. Numbers are never revealed automatically.
           </DialogDescription>

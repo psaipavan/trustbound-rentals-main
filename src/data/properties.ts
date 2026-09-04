@@ -109,7 +109,7 @@ const score = (total: number, missing: string[] = []): BoundScore => ({
 
 const seedProperties: SeedProperty[] = [
   {
-    id: "ib-001",
+    id: "br-001",
     title: "Bright 2BHK in a quiet gated community",
     locality: "Gachibowli",
     city: "Hyderabad",
@@ -157,7 +157,7 @@ const seedProperties: SeedProperty[] = [
     propertyVerified: true,
   },
   {
-    id: "ib-002",
+    id: "br-002",
     title: "Skyline-facing 3BHK with large balcony",
     locality: "Kokapet",
     city: "Hyderabad",
@@ -210,7 +210,7 @@ const seedProperties: SeedProperty[] = [
     propertyVerified: true,
   },
   {
-    id: "ib-003",
+    id: "br-003",
     title: "Compact 1BHK walkable to HITEC City",
     locality: "Madhapur",
     city: "Hyderabad",
@@ -249,7 +249,7 @@ const seedProperties: SeedProperty[] = [
     propertyVerified: true,
   },
   {
-    id: "ib-004",
+    id: "br-004",
     title: "Family 3BHK in a green community",
     locality: "Nallagandla",
     city: "Hyderabad",
@@ -296,7 +296,7 @@ const seedProperties: SeedProperty[] = [
     propertyVerified: true,
   },
   {
-    id: "ib-005",
+    id: "br-005",
     title: "Semi-furnished 2BHK near Financial District",
     locality: "Manikonda",
     city: "Hyderabad",
@@ -340,7 +340,7 @@ const seedProperties: SeedProperty[] = [
     propertyVerified: true,
   },
   {
-    id: "ib-006",
+    id: "br-006",
     title: "Fully furnished 2BHK for quick move-in",
     locality: "Kondapur",
     city: "Hyderabad",
@@ -465,7 +465,7 @@ const generatedProperties: SeedProperty[] = generatedSpecs.map(
         stockImages[(i + 2) % 6] as string,
         stockImages[(i + 4) % 6] as string,
       ],
-      description: `A ${furnishing.toLowerCase()} ${bhk} BHK ${propertyType.toLowerCase()} in ${locality}, close to the ${locality} main road and the wider IT corridor. Demo listing created for the In Bound prototype.`,
+      description: `A ${furnishing.toLowerCase()} ${bhk} BHK ${propertyType.toLowerCase()} in ${locality}, close to the ${locality} main road and the wider IT corridor. Demo listing created for the Bricxley prototype.`,
       amenities: [
         "Power backup",
         "Lift",
@@ -482,7 +482,12 @@ const generatedProperties: SeedProperty[] = generatedSpecs.map(
         ? agent({
             id: `u-agent-${idx}`,
             name: `Verified Agent · ${["R. Sharma", "K. Prasad", "S. Iyer", "M. Fatima"][i % 4]}`,
-            agency: ["Bound Realty Partners", "Cyber Homes", "Skyline Estates", "Urban Nest"][i % 4] as string,
+            agency: [
+              "Bricxley Realty Partners",
+              "Cyber Homes",
+              "Skyline Estates",
+              "Urban Nest",
+            ][i % 4] as string,
           })
         : owner({ id: `u-owner-${idx}`, name: `Verified Owner · ${["A. Rao", "P. Menon", "D. Kaur", "N. Reddy"][i % 4]}` }),
       boundScore: score(78 + (i % 20), i % 5 === 0 ? ["Photos Checked"] : []),
@@ -505,7 +510,7 @@ export const sortOptions = [
   { key: "newest", label: "Newest" },
   { key: "rent-asc", label: "Rent: Low to High" },
   { key: "rent-desc", label: "Rent: High to Low" },
-  { key: "score", label: "Highest Bound Score" },
+  { key: "score", label: "Highest Bricxley Score" },
 ] as const;
 
 export type SortKey = (typeof sortOptions)[number]["key"];

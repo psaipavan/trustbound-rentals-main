@@ -16,13 +16,13 @@ import { useSaved } from "@/lib/saved-store";
 export const Route = createFileRoute("/dashboard/tenant")({
   head: () => ({
     meta: [
-      { title: "Tenant dashboard — In Bound" },
+      { title: "Tenant dashboard — Bricxley" },
       {
         name: "description",
         content:
-          "Track saved homes, inquiries, scheduled visits and secure messages in your In Bound tenant dashboard.",
+          "Track saved homes, inquiries, scheduled visits and secure messages in your Bricxley tenant dashboard.",
       },
-      { property: "og:title", content: "Tenant dashboard — In Bound" },
+      { property: "og:title", content: "Tenant dashboard — Bricxley" },
       {
         property: "og:description",
         content: "Everything about your rental search, in one place.",
@@ -58,7 +58,7 @@ const sections = [
     key: "messages",
     label: "Messages",
     icon: MessagesSquare,
-    description: "Secure In Bound Chat threads with owners and verified agents.",
+    description: "Secure Bricxley Chat threads with owners and verified agents.",
     items: ["Unread threads", "Owner threads", "Agent threads", "Contact sharing requests"],
   },
   {

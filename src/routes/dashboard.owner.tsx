@@ -17,13 +17,13 @@ import { inr } from "@/lib/format";
 export const Route = createFileRoute("/dashboard/owner")({
   head: () => ({
     meta: [
-      { title: "Owner dashboard — In Bound" },
+      { title: "Owner dashboard — Bricxley" },
       {
         name: "description",
         content:
-          "Manage your listings, inquiries, visits and availability from the In Bound owner dashboard.",
+          "Manage your listings, inquiries, visits and availability from the Bricxley owner dashboard.",
       },
-      { property: "og:title", content: "Owner dashboard — In Bound" },
+      { property: "og:title", content: "Owner dashboard — Bricxley" },
       {
         property: "og:description",
         content: "Find the right tenant without the noise.",
@@ -110,7 +110,7 @@ function OwnerDashboard() {
                 <div>
                   <p className="font-semibold">{p.title}</p>
                   <p className="text-sm text-muted-foreground">
-                    {p.locality} · {inr(p.rent)} / month · Demo Bound Score {p.boundScore.total}
+                    {p.locality} · {inr(p.rent)} / month · Demo Bricxley Score {p.boundScore.total}
                   </p>
                 </div>
                 <span className="rounded-full bg-verified/10 px-3 py-1 text-xs font-semibold text-verified">

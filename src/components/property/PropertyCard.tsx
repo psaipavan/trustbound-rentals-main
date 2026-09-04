@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useRouter } from "@tanstack/react-router";
 import { Bath, BedDouble, Clock3, Heart, MapPin, Sofa } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { BoundScoreBadge } from "@/components/property/BoundScore";
@@ -30,13 +30,24 @@ export function PropertyCard({
   compact?: boolean;
 }) {
   const { isSaved, toggle } = useSaved();
+  const router = useRouter();
   const saved = isSaved(property.id);
   const isAgent = property.lister.type === "agent";
+  const preloadProperty = () => {
+    void router.preloadRoute({
+      to: "/property/$propertyId",
+      params: { propertyId: property.id },
+    });
+  };
 
   return (
     <article
-      onMouseEnter={() => onHoverChange?.(property.id)}
+      onMouseEnter={() => {
+        onHoverChange?.(property.id);
+        preloadProperty();
+      }}
       onMouseLeave={() => onHoverChange?.(null)}
+      onFocusCapture={preloadProperty}
       onClick={() => onSelect?.(property.id)}
       className={cn(
         "surface-card hover-lift group flex h-full flex-col overflow-hidden transition-shadow",

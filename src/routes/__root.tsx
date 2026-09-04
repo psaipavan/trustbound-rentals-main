@@ -4,18 +4,22 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useRouterState,
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
+import { type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
-import { reportLovableError } from "../lib/lovable-error-reporting";
 import { Navbar } from "@/components/layout/Navbar";
+import { WorkflowNavbar } from "@/components/layout/WorkflowNavbar";
 import { Footer } from "@/components/layout/Footer";
 import { CompareDrawer } from "@/components/property/CompareDrawer";
 import { BoundAiLauncher } from "@/components/ai/BoundAi";
 import { SavedProvider } from "@/lib/saved-store";
+import { SessionProvider } from "@/lib/auth/session";
+import { useSession } from "@/lib/auth/session";
+import { BRAND } from "@/lib/brand";
 import { Toaster } from "@/components/ui/sonner";
 
 function NotFoundComponent() {
@@ -43,9 +47,6 @@ function NotFoundComponent() {
 function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   console.error(error);
   const router = useRouter();
-  useEffect(() => {
-    reportLovableError(error, { boundary: "tanstack_root_error_component" });
-  }, [error]);
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
@@ -83,14 +84,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "In Bound — Verified rentals in Hyderabad" },
+      { title: `${BRAND.name} — Verified rentals in Hyderabad` },
       {
         name: "description",
-        content:
-          "In Bound is a trusted rental marketplace connecting tenants, owners and verified agents. Let’s bound together.",
+        content: `${BRAND.name} is a trusted rental marketplace connecting tenants, owners and verified agents. Rent with clarity.`,
       },
-      { name: "author", content: "In Bound" },
-      { property: "og:site_name", content: "In Bound" },
+      { name: "author", content: BRAND.name },
+      { property: "og:site_name", content: BRAND.name },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -102,7 +102,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap",
       },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
     ],
   }),
   shellComponent: RootShell,
@@ -130,19 +130,36 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <SavedProvider>
-        <div className="flex min-h-screen flex-col">
-          <Navbar />
-          <main className="flex-1">
-            {/* Required: nested routes render here. */}
-            <Outlet />
-          </main>
-          <Footer />
-        </div>
-        <CompareDrawer />
-        <BoundAiLauncher />
-        <Toaster position="top-center" />
-      </SavedProvider>
+      <SessionProvider>
+        <SavedProvider>
+          <div className="flex min-h-screen flex-col">
+            <ApplicationNavigation />
+            <main className="flex-1">
+              {/* Required: nested routes render here. */}
+              <Outlet />
+            </main>
+            <Footer />
+          </div>
+          <CompareDrawer />
+          <BoundAiLauncher />
+          <Toaster position="top-center" />
+        </SavedProvider>
+      </SessionProvider>
     </QueryClientProvider>
   );
+}
+
+function ApplicationNavigation() {
+  const pathname = useRouterState({ select: (state) => state.location.pathname });
+  const { actor, isReady } = useSession();
+  const isTenantWorkflow =
+    actor?.role === "tenant" &&
+    (pathname.startsWith("/tenant/") || /^\/property\/[^/]+\/interest\/?$/.test(pathname));
+  const isOwnerWorkflow = actor?.role === "owner" && pathname.startsWith("/owner/");
+
+  if (isReady && (isTenantWorkflow || isOwnerWorkflow) && actor) {
+    return <WorkflowNavbar role={actor.role === "owner" ? "owner" : "tenant"} />;
+  }
+
+  return <Navbar />;
 }
