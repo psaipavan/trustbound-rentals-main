@@ -47,7 +47,12 @@ export function SecureChat({ listerLabel }: { listerLabel: string }) {
           </DialogDescription>
         </DialogHeader>
 
-        <div className="max-h-64 space-y-2 overflow-y-auto rounded-xl bg-muted/60 p-3">
+        <div
+          className="max-h-64 space-y-2 overflow-y-auto rounded-xl bg-muted/60 p-3"
+          role="log"
+          aria-live="polite"
+          aria-relevant="additions"
+        >
           {messages.length === 0 ? (
             <p className="p-4 text-center text-sm text-muted-foreground">
               Pick a question below to start the conversation.
@@ -56,11 +61,11 @@ export function SecureChat({ listerLabel }: { listerLabel: string }) {
             messages.map((m, i) => (
               <div
                 key={i}
-                className={
+                className={`${
                   m.role === "you"
                     ? "ml-auto max-w-[85%] rounded-2xl rounded-br-md bg-primary px-3.5 py-2 text-sm text-primary-foreground"
                     : "max-w-[90%] rounded-2xl rounded-bl-md bg-card px-3.5 py-2 text-sm"
-                }
+                } motion-safe:animate-message-in`}
               >
                 {m.text}
               </div>

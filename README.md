@@ -1,4 +1,4 @@
-# TrustBound Rentals
+# Bricxley
 
 Create a premium, modern, production-quality rental marketplace web application called **Bricxley**.
 
@@ -30,18 +30,18 @@ Support tenants, property owners and verified agents.
 
 The main problems we want to address are:
 
-* Fake property listings
-* Agents pretending to be owners
-* Hidden brokerage
-* Outdated rental listings
-* Spam calls after submitting contact information
-* Paying unnecessary money before seeing a property
-* Lack of transparency around deposits and maintenance
-* Difficulty scheduling property visits
-* Poor communication between owners and tenants
-* Duplicate properties
-* Misleading photos
-* Difficulty understanding neighborhoods when relocating
+- Fake property listings
+- Agents pretending to be owners
+- Hidden brokerage
+- Outdated rental listings
+- Spam calls after submitting contact information
+- Paying unnecessary money before seeing a property
+- Lack of transparency around deposits and maintenance
+- Difficulty scheduling property visits
+- Poor communication between owners and tenants
+- Duplicate properties
+- Misleading photos
+- Difficulty understanding neighborhoods when relocating
 
 Do not make “anti-spam” the entire brand.
 
@@ -65,12 +65,12 @@ Do not use cartoon houses or generic real-estate clip art.
 
 Explore a subtle logo mark created by combining concepts like:
 
-* I + B
-* doorway
-* location pin
-* connection
-* two shapes coming together
-* home boundary
+- I + B
+- doorway
+- location pin
+- connection
+- two shapes coming together
+- home boundary
 
 The logo should feel suitable for a technology startup.
 
@@ -115,20 +115,20 @@ Avoid excessive animations.
 
 Cards should have:
 
-* 16–24px radius
-* subtle borders
-* soft shadows
-* clean hover interactions
+- 16–24px radius
+- subtle borders
+- soft shadows
+- clean hover interactions
 
 Animations should be polished and subtle:
 
-* fade-up
-* hover lift
-* button micro-interactions
-* search transition
-* property card hover
-* verification badge animation
-* smooth page transitions
+- fade-up
+- hover lift
+- button micro-interactions
+- search transition
+- property card hover
+- verification badge animation
+- smooth page transitions
 
 The website must be fully responsive for desktop, tablet and mobile.
 

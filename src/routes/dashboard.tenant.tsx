@@ -1,12 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import {
-  CalendarCheck,
-  Clock3,
-  Heart,
-  MessagesSquare,
-  Send,
-  UserRound,
-} from "lucide-react";
+import { CalendarCheck, Clock3, Heart, MessagesSquare, Send, UserRound } from "lucide-react";
 import { DashboardShell } from "@/components/dashboard/DashboardShell";
 import { PropertyCard } from "@/components/property/PropertyCard";
 import { Button } from "@/components/ui/button";
@@ -99,9 +92,7 @@ function TenantDashboard() {
           </div>
           {savedItems.length === 0 ? (
             <div className="mt-4 rounded-2xl border border-dashed border-border p-10 text-center">
-              <p className="text-sm text-muted-foreground">
-                You haven’t saved any homes yet.
-              </p>
+              <p className="text-sm text-muted-foreground">You haven’t saved any homes yet.</p>
               <Button asChild className="mt-4">
                 <Link to="/rent">Browse verified rentals</Link>
               </Button>

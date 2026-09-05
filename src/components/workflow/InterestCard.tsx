@@ -68,7 +68,9 @@ export function InterestCard({ interest, action }: { interest: Interest; action?
             {statusLabels[interest.status]}
           </Badge>
         </div>
-        {property ? <p className="mt-2 text-sm font-semibold">{inr(property.rent)} / month</p> : null}
+        {property ? (
+          <p className="mt-2 text-sm font-semibold">{inr(property.rent)} / month</p>
+        ) : null}
         <p className="mt-1 text-xs text-muted-foreground">Submitted {submittedAt}</p>
         {action ? <div className="mt-3">{action}</div> : null}
       </div>

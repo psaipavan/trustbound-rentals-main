@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { Heart, Menu } from "lucide-react";
 import { BricxleyLogo } from "@/components/brand/Logo";
@@ -16,10 +16,22 @@ const links = [
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const { saved, setCompareOpen } = useSaved();
 
+  useEffect(() => {
+    const updateScrolledState = () => setScrolled(window.scrollY > 8);
+    updateScrolledState();
+    window.addEventListener("scroll", updateScrolledState, { passive: true });
+    return () => window.removeEventListener("scroll", updateScrolledState);
+  }, []);
+
   return (
-    <header className="sticky top-0 z-50 border-b border-border/70 bg-background/85 backdrop-blur-md">
+    <header
+      className={`sticky top-0 z-50 border-b border-border/70 bg-background/85 backdrop-blur-md transition-shadow duration-200 motion-reduce:transition-none ${
+        scrolled ? "shadow-[var(--shadow-soft)]" : "shadow-none"
+      }`}
+    >
       <nav className="container-page flex h-16 items-center justify-between gap-4">
         <Link to="/" className="shrink-0" aria-label="Bricxley home">
           <BricxleyLogo />

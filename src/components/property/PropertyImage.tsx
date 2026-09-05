@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type ImgHTMLAttributes } from "react";
 import { ImageOff } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -12,15 +12,23 @@ export function PropertyImage({
   className,
   imgClassName,
   zoomOnHover = false,
+  loading = "lazy",
+  sizes,
+  fetchPriority,
 }: {
   src: string | undefined;
   alt: string;
   className?: string;
   imgClassName?: string;
   zoomOnHover?: boolean;
+  loading?: ImgHTMLAttributes<HTMLImageElement>["loading"];
+  sizes?: string;
+  fetchPriority?: ImgHTMLAttributes<HTMLImageElement>["fetchPriority"];
 }) {
-  const [loaded, setLoaded] = useState(false);
-  const [failed, setFailed] = useState(!src);
+  const [loadedSrc, setLoadedSrc] = useState<string | undefined>();
+  const [failedSrc, setFailedSrc] = useState<string | undefined>();
+  const loaded = loadedSrc === src;
+  const failed = !src || failedSrc === src;
 
   return (
     <div className={cn("relative w-full overflow-hidden bg-muted", className)}>
@@ -40,14 +48,16 @@ export function PropertyImage({
         <img
           src={src}
           alt={alt}
-          loading="lazy"
+          loading={loading}
           decoding="async"
+          sizes={sizes}
+          fetchPriority={fetchPriority}
           // Cached images can finish before React attaches onLoad — check on mount.
           ref={(el) => {
-            if (el?.complete && el.naturalWidth > 0) setLoaded(true);
+            if (el?.complete && el.naturalWidth > 0) setLoadedSrc(src);
           }}
-          onLoad={() => setLoaded(true)}
-          onError={() => setFailed(true)}
+          onLoad={() => setLoadedSrc(src)}
+          onError={() => setFailedSrc(src)}
           className={cn(
             "absolute inset-0 h-full w-full object-cover transition-[opacity,transform] duration-500 ease-out motion-reduce:transition-none",
             loaded ? "opacity-100" : "opacity-0",

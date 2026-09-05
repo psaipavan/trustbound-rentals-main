@@ -9,21 +9,19 @@ The existing visual system was preserved: the original mark, colours, typography
 ## Brand assets
 
 - Added `public/favicon.svg`, a lightweight Bricxley “B”/door mark.
-- Updated the root route to reference that SVG favicon.
+- Updated the root route with favicon, touch-icon, application-name, OpenGraph, Twitter, and manifest metadata.
+- Added `public/manifest.webmanifest` using the same SVG mark and Bricxley’s existing navy/teal palette.
 - Removed the obsolete `public/favicon.ico` after it was no longer referenced.
-- No manifest, PWA configuration, social preview image, or other public brand asset exists in this repository.
+- No separate social preview image exists in this repository.
 
 ## Source audit and retained technical exceptions
 
-A case-insensitive scan of customer-facing sources (`src`, `public`, `README.md`, and `docs/BRD.md`) finds no references to the retired product name, its legacy subdomain, or the old platform name.
+A case-insensitive scan of customer-facing sources (`src`, `public`, `README.md`, and `docs/BRD.md`) finds no retired product, URL, or platform markers.
 
 The following non-customer-facing references intentionally remain:
 
-| Location | Classification | Reason |
-| --- | --- | --- |
-| `package.json` | Technical dependency | Required Vite/TanStack configuration package. |
-| `vite.config.ts` | Technical configuration | Imports the required Vite integration; removing it breaks the build. |
-| `bunfig.toml` | Technical configuration | Allows the same required package during installation. |
+| Location    | Classification    | Reason                                                                 |
+| ----------- | ----------------- | ---------------------------------------------------------------------- |
 | `AGENTS.md` | Repository policy | Mandatory integration guidance for contributors; not shipped to users. |
 
-The migration planning record is also retained as internal project history. It is not customer-facing content.
+The retired wrapper, its build configuration, and its package-manager exception were removed and the normal Vite/TanStack/Nitro build continues to pass.

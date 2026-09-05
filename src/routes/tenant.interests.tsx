@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, Outlet, useNavigate, useRouterState } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
-import { InterestCard, selectInterestTab, type InterestTab } from "@/components/workflow/InterestCard";
+import {
+  InterestCard,
+  selectInterestTab,
+  type InterestTab,
+} from "@/components/workflow/InterestCard";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { dashboardForRole, useSession } from "@/lib/auth/session";
 import { useConversationsQuery, useTenantInterestsQuery } from "@/lib/workflow/query";
@@ -13,6 +17,7 @@ export const Route = createFileRoute("/tenant/interests")({
 function TenantInterests() {
   const { actor, isReady } = useSession();
   const navigate = useNavigate({ from: "/tenant/interests" });
+  const pathname = useRouterState({ select: (state) => state.location.pathname });
   const interests = useTenantInterestsQuery(actor);
   const conversations = useConversationsQuery(actor);
   const [tab, setTab] = useState<InterestTab>("pending");
@@ -26,8 +31,12 @@ function TenantInterests() {
     if (actor.role !== "tenant") void navigate({ to: dashboardForRole(actor.role) });
   }, [actor, isReady, navigate]);
 
+  if (pathname !== "/tenant/interests") return <Outlet />;
+
   if (!isReady || !actor || actor.role !== "tenant") {
-    return <div className="container-page py-12 text-sm text-muted-foreground">Loading interests…</div>;
+    return (
+      <div className="container-page py-12 text-sm text-muted-foreground">Loading interests…</div>
+    );
   }
 
   const selectedInterests = selectInterestTab(interests.data ?? [], tab);
@@ -98,7 +107,10 @@ function TenantInterests() {
           })}
         </ul>
       ) : null}
-      {!interests.isPending && !interests.isError && interests.data?.length && !selectedInterests.length ? (
+      {!interests.isPending &&
+      !interests.isError &&
+      interests.data?.length &&
+      !selectedInterests.length ? (
         <div className="mt-6 surface-card p-6 text-sm text-muted-foreground">
           No {tab} interests right now.
         </div>

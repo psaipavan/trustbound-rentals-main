@@ -96,7 +96,10 @@ export class WorkflowService {
           activeInterestStatuses.has(interest.status),
       );
       if (duplicate) {
-        throw new WorkflowError("DUPLICATE_INTEREST", "You already have an active interest in this home.");
+        throw new WorkflowError(
+          "DUPLICATE_INTEREST",
+          "You already have an active interest in this home.",
+        );
       }
 
       const createdAt = isoNow(this.dependencies.now);
@@ -123,12 +126,16 @@ export class WorkflowService {
 
   async listTenantInterests(actor: WorkflowActor): Promise<Interest[]> {
     requireTenant(actor);
-    return (await this.repository.load()).interests.filter((interest) => interest.tenantId === actor.id);
+    return (await this.repository.load()).interests.filter(
+      (interest) => interest.tenantId === actor.id,
+    );
   }
 
   async listOwnerInterests(actor: WorkflowActor): Promise<Interest[]> {
     requireLister(actor);
-    return (await this.repository.load()).interests.filter((interest) => interest.listerId === actor.id);
+    return (await this.repository.load()).interests.filter(
+      (interest) => interest.listerId === actor.id,
+    );
   }
 
   async acceptInterest(actor: WorkflowActor, interestId: string): Promise<Interest> {
@@ -213,7 +220,10 @@ export class WorkflowService {
     return conversation;
   }
 
-  async getConversationForInterest(actor: WorkflowActor, interestId: string): Promise<Conversation> {
+  async getConversationForInterest(
+    actor: WorkflowActor,
+    interestId: string,
+  ): Promise<Conversation> {
     const snapshot = await this.repository.load();
     const interest = getInterestFrom(snapshot, interestId);
     requireInterestAccess(actor, interest);
@@ -231,7 +241,11 @@ export class WorkflowService {
     );
   }
 
-  async sendMessage(actor: WorkflowActor, conversationId: string, body: string): Promise<ConversationMessage> {
+  async sendMessage(
+    actor: WorkflowActor,
+    conversationId: string,
+    body: string,
+  ): Promise<ConversationMessage> {
     const trimmed = body.trim();
     if (!trimmed) throw new WorkflowError("INVALID_TRANSITION", "Write a message before sending.");
     return this.repository.transact((snapshot) => {
@@ -316,7 +330,8 @@ export class WorkflowService {
       visit.status = "CONFIRMED";
       visit.updatedAt = isoNow(this.dependencies.now);
       const conversation = conversationForInterest(snapshot, visit.interestId);
-      if (!conversation) throw new WorkflowError("NOT_FOUND", "We couldn't find this conversation.");
+      if (!conversation)
+        throw new WorkflowError("NOT_FOUND", "We couldn't find this conversation.");
       conversation.messages.push({
         id: this.dependencies.createId("message"),
         conversationId: conversation.id,

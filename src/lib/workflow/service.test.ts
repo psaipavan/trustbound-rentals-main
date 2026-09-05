@@ -37,7 +37,9 @@ const input: InterestInput = {
   message: "Quiet household",
 };
 
-function createService(getPropertyById: (propertyId: string) => Property | undefined = getProperty) {
+function createService(
+  getPropertyById: (propertyId: string) => Property | undefined = getProperty,
+) {
   let id = 0;
   return new WorkflowService(createMockWorkflowRepository(), {
     getProperty: getPropertyById,
@@ -86,7 +88,9 @@ test("does not create a duplicate conversation when an accepted interest is read
   await service.getConversationForInterest(tenant, interest.id);
   await service.getConversationForInterest(owner, interest.id);
 
-  expect((await service.listConversations(tenant)).filter((item) => item.interestId === interest.id)).toHaveLength(1);
+  expect(
+    (await service.listConversations(tenant)).filter((item) => item.interestId === interest.id),
+  ).toHaveLength(1);
 });
 
 test("retrieves a matched conversation by the conversation id used in its route", async () => {
@@ -123,7 +127,9 @@ test("rejects new interest when the home is unavailable", async () => {
     return property ? { ...property, status: "paused" } : undefined;
   });
 
-  await expect(service.createInterest(tenant, input)).rejects.toMatchObject({ code: "UNAVAILABLE" });
+  await expect(service.createInterest(tenant, input)).rejects.toMatchObject({
+    code: "UNAVAILABLE",
+  });
 });
 
 test("does not accept an interest after the home becomes unavailable", async () => {
@@ -135,7 +141,9 @@ test("does not accept an interest after the home becomes unavailable", async () 
   const interest = await service.createInterest(tenant, input);
   isAvailable = false;
 
-  await expect(service.acceptInterest(owner, interest.id)).rejects.toMatchObject({ code: "UNAVAILABLE" });
+  await expect(service.acceptInterest(owner, interest.id)).rejects.toMatchObject({
+    code: "UNAVAILABLE",
+  });
 });
 
 test("allows only one concurrent active interest for the same tenant and home", async () => {
@@ -182,7 +190,11 @@ test("confirming a visit appends a system message to the matched conversation", 
   const refreshed = await service.getConversationForInterest(tenant, conversation.interestId);
 
   expect(confirmed.status).toBe("CONFIRMED");
-  expect(refreshed.messages.some((message) => message.kind === "system" && message.body.includes("Visit Confirmed ✓"))).toBe(true);
+  expect(
+    refreshed.messages.some(
+      (message) => message.kind === "system" && message.body.includes("Visit Confirmed ✓"),
+    ),
+  ).toBe(true);
 });
 
 test("persists both concurrent messages in one matched conversation", async () => {
@@ -197,9 +209,6 @@ test("persists both concurrent messages in one matched conversation", async () =
 
   const refreshed = await service.getConversation(tenant, conversation.id);
   expect(refreshed.messages.map((message) => message.body)).toEqual(
-    expect.arrayContaining([
-      "Is parking included?",
-      "Yes, one covered spot is included.",
-    ]),
+    expect.arrayContaining(["Is parking included?", "Yes, one covered spot is included."]),
   );
 });

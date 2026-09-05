@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound, Outlet, useRouterState } from "@tanstack/react-router";
 import { Heart, MapPin, Share2 } from "lucide-react";
 import { toast } from "sonner";
 import { PropertyGallery } from "@/components/property/PropertyGallery";
@@ -64,6 +64,7 @@ export const Route = createFileRoute("/property/$propertyId")({
 });
 
 function PropertyDetail() {
+  const pathname = useRouterState({ select: (state) => state.location.pathname });
   const { property } = Route.useLoaderData();
   const { isSaved, toggle } = useSaved();
   const { actor } = useSession();
@@ -81,6 +82,8 @@ function PropertyDetail() {
   useEffect(() => {
     trackWorkflowEvent("property_viewed", { propertyId: property.id });
   }, [property.id]);
+
+  if (pathname.endsWith("/interest")) return <Outlet />;
 
   const shareProperty = async () => {
     const shareData = {

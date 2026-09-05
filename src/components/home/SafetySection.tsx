@@ -6,7 +6,10 @@ export const risks = [
   { risk: "Spam calls", answer: "Secure Bricxley Chat instead of exposed phone numbers." },
   { risk: "Outdated listings", answer: "Recurring availability confirmations from the lister." },
   { risk: "Visit scams", answer: "The ₹0 viewing fee principle, stated on every listing." },
-  { risk: "Duplicate listings", answer: "Duplicate-detection architecture built into the catalogue." },
+  {
+    risk: "Duplicate listings",
+    answer: "Duplicate-detection architecture built into the catalogue.",
+  },
 ];
 
 export function SafetySection() {

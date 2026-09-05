@@ -47,11 +47,12 @@ export function BoundAiLauncher() {
     <>
       <Button
         onClick={() => setOpen(true)}
-        size="lg"
-        className="fixed bottom-5 right-5 z-40 rounded-full shadow-[var(--shadow-lift)]"
+        size="icon"
+        aria-label="Open Bricxley AI"
+        className="fixed bottom-4 right-4 z-40 h-12 w-12 rounded-full p-0 shadow-[var(--shadow-lift)] sm:bottom-5 sm:right-5 sm:h-11 sm:w-auto sm:px-5"
       >
         <Sparkles className="h-4 w-4" />
-        Bricxley AI
+        <span className="hidden sm:inline">Bricxley AI</span>
       </Button>
 
       <Sheet open={open} onOpenChange={setOpen}>

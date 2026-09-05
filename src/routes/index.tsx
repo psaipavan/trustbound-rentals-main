@@ -143,7 +143,9 @@ function Home() {
           </div>
 
           <div className="surface-card p-8">
-            <p className="text-xs font-bold uppercase tracking-[0.16em] text-primary">For tenants</p>
+            <p className="text-xs font-bold uppercase tracking-[0.16em] text-primary">
+              For tenants
+            </p>
             <h2 className="mt-2 text-2xl font-extrabold sm:text-3xl">
               Your rental search should feel simple.
             </h2>

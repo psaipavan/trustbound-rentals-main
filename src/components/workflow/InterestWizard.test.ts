@@ -1,5 +1,9 @@
 import { expect, test } from "vitest";
-import { getInitialInterestDraft, interestDraftSchema } from "./InterestWizard";
+import {
+  getInitialInterestDraft,
+  getInterestSubmitLabel,
+  interestDraftSchema,
+} from "./InterestWizard";
 
 test("rejects malformed draft details before an interest can reach the service", () => {
   const validDraft = {
@@ -44,4 +48,9 @@ test("prefers this home's saved draft over non-sensitive values from the latest 
     leasePreference: "11 months",
     message: "Use this property-specific note",
   });
+});
+
+test("keeps the interest action label stable while the submission is pending", () => {
+  expect(getInterestSubmitLabel(false)).toBe("Send Interest");
+  expect(getInterestSubmitLabel(true)).toBe("Sending…");
 });

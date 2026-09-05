@@ -32,16 +32,46 @@ export const localityCoords: Record<string, GeoPoint> = {
 
 export const landmarks: PlaceSuggestion[] = [
   { name: "DLF Cyber City", kind: "landmark", locality: "Gachibowli", lat: 17.4353, lng: 78.3833 },
-  { name: "Knowledge City", kind: "landmark", locality: "Nanakramguda", lat: 17.4276, lng: 78.3441 },
+  {
+    name: "Knowledge City",
+    kind: "landmark",
+    locality: "Nanakramguda",
+    lat: 17.4276,
+    lng: 78.3441,
+  },
   { name: "Wipro Circle", kind: "landmark", locality: "Gachibowli", lat: 17.4275, lng: 78.3446 },
-  { name: "Raidurg Metro Station", kind: "landmark", locality: "HITEC City", lat: 17.4157, lng: 78.3831 },
+  {
+    name: "Raidurg Metro Station",
+    kind: "landmark",
+    locality: "HITEC City",
+    lat: 17.4157,
+    lng: 78.3831,
+  },
   { name: "IKEA Hyderabad", kind: "landmark", locality: "HITEC City", lat: 17.4405, lng: 78.3766 },
   { name: "Inorbit Mall", kind: "landmark", locality: "Madhapur", lat: 17.4341, lng: 78.3866 },
   { name: "Botanical Garden", kind: "landmark", locality: "Kondapur", lat: 17.4623, lng: 78.3564 },
   { name: "ISB Hyderabad", kind: "landmark", locality: "Gachibowli", lat: 17.4353, lng: 78.3372 },
-  { name: "Outer Ring Road – Kokapet", kind: "landmark", locality: "Kokapet", lat: 17.4045, lng: 78.3287 },
-  { name: "Forum Sujana Mall", kind: "landmark", locality: "Kukatpally", lat: 17.4855, lng: 78.3915 },
-  { name: "Miyapur Metro Depot", kind: "landmark", locality: "Miyapur", lat: 17.4966, lng: 78.3612 },
+  {
+    name: "Outer Ring Road – Kokapet",
+    kind: "landmark",
+    locality: "Kokapet",
+    lat: 17.4045,
+    lng: 78.3287,
+  },
+  {
+    name: "Forum Sujana Mall",
+    kind: "landmark",
+    locality: "Kukatpally",
+    lat: 17.4855,
+    lng: 78.3915,
+  },
+  {
+    name: "Miyapur Metro Depot",
+    kind: "landmark",
+    locality: "Miyapur",
+    lat: 17.4966,
+    lng: 78.3612,
+  },
   { name: "Lanco Hills", kind: "landmark", locality: "Manikonda", lat: 17.4038, lng: 78.3843 },
 ];
 
@@ -77,8 +107,7 @@ export function distanceKm(a: GeoPoint, b: GeoPoint): number {
   const dLng = ((b.lng - a.lng) * Math.PI) / 180;
   const lat1 = (a.lat * Math.PI) / 180;
   const lat2 = (b.lat * Math.PI) / 180;
-  const h =
-    Math.sin(dLat / 2) ** 2 + Math.sin(dLng / 2) ** 2 * Math.cos(lat1) * Math.cos(lat2);
+  const h = Math.sin(dLat / 2) ** 2 + Math.sin(dLng / 2) ** 2 * Math.cos(lat1) * Math.cos(lat2);
   return 2 * R * Math.asin(Math.sqrt(h));
 }
 

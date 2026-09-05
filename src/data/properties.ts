@@ -399,7 +399,10 @@ function place(locality: string, i: number) {
   const base = localityCoords[locality] ?? HYDERABAD_CENTER;
   const angle = (i * 137.5 * Math.PI) / 180;
   const radius = 0.004 + (i % 5) * 0.0022;
-  return { lat: +(base.lat + Math.sin(angle) * radius).toFixed(6), lng: +(base.lng + Math.cos(angle) * radius).toFixed(6) };
+  return {
+    lat: +(base.lat + Math.sin(angle) * radius).toFixed(6),
+    lng: +(base.lng + Math.cos(angle) * radius).toFixed(6),
+  };
 }
 
 const stockImages = [prop1, prop2, prop3, prop4, prop5, prop6];
@@ -482,14 +485,14 @@ const generatedProperties: SeedProperty[] = generatedSpecs.map(
         ? agent({
             id: `u-agent-${idx}`,
             name: `Verified Agent · ${["R. Sharma", "K. Prasad", "S. Iyer", "M. Fatima"][i % 4]}`,
-            agency: [
-              "Bricxley Realty Partners",
-              "Cyber Homes",
-              "Skyline Estates",
-              "Urban Nest",
-            ][i % 4] as string,
+            agency: ["Bricxley Realty Partners", "Cyber Homes", "Skyline Estates", "Urban Nest"][
+              i % 4
+            ] as string,
           })
-        : owner({ id: `u-owner-${idx}`, name: `Verified Owner · ${["A. Rao", "P. Menon", "D. Kaur", "N. Reddy"][i % 4]}` }),
+        : owner({
+            id: `u-owner-${idx}`,
+            name: `Verified Owner · ${["A. Rao", "P. Menon", "D. Kaur", "N. Reddy"][i % 4]}`,
+          }),
       boundScore: score(78 + (i % 20), i % 5 === 0 ? ["Photos Checked"] : []),
       ownerVerified: !isAgent,
       propertyVerified: i % 6 !== 0,

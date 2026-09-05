@@ -1,0 +1,17 @@
+{
+  "name": "Bricxley",
+  "short_name": "Bricxley",
+  "description": "Trusted rental marketplace for tenants, owners, and verified agents in Hyderabad.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f6f1e8",
+  "theme_color": "#10243e",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

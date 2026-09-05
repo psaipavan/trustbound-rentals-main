@@ -1,6 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { toast } from "sonner";
-import { BarChart3, BellRing, CalendarCheck, Lock, MessagesSquare, Send, Users } from "lucide-react";
+import {
+  BarChart3,
+  BellRing,
+  CalendarCheck,
+  Lock,
+  MessagesSquare,
+  Send,
+  Users,
+} from "lucide-react";
 import { PageHero } from "@/components/layout/PageHero";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -81,7 +89,11 @@ function ListPropertyPage() {
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-1.5 sm:col-span-2">
               <Label htmlFor="lp-title">Property title</Label>
-              <Input id="lp-title" placeholder="e.g. Bright 2BHK in a quiet gated community" required />
+              <Input
+                id="lp-title"
+                placeholder="e.g. Bright 2BHK in a quiet gated community"
+                required
+              />
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="lp-locality">Locality</Label>
@@ -94,11 +106,13 @@ function ListPropertyPage() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  {["Apartment", "Gated Community", "Independent House", "Villa", "Studio"].map((t) => (
-                    <SelectItem key={t} value={t}>
-                      {t}
-                    </SelectItem>
-                  ))}
+                  {["Apartment", "Gated Community", "Independent House", "Villa", "Studio"].map(
+                    (t) => (
+                      <SelectItem key={t} value={t}>
+                        {t}
+                      </SelectItem>
+                    ),
+                  )}
                 </SelectContent>
               </Select>
             </div>
@@ -128,7 +142,11 @@ function ListPropertyPage() {
             </div>
             <div className="space-y-1.5 sm:col-span-2">
               <Label htmlFor="lp-desc">Description</Label>
-              <Textarea id="lp-desc" rows={4} placeholder="Tell renters what makes this home good." />
+              <Textarea
+                id="lp-desc"
+                rows={4}
+                placeholder="Tell renters what makes this home good."
+              />
             </div>
           </div>
 
