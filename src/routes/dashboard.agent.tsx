@@ -79,7 +79,12 @@ const sections = [
     label: "Profile",
     icon: UserRound,
     description: "Your public agent profile as tenants see it.",
-    items: ["Agency details", "Active listings", "Response time", "Ratings (when real reviews exist)"],
+    items: [
+      "Agency details",
+      "Active listings",
+      "Response time",
+      "Ratings (when real reviews exist)",
+    ],
   },
 ];
 

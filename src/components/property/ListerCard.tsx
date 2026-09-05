@@ -3,7 +3,15 @@ import { VerificationBadge } from "@/components/property/VerificationBadge";
 import type { Lister } from "@/data/properties";
 import { inr } from "@/lib/format";
 
-function Row({ icon: Icon, label, value }: { icon: React.ElementType; label: string; value: string }) {
+function Row({
+  icon: Icon,
+  label,
+  value,
+}: {
+  icon: React.ElementType;
+  label: string;
+  value: string;
+}) {
   return (
     <div className="flex items-start gap-2.5 text-sm">
       <Icon className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />

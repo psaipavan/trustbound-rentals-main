@@ -50,7 +50,9 @@ export function DashboardShell({
                 key={r.to}
                 to={r.to}
                 className="rounded-full px-3.5 py-1.5 text-sm font-medium text-muted-foreground transition hover:text-foreground"
-                activeProps={{ className: "bg-primary text-primary-foreground hover:text-primary-foreground" }}
+                activeProps={{
+                  className: "bg-primary text-primary-foreground hover:text-primary-foreground",
+                }}
               >
                 {r.label}
               </Link>
@@ -59,7 +61,10 @@ export function DashboardShell({
         </div>
 
         <div className="mt-8 grid gap-6 lg:grid-cols-[250px_1fr]">
-          <nav className="surface-card h-fit p-2 lg:sticky lg:top-24" aria-label="Dashboard sections">
+          <nav
+            className="surface-card h-fit p-2 lg:sticky lg:top-24"
+            aria-label="Dashboard sections"
+          >
             <ul>
               {sections.map((s) => (
                 <li key={s.key}>

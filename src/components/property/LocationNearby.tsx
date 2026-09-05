@@ -1,5 +1,13 @@
 import { useMemo } from "react";
-import { Building2, Dumbbell, GraduationCap, Hospital, ShoppingCart, TrainFront, Utensils } from "lucide-react";
+import {
+  Building2,
+  Dumbbell,
+  GraduationCap,
+  Hospital,
+  ShoppingCart,
+  TrainFront,
+  Utensils,
+} from "lucide-react";
 import { MapView } from "@/components/map/MapView";
 import { distanceKm, nearbyFor, type NearbyCategory } from "@/data/geo";
 import type { Property } from "@/data/properties";

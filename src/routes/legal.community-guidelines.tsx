@@ -11,7 +11,10 @@ export const Route = createFileRoute("/legal/community-guidelines")({
           "The behaviour expected from tenants, owners and agents on Bricxley: honest listings, declared brokerage and respectful communication.",
       },
       { property: "og:title", content: "Community Guidelines — Bricxley" },
-      { property: "og:description", content: "Honest listings. Declared roles. Respectful conversations." },
+      {
+        property: "og:description",
+        content: "Honest listings. Declared roles. Respectful conversations.",
+      },
     ],
   }),
   component: () => (

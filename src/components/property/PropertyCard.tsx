@@ -67,6 +67,11 @@ export function PropertyCard({
             alt={`${property.bhk}BHK ${property.propertyType.toLowerCase()} in ${property.locality}`}
             className={compact ? "aspect-[16/10]" : "aspect-[16/9]"}
             zoomOnHover
+            sizes={
+              compact
+                ? "(min-width: 1280px) 30vw, (min-width: 640px) 45vw, 100vw"
+                : "(min-width: 1280px) 25vw, (min-width: 640px) 45vw, 100vw"
+            }
           />
         </Link>
         <button

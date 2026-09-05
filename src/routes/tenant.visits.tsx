@@ -12,8 +12,10 @@ export const Route = createFileRoute("/tenant/visits")({
 });
 
 function isUpcoming(visit: Visit) {
-  return new Date(visit.scheduledAt).getTime() >= Date.now() &&
-    (visit.status === "REQUESTED" || visit.status === "CONFIRMED");
+  return (
+    new Date(visit.scheduledAt).getTime() >= Date.now() &&
+    (visit.status === "REQUESTED" || visit.status === "CONFIRMED")
+  );
 }
 
 function VisitList({ visits }: { visits: Visit[] }) {
@@ -59,10 +61,14 @@ function TenantVisits() {
   }, [actor, isReady, navigate]);
 
   if (!isReady || !actor || actor.role !== "tenant") {
-    return <div className="container-page py-12 text-sm text-muted-foreground">Loading visits…</div>;
+    return (
+      <div className="container-page py-12 text-sm text-muted-foreground">Loading visits…</div>
+    );
   }
   if (visits.isPending) {
-    return <div className="container-page py-12 text-sm text-muted-foreground">Loading visits…</div>;
+    return (
+      <div className="container-page py-12 text-sm text-muted-foreground">Loading visits…</div>
+    );
   }
   if (visits.isError) {
     return (
@@ -82,7 +88,9 @@ function TenantVisits() {
   return (
     <div className="container-page py-10 sm:py-12">
       <h1 className="text-2xl font-extrabold">Visits</h1>
-      <p className="mt-1 text-sm text-muted-foreground">Your requested and confirmed home visits.</p>
+      <p className="mt-1 text-sm text-muted-foreground">
+        Your requested and confirmed home visits.
+      </p>
       {allVisits.length === 0 ? (
         <div className="mt-8 surface-card p-6">
           <p className="text-muted-foreground">No visits are scheduled yet.</p>
@@ -94,11 +102,19 @@ function TenantVisits() {
         <div className="mt-8 grid gap-8 lg:grid-cols-2">
           <section>
             <h2 className="mb-3 text-lg font-bold">Upcoming</h2>
-            {upcoming.length ? <VisitList visits={upcoming} /> : <p className="text-sm text-muted-foreground">No upcoming visits.</p>}
+            {upcoming.length ? (
+              <VisitList visits={upcoming} />
+            ) : (
+              <p className="text-sm text-muted-foreground">No upcoming visits.</p>
+            )}
           </section>
           <section>
             <h2 className="mb-3 text-lg font-bold">Past</h2>
-            {past.length ? <VisitList visits={past} /> : <p className="text-sm text-muted-foreground">No past visits.</p>}
+            {past.length ? (
+              <VisitList visits={past} />
+            ) : (
+              <p className="text-sm text-muted-foreground">No past visits.</p>
+            )}
           </section>
         </div>
       )}

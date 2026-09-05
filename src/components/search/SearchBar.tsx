@@ -58,7 +58,7 @@ export function SearchBar({
   return (
     <section
       className={cn(
-        "surface-card p-4 shadow-[var(--shadow-panel)] sm:p-5 transition-shadow",
+        "surface-card p-4 shadow-[var(--shadow-panel)] transition-shadow duration-200 focus-within:shadow-[var(--shadow-lift)] motion-reduce:transition-none sm:p-5",
         className,
       )}
       aria-label="Property search"
@@ -160,7 +160,7 @@ function Field({
   children: React.ReactNode;
 }) {
   return (
-    <div className="rounded-xl border border-border bg-background px-3.5 py-2">
+    <div className="rounded-xl border border-border bg-background px-3.5 py-2 transition-[border-color,box-shadow] duration-150 focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/15 motion-reduce:transition-none">
       <Label className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
         {Icon ? <Icon className="h-3.5 w-3.5" aria-hidden /> : null}
         {label}

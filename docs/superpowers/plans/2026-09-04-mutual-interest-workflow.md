@@ -29,26 +29,27 @@
 
 ## File Structure
 
-| Path | Responsibility |
-| --- | --- |
-| `src/lib/workflow/types.ts` | Domain types, status groups, service/repository contracts, and typed errors. |
-| `src/lib/workflow/mock-repository.ts` | Replaceable development adapter and seeded fixture records. |
-| `src/lib/workflow/service.ts` | State transitions, authorization, duplicate protection, conversation creation, visits, and contact consent. |
-| `src/lib/workflow/query.ts` | Narrow TanStack Query keys, hooks, mutations, and targeted invalidation. |
-| `src/lib/auth/session.tsx` | Persisted mock session, role-aware sign-in, and guard helpers. |
-| `src/lib/analytics.ts` | Provider-free, typed analytics event boundary. |
-| `src/components/workflow/*` | Reusable workflow navigation, form, compact cards, conversation, and visit dialog. |
-| `src/routes/property.$propertyId.interest.tsx` | Protected three-step interest flow. |
-| `src/routes/tenant.*`, `src/routes/owner.*` | Tenant and owner workflow routes, routed through shared components. |
-| `src/routes/auth.tsx` | Mock sign-in that stores session and honors safe redirects. |
-| `src/routes/property.$propertyId.tsx` | Replace direct chat/visit with the single dominant interest action. |
-| `src/routes/__root.tsx` | Choose public or compact authenticated app navigation without changing public navigation markup. |
-| `src/components/layout/WorkflowNavbar.tsx` | Tenant and owner compact app navigation. |
-| `src/**/*.test.ts` | Focused domain tests, especially the interest state machine and duplicate/match behavior. |
+| Path                                           | Responsibility                                                                                              |
+| ---------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| `src/lib/workflow/types.ts`                    | Domain types, status groups, service/repository contracts, and typed errors.                                |
+| `src/lib/workflow/mock-repository.ts`          | Replaceable development adapter and seeded fixture records.                                                 |
+| `src/lib/workflow/service.ts`                  | State transitions, authorization, duplicate protection, conversation creation, visits, and contact consent. |
+| `src/lib/workflow/query.ts`                    | Narrow TanStack Query keys, hooks, mutations, and targeted invalidation.                                    |
+| `src/lib/auth/session.tsx`                     | Persisted mock session, role-aware sign-in, and guard helpers.                                              |
+| `src/lib/analytics.ts`                         | Provider-free, typed analytics event boundary.                                                              |
+| `src/components/workflow/*`                    | Reusable workflow navigation, form, compact cards, conversation, and visit dialog.                          |
+| `src/routes/property.$propertyId.interest.tsx` | Protected three-step interest flow.                                                                         |
+| `src/routes/tenant.*`, `src/routes/owner.*`    | Tenant and owner workflow routes, routed through shared components.                                         |
+| `src/routes/auth.tsx`                          | Mock sign-in that stores session and honors safe redirects.                                                 |
+| `src/routes/property.$propertyId.tsx`          | Replace direct chat/visit with the single dominant interest action.                                         |
+| `src/routes/__root.tsx`                        | Choose public or compact authenticated app navigation without changing public navigation markup.            |
+| `src/components/layout/WorkflowNavbar.tsx`     | Tenant and owner compact app navigation.                                                                    |
+| `src/**/*.test.ts`                             | Focused domain tests, especially the interest state machine and duplicate/match behavior.                   |
 
 ### Task 1: Establish the test runner and workflow domain contract
 
 **Files:**
+
 - Modify: `package.json`
 - Modify: `package-lock.json`
 - Create: `vitest.config.ts`
@@ -56,6 +57,7 @@
 - Create: `src/lib/workflow/types.test.ts`
 
 **Interfaces:**
+
 - Produces `InterestStatus`, `VisitStatus`, `Interest`, `Conversation`, `Visit`, `WorkflowActor`, `WorkflowRepository`, `InterestInput`, and `WorkflowError` for all later tasks.
 
 - [ ] **Step 1: Add Vitest and the `test` script without changing application code.**
@@ -64,9 +66,7 @@
 
   ```ts
   import { defineConfig } from "vitest/config";
-  import tsconfigPaths from "vite-tsconfig-paths";
-
-  export default defineConfig({ plugins: [tsconfigPaths()], test: { environment: "node" } });
+  export default defineConfig({ resolve: { tsconfigPaths: true }, test: { environment: "node" } });
   ```
 
 - [ ] **Step 2: Write the failing status-contract test.**
@@ -101,11 +101,13 @@
 ### Task 2: Implement and test the replaceable workflow service
 
 **Files:**
+
 - Create: `src/lib/workflow/mock-repository.ts`
 - Create: `src/lib/workflow/service.ts`
 - Create: `src/lib/workflow/service.test.ts`
 
 **Interfaces:**
+
 - Consumes: all Task 1 domain types and `getProperty()` from `src/data/properties.ts`.
 - Produces: `WorkflowService` methods `createInterest`, `getInterest`, `listTenantInterests`, `listOwnerInterests`, `acceptInterest`, `declineInterest`, `withdrawInterest`, `getConversation`, `listConversations`, `sendMessage`, `shareContact`, `listVisits`, `createVisit`, and `confirmVisit`.
 
@@ -116,8 +118,12 @@
   ```ts
   test("creates one submitted interest for an available property", async () => {
     const result = await service.createInterest(tenant, {
-      propertyId: "br-001", moveInDate: "2026-10-01", occupants: 2,
-      occupationType: "Working Professional", leasePreference: "11 months", message: "Quiet household",
+      propertyId: "br-001",
+      moveInDate: "2026-10-01",
+      occupants: 2,
+      occupationType: "Working Professional",
+      leasePreference: "11 months",
+      message: "Quiet household",
     });
     expect(result.status).toBe("SUBMITTED");
     expect(result.listerId).toBe("u-anita");
@@ -125,7 +131,9 @@
 
   test("rejects a second active interest for the same tenant and property", async () => {
     await service.createInterest(tenant, input);
-    await expect(service.createInterest(tenant, input)).rejects.toMatchObject({ code: "DUPLICATE_INTEREST" });
+    await expect(service.createInterest(tenant, input)).rejects.toMatchObject({
+      code: "DUPLICATE_INTEREST",
+    });
   });
 
   test("accepting a submitted interest creates exactly one matched conversation", async () => {
@@ -167,6 +175,7 @@
 ### Task 3: Add typed query, analytics, and mock session boundaries
 
 **Files:**
+
 - Create: `src/lib/workflow/query.ts`
 - Create: `src/lib/analytics.ts`
 - Create: `src/lib/auth/session.tsx`
@@ -174,6 +183,7 @@
 - Modify: `src/routes/auth.tsx`
 
 **Interfaces:**
+
 - Consumes: Task 2 `WorkflowService` and Task 1 domain types.
 - Produces: `workflowKeys`, query hooks, mutation hooks, `trackWorkflowEvent`, `SessionProvider`, `useSession`, and `requireRole`.
 
@@ -206,6 +216,7 @@
 ### Task 4: Replace direct property contact with the protected interest workflow
 
 **Files:**
+
 - Create: `src/components/workflow/PropertySummaryCard.tsx`
 - Create: `src/components/workflow/InterestWizard.tsx`
 - Create: `src/routes/property.$propertyId.interest.tsx`
@@ -213,6 +224,7 @@
 - Modify: `src/components/property/PropertyCard.tsx`
 
 **Interfaces:**
+
 - Consumes: property data, `useSession`, and `useCreateInterestMutation`.
 - Produces: a protected route at `/property/$propertyId/interest` and the submitted-interest redirect to `/tenant/interests/$interestId`.
 
@@ -245,6 +257,7 @@
 ### Task 5: Add tenant workflow navigation and interest pages
 
 **Files:**
+
 - Create: `src/components/layout/WorkflowNavbar.tsx`
 - Create: `src/components/workflow/InterestCard.tsx`
 - Create: `src/routes/tenant.interests.tsx`
@@ -253,6 +266,7 @@
 - Modify: `src/routes/__root.tsx`
 
 **Interfaces:**
+
 - Consumes: session, query hooks, `interestStatusGroups`, property data, and shared `InterestCard`.
 - Produces: compact tenant app navigation and routes `/tenant/interests`, `/tenant/interests/$interestId`, `/tenant/visits`.
 
@@ -284,12 +298,14 @@
 ### Task 6: Integrate owner interest review and mutual match actions
 
 **Files:**
+
 - Create: `src/routes/owner.interests.tsx`
 - Create: `src/routes/owner.interests.$interestId.tsx`
 - Create: `src/routes/owner.visits.tsx`
 - Modify: `src/routes/dashboard.owner.tsx`
 
 **Interfaces:**
+
 - Consumes: owner session, owner interest query/mutations, and `InterestCard` action slot.
 - Produces: `/owner/interests`, `/owner/interests/$interestId`, `/owner/visits` and deep links from the existing owner dashboard.
 
@@ -317,6 +333,7 @@
 ### Task 7: Add shared matched chat, contact consent, and in-chat visit scheduling
 
 **Files:**
+
 - Create: `src/components/workflow/ConversationView.tsx`
 - Create: `src/components/workflow/VisitDialog.tsx`
 - Create: `src/routes/tenant.messages.tsx`
@@ -325,6 +342,7 @@
 - Create: `src/routes/owner.messages.$conversationId.tsx`
 
 **Interfaces:**
+
 - Consumes: conversation and visit query/mutation hooks, active session, and existing Dialog/Sheet/Button/Input/Textarea primitives.
 - Produces: a single `ConversationView` implementation shared by tenant and owner routes.
 
@@ -352,11 +370,13 @@
 ### Task 8: Complete route robustness, performance checks, and focused verification
 
 **Files:**
+
 - Modify: all new workflow routes as necessary
 - Modify: `src/router.tsx` only if a targeted preload configuration is required
 - Modify: `README.md` only to add workflow development/test commands if absent
 
 **Interfaces:**
+
 - Consumes: all preceding workflow routes and services.
 - Produces: route-level loading/error/not-found/unauthorized states and final verification evidence.
 

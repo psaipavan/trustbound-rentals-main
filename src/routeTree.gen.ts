@@ -25,11 +25,17 @@ import { Route as DashboardTenantRouteImport } from './routes/dashboard.tenant'
 import { Route as LegalCommunityGuidelinesRouteImport } from './routes/legal.community-guidelines'
 import { Route as LegalPrivacyRouteImport } from './routes/legal.privacy'
 import { Route as LegalTermsRouteImport } from './routes/legal.terms'
+import { Route as OwnerInterestsRouteImport } from './routes/owner.interests'
+import { Route as OwnerMessagesRouteImport } from './routes/owner.messages'
+import { Route as OwnerVisitsRouteImport } from './routes/owner.visits'
 import { Route as PropertyPropertyIdRouteImport } from './routes/property.$propertyId'
 import { Route as TenantInterestsRouteImport } from './routes/tenant.interests'
+import { Route as TenantMessagesRouteImport } from './routes/tenant.messages'
 import { Route as TenantVisitsRouteImport } from './routes/tenant.visits'
+import { Route as OwnerMessagesConversationIdRouteImport } from './routes/owner.messages.$conversationId'
 import { Route as PropertyPropertyIdInterestRouteImport } from './routes/property.$propertyId.interest'
 import { Route as TenantInterestsInterestIdRouteImport } from './routes/tenant.interests.$interestId'
+import { Route as TenantMessagesConversationIdRouteImport } from './routes/tenant.messages.$conversationId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -112,6 +118,21 @@ const LegalTermsRoute = LegalTermsRouteImport.update({
   path: '/legal/terms',
   getParentRoute: () => rootRouteImport,
 } as any)
+const OwnerInterestsRoute = OwnerInterestsRouteImport.update({
+  id: '/owner/interests',
+  path: '/owner/interests',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OwnerMessagesRoute = OwnerMessagesRouteImport.update({
+  id: '/owner/messages',
+  path: '/owner/messages',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OwnerVisitsRoute = OwnerVisitsRouteImport.update({
+  id: '/owner/visits',
+  path: '/owner/visits',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PropertyPropertyIdRoute = PropertyPropertyIdRouteImport.update({
   id: '/property/$propertyId',
   path: '/property/$propertyId',
@@ -122,11 +143,22 @@ const TenantInterestsRoute = TenantInterestsRouteImport.update({
   path: '/tenant/interests',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TenantMessagesRoute = TenantMessagesRouteImport.update({
+  id: '/tenant/messages',
+  path: '/tenant/messages',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TenantVisitsRoute = TenantVisitsRouteImport.update({
   id: '/tenant/visits',
   path: '/tenant/visits',
   getParentRoute: () => rootRouteImport,
 } as any)
+const OwnerMessagesConversationIdRoute =
+  OwnerMessagesConversationIdRouteImport.update({
+    id: '/$conversationId',
+    path: '/$conversationId',
+    getParentRoute: () => OwnerMessagesRoute,
+  } as any)
 const PropertyPropertyIdInterestRoute =
   PropertyPropertyIdInterestRouteImport.update({
     id: '/interest',
@@ -138,6 +170,12 @@ const TenantInterestsInterestIdRoute =
     id: '/$interestId',
     path: '/$interestId',
     getParentRoute: () => TenantInterestsRoute,
+  } as any)
+const TenantMessagesConversationIdRoute =
+  TenantMessagesConversationIdRouteImport.update({
+    id: '/$conversationId',
+    path: '/$conversationId',
+    getParentRoute: () => TenantMessagesRoute,
   } as any)
 
 export interface FileRoutesByFullPath {
@@ -157,11 +195,17 @@ export interface FileRoutesByFullPath {
   '/legal/community-guidelines': typeof LegalCommunityGuidelinesRoute
   '/legal/privacy': typeof LegalPrivacyRoute
   '/legal/terms': typeof LegalTermsRoute
+  '/owner/interests': typeof OwnerInterestsRoute
+  '/owner/messages': typeof OwnerMessagesRouteWithChildren
+  '/owner/visits': typeof OwnerVisitsRoute
   '/property/$propertyId': typeof PropertyPropertyIdRouteWithChildren
   '/tenant/interests': typeof TenantInterestsRouteWithChildren
+  '/tenant/messages': typeof TenantMessagesRouteWithChildren
   '/tenant/visits': typeof TenantVisitsRoute
+  '/owner/messages/$conversationId': typeof OwnerMessagesConversationIdRoute
   '/property/$propertyId/interest': typeof PropertyPropertyIdInterestRoute
   '/tenant/interests/$interestId': typeof TenantInterestsInterestIdRoute
+  '/tenant/messages/$conversationId': typeof TenantMessagesConversationIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -180,11 +224,17 @@ export interface FileRoutesByTo {
   '/legal/community-guidelines': typeof LegalCommunityGuidelinesRoute
   '/legal/privacy': typeof LegalPrivacyRoute
   '/legal/terms': typeof LegalTermsRoute
+  '/owner/interests': typeof OwnerInterestsRoute
+  '/owner/messages': typeof OwnerMessagesRouteWithChildren
+  '/owner/visits': typeof OwnerVisitsRoute
   '/property/$propertyId': typeof PropertyPropertyIdRouteWithChildren
   '/tenant/interests': typeof TenantInterestsRouteWithChildren
+  '/tenant/messages': typeof TenantMessagesRouteWithChildren
   '/tenant/visits': typeof TenantVisitsRoute
+  '/owner/messages/$conversationId': typeof OwnerMessagesConversationIdRoute
   '/property/$propertyId/interest': typeof PropertyPropertyIdInterestRoute
   '/tenant/interests/$interestId': typeof TenantInterestsInterestIdRoute
+  '/tenant/messages/$conversationId': typeof TenantMessagesConversationIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -204,11 +254,17 @@ export interface FileRoutesById {
   '/legal/community-guidelines': typeof LegalCommunityGuidelinesRoute
   '/legal/privacy': typeof LegalPrivacyRoute
   '/legal/terms': typeof LegalTermsRoute
+  '/owner/interests': typeof OwnerInterestsRoute
+  '/owner/messages': typeof OwnerMessagesRouteWithChildren
+  '/owner/visits': typeof OwnerVisitsRoute
   '/property/$propertyId': typeof PropertyPropertyIdRouteWithChildren
   '/tenant/interests': typeof TenantInterestsRouteWithChildren
+  '/tenant/messages': typeof TenantMessagesRouteWithChildren
   '/tenant/visits': typeof TenantVisitsRoute
+  '/owner/messages/$conversationId': typeof OwnerMessagesConversationIdRoute
   '/property/$propertyId/interest': typeof PropertyPropertyIdInterestRoute
   '/tenant/interests/$interestId': typeof TenantInterestsInterestIdRoute
+  '/tenant/messages/$conversationId': typeof TenantMessagesConversationIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -229,11 +285,17 @@ export interface FileRouteTypes {
     | '/legal/community-guidelines'
     | '/legal/privacy'
     | '/legal/terms'
+    | '/owner/interests'
+    | '/owner/messages'
+    | '/owner/visits'
     | '/property/$propertyId'
     | '/tenant/interests'
+    | '/tenant/messages'
     | '/tenant/visits'
+    | '/owner/messages/$conversationId'
     | '/property/$propertyId/interest'
     | '/tenant/interests/$interestId'
+    | '/tenant/messages/$conversationId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -252,11 +314,17 @@ export interface FileRouteTypes {
     | '/legal/community-guidelines'
     | '/legal/privacy'
     | '/legal/terms'
+    | '/owner/interests'
+    | '/owner/messages'
+    | '/owner/visits'
     | '/property/$propertyId'
     | '/tenant/interests'
+    | '/tenant/messages'
     | '/tenant/visits'
+    | '/owner/messages/$conversationId'
     | '/property/$propertyId/interest'
     | '/tenant/interests/$interestId'
+    | '/tenant/messages/$conversationId'
   id:
     | '__root__'
     | '/'
@@ -275,11 +343,17 @@ export interface FileRouteTypes {
     | '/legal/community-guidelines'
     | '/legal/privacy'
     | '/legal/terms'
+    | '/owner/interests'
+    | '/owner/messages'
+    | '/owner/visits'
     | '/property/$propertyId'
     | '/tenant/interests'
+    | '/tenant/messages'
     | '/tenant/visits'
+    | '/owner/messages/$conversationId'
     | '/property/$propertyId/interest'
     | '/tenant/interests/$interestId'
+    | '/tenant/messages/$conversationId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -299,8 +373,12 @@ export interface RootRouteChildren {
   LegalCommunityGuidelinesRoute: typeof LegalCommunityGuidelinesRoute
   LegalPrivacyRoute: typeof LegalPrivacyRoute
   LegalTermsRoute: typeof LegalTermsRoute
+  OwnerInterestsRoute: typeof OwnerInterestsRoute
+  OwnerMessagesRoute: typeof OwnerMessagesRouteWithChildren
+  OwnerVisitsRoute: typeof OwnerVisitsRoute
   PropertyPropertyIdRoute: typeof PropertyPropertyIdRouteWithChildren
   TenantInterestsRoute: typeof TenantInterestsRouteWithChildren
+  TenantMessagesRoute: typeof TenantMessagesRouteWithChildren
   TenantVisitsRoute: typeof TenantVisitsRoute
 }
 
@@ -418,6 +496,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LegalTermsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/owner/interests': {
+      id: '/owner/interests'
+      path: '/owner/interests'
+      fullPath: '/owner/interests'
+      preLoaderRoute: typeof OwnerInterestsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/owner/messages': {
+      id: '/owner/messages'
+      path: '/owner/messages'
+      fullPath: '/owner/messages'
+      preLoaderRoute: typeof OwnerMessagesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/owner/visits': {
+      id: '/owner/visits'
+      path: '/owner/visits'
+      fullPath: '/owner/visits'
+      preLoaderRoute: typeof OwnerVisitsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/property/$propertyId': {
       id: '/property/$propertyId'
       path: '/property/$propertyId'
@@ -432,12 +531,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TenantInterestsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/tenant/messages': {
+      id: '/tenant/messages'
+      path: '/tenant/messages'
+      fullPath: '/tenant/messages'
+      preLoaderRoute: typeof TenantMessagesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/tenant/visits': {
       id: '/tenant/visits'
       path: '/tenant/visits'
       fullPath: '/tenant/visits'
       preLoaderRoute: typeof TenantVisitsRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/owner/messages/$conversationId': {
+      id: '/owner/messages/$conversationId'
+      path: '/$conversationId'
+      fullPath: '/owner/messages/$conversationId'
+      preLoaderRoute: typeof OwnerMessagesConversationIdRouteImport
+      parentRoute: typeof OwnerMessagesRoute
     }
     '/property/$propertyId/interest': {
       id: '/property/$propertyId/interest'
@@ -453,8 +566,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TenantInterestsInterestIdRouteImport
       parentRoute: typeof TenantInterestsRoute
     }
+    '/tenant/messages/$conversationId': {
+      id: '/tenant/messages/$conversationId'
+      path: '/$conversationId'
+      fullPath: '/tenant/messages/$conversationId'
+      preLoaderRoute: typeof TenantMessagesConversationIdRouteImport
+      parentRoute: typeof TenantMessagesRoute
+    }
   }
 }
+
+interface OwnerMessagesRouteChildren {
+  OwnerMessagesConversationIdRoute: typeof OwnerMessagesConversationIdRoute
+}
+
+const OwnerMessagesRouteChildren: OwnerMessagesRouteChildren = {
+  OwnerMessagesConversationIdRoute: OwnerMessagesConversationIdRoute,
+}
+
+const OwnerMessagesRouteWithChildren = OwnerMessagesRoute._addFileChildren(
+  OwnerMessagesRouteChildren,
+)
 
 interface PropertyPropertyIdRouteChildren {
   PropertyPropertyIdInterestRoute: typeof PropertyPropertyIdInterestRoute
@@ -479,6 +611,18 @@ const TenantInterestsRouteWithChildren = TenantInterestsRoute._addFileChildren(
   TenantInterestsRouteChildren,
 )
 
+interface TenantMessagesRouteChildren {
+  TenantMessagesConversationIdRoute: typeof TenantMessagesConversationIdRoute
+}
+
+const TenantMessagesRouteChildren: TenantMessagesRouteChildren = {
+  TenantMessagesConversationIdRoute: TenantMessagesConversationIdRoute,
+}
+
+const TenantMessagesRouteWithChildren = TenantMessagesRoute._addFileChildren(
+  TenantMessagesRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
@@ -496,8 +640,12 @@ const rootRouteChildren: RootRouteChildren = {
   LegalCommunityGuidelinesRoute: LegalCommunityGuidelinesRoute,
   LegalPrivacyRoute: LegalPrivacyRoute,
   LegalTermsRoute: LegalTermsRoute,
+  OwnerInterestsRoute: OwnerInterestsRoute,
+  OwnerMessagesRoute: OwnerMessagesRouteWithChildren,
+  OwnerVisitsRoute: OwnerVisitsRoute,
   PropertyPropertyIdRoute: PropertyPropertyIdRouteWithChildren,
   TenantInterestsRoute: TenantInterestsRouteWithChildren,
+  TenantMessagesRoute: TenantMessagesRouteWithChildren,
   TenantVisitsRoute: TenantVisitsRoute,
 }
 export const routeTree = rootRouteImport

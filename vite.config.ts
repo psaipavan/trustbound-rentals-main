@@ -9,16 +9,13 @@ import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 export default defineConfig({
   tanstackStart: {
     // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
-    // nitro/vite builds from this
+    // Nitro/Vite builds from this entry.
     server: { entry: "server" },
   },
   vite: {
-    // maplibre-gl ships its own web worker; pre-bundling it breaks the worker URL in dev.
+    // MapLibre ships its own web worker; pre-bundling it breaks the worker URL in development.
     optimizeDeps: { exclude: ["maplibre-gl"] },
   },
-  // Outside the Lovable sandbox, zero-config nitro defaults to the cloudflare-module
-  // preset, which outputs a Cloudflare Worker bundle Netlify can't run. This site is
-  // deployed on Netlify, so pin the nitro preset that targets Netlify Functions instead.
+  // The site deploys to Netlify, so generate Netlify Functions rather than a Cloudflare Worker.
   nitro: { preset: "netlify" },
 });
-

@@ -33,12 +33,7 @@ export type WorkflowActor = {
   displayName: string;
 };
 
-export type OccupationType =
-  | "Working Professional"
-  | "Student"
-  | "Business"
-  | "Family"
-  | "Other";
+export type OccupationType = "Working Professional" | "Student" | "Business" | "Family" | "Other";
 
 export type InterestInput = {
   propertyId: string;

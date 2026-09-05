@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Menu, UserRound } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BricxleyLogo } from "@/components/brand/Logo";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -47,13 +47,25 @@ function NavLink({ to, label, onClick }: { to: string; label: string; onClick?: 
 
 export function WorkflowNavbar({ role }: { role: WorkflowNavRole }) {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const { actor } = useSession();
   const desktopLinks = role === "tenant" ? tenantDesktopLinks : ownerDesktopLinks;
   const mobileLinks = role === "tenant" ? tenantMobileLinks : ownerDesktopLinks;
   const initial = actor?.displayName.slice(0, 1).toUpperCase() ?? "U";
 
+  useEffect(() => {
+    const updateScrolledState = () => setScrolled(window.scrollY > 8);
+    updateScrolledState();
+    window.addEventListener("scroll", updateScrolledState, { passive: true });
+    return () => window.removeEventListener("scroll", updateScrolledState);
+  }, []);
+
   return (
-    <header className="sticky top-0 z-50 border-b border-border/70 bg-background/85 backdrop-blur-md">
+    <header
+      className={`sticky top-0 z-50 border-b border-border/70 bg-background/85 backdrop-blur-md transition-shadow duration-200 motion-reduce:transition-none ${
+        scrolled ? "shadow-[var(--shadow-soft)]" : "shadow-none"
+      }`}
+    >
       <nav className="container-page flex h-16 items-center justify-between gap-4">
         <Link to="/" className="shrink-0" aria-label="Bricxley home">
           <BricxleyLogo />

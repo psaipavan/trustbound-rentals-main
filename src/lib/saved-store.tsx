@@ -40,8 +40,7 @@ export function SavedProvider({ children }: { children: ReactNode }) {
     () => ({
       saved,
       isSaved: (id) => saved.includes(id),
-      toggle: (id) =>
-        persist(saved.includes(id) ? saved.filter((s) => s !== id) : [...saved, id]),
+      toggle: (id) => persist(saved.includes(id) ? saved.filter((s) => s !== id) : [...saved, id]),
       clear: () => persist([]),
       compareOpen,
       setCompareOpen,

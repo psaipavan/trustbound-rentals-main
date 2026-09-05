@@ -168,7 +168,6 @@ function RentPage() {
           </p>
         </div>
         <div className="flex items-center gap-2">
-
           <Select
             value={sort}
             onValueChange={(v) => navigate({ search: (prev) => ({ ...prev, sort: v }) })}
@@ -212,9 +211,7 @@ function RentPage() {
               >
                 Reset filters
               </Button>
-              <Button onClick={() => navigate({ search: () => ({ view }) })}>
-                Clear search
-              </Button>
+              <Button onClick={() => navigate({ search: () => ({ view }) })}>Clear search</Button>
             </>
           }
         />
@@ -313,7 +310,6 @@ function RentPage() {
           ) : null}
         </div>
 
-
         {view !== "list" ? (
           <div className="mt-4 flex flex-wrap gap-2">
             {mapLocalities.map((name) => {
@@ -389,7 +385,11 @@ function RentPage() {
               <Button onClick={() => setView("map")}>
                 <MapIcon className="h-4 w-4" aria-hidden /> Open Map View
               </Button>
-              <Button variant="outline" className="hidden lg:inline-flex" onClick={() => setView("split")}>
+              <Button
+                variant="outline"
+                className="hidden lg:inline-flex"
+                onClick={() => setView("split")}
+              >
                 Open Split View
               </Button>
             </div>

@@ -30,7 +30,9 @@ function TenantInterestSuccess() {
   }, [actor, interestId, isReady, navigate]);
 
   if (!isReady || !actor || actor.role !== "tenant") {
-    return <div className="container-page py-12 text-sm text-muted-foreground">Loading interest…</div>;
+    return (
+      <div className="container-page py-12 text-sm text-muted-foreground">Loading interest…</div>
+    );
   }
   if (interest.isPending)
     return (
@@ -52,7 +54,8 @@ function TenantInterestSuccess() {
   const content = {
     SUBMITTED: {
       title: "Interest Sent",
-      message: "The property owner has received your request. We will notify you when they respond.",
+      message:
+        "The property owner has received your request. We will notify you when they respond.",
     },
     ACCEPTED: {
       title: "You’re Matched",

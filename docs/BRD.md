@@ -5,7 +5,7 @@
 **Document status:** Current prototype baseline  
 **Product:** Bricxley  
 **Primary market:** Hyderabad, India  
-**Tagline:** *Rent with clarity.*
+**Tagline:** _Rent with clarity._
 
 ## 1. Purpose
 
@@ -29,25 +29,25 @@ The platform is not intended to be a generic listing directory. Its differentiat
 
 ## 4. Objectives and Success Measures
 
-| Objective | Example measure for production |
-| --- | --- |
-| Increase confidence in listing quality | Percentage of active listings verified; rate of reports upheld |
-| Make costs transparent | Percentage of listings with complete rent, deposit, maintenance, and brokerage details |
+| Objective                                                 | Example measure for production                                                            |
+| --------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| Increase confidence in listing quality                    | Percentage of active listings verified; rate of reports upheld                            |
+| Make costs transparent                                    | Percentage of listings with complete rent, deposit, maintenance, and brokerage details    |
 | Protect users before they choose to share contact details | Percentage of first conversations conducted in platform chat; spam complaints per contact |
-| Help tenants find appropriate homes efficiently | Search-to-detail, save, visit-request, and move-in conversion rates |
-| Give owners and agents a clear operating experience | Listing completion rate; inquiry and visit response time |
+| Help tenants find appropriate homes efficiently           | Search-to-detail, save, visit-request, and move-in conversion rates                       |
+| Give owners and agents a clear operating experience       | Listing completion rate; inquiry and visit response time                                  |
 
 Target values are intentionally not set in this prototype and should be agreed before launch.
 
 ## 5. Users and Stakeholders
 
-| User / stakeholder | Primary need |
-| --- | --- |
-| Tenant | Find a suitable, trustworthy rental with clear costs and a safe path to contact the lister. |
-| Property owner | Publish and manage a rental listing, prove legitimacy, and respond to tenants. |
-| Verified agent | List properties under an explicit agent identity and disclose brokerage upfront. |
-| Operations / moderation team | Review verification evidence, reports, availability, and potentially fraudulent content. |
-| Product / business team | Improve trust, marketplace liquidity, and conversion while protecting users. |
+| User / stakeholder           | Primary need                                                                                |
+| ---------------------------- | ------------------------------------------------------------------------------------------- |
+| Tenant                       | Find a suitable, trustworthy rental with clear costs and a safe path to contact the lister. |
+| Property owner               | Publish and manage a rental listing, prove legitimacy, and respond to tenants.              |
+| Verified agent               | List properties under an explicit agent identity and disclose brokerage upfront.            |
+| Operations / moderation team | Review verification evidence, reports, availability, and potentially fraudulent content.    |
+| Product / business team      | Improve trust, marketplace liquidity, and conversion while protecting users.                |
 
 ## 6. Scope
 
@@ -151,12 +151,12 @@ The repository is a TypeScript, React 19 application built with Vite, TanStack S
 
 ## 12. Risks and Mitigations
 
-| Risk | Mitigation |
-| --- | --- |
-| Trust labels overstate actual verification | Do not publish badges or scores until checks, evidence, and audit history are implemented. |
-| Stale or fraudulent listings | Use availability confirmations, reporting, human review, and lifecycle expiry rules. |
-| Hidden brokerage or role misrepresentation | Enforce account roles and mandatory brokerage fields; label agents consistently. |
-| Spam or privacy harm | Keep early conversation in-app and require mutual, recorded consent for contact sharing. |
+| Risk                                         | Mitigation                                                                                           |
+| -------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| Trust labels overstate actual verification   | Do not publish badges or scores until checks, evidence, and audit history are implemented.           |
+| Stale or fraudulent listings                 | Use availability confirmations, reporting, human review, and lifecycle expiry rules.                 |
+| Hidden brokerage or role misrepresentation   | Enforce account roles and mandatory brokerage fields; label agents consistently.                     |
+| Spam or privacy harm                         | Keep early conversation in-app and require mutual, recorded consent for contact sharing.             |
 | Prototype behavior mistaken for live service | Keep illustrative data and unconnected actions visibly labelled until production services are ready. |
 
 ## 13. Release Readiness Criteria
@@ -179,4 +179,3 @@ Before a public production launch, the platform should have:
 - How and when may users exchange contact details?
 - Will launch inventory come from direct owner onboarding, agencies, partners, or data feeds?
 - What is the policy for listing expiry, re-verification, duplicate detection, and removal?
-

@@ -10,7 +10,10 @@ export const Route = createFileRoute("/legal/terms")({
         content: "The terms that govern use of the Bricxley rental marketplace.",
       },
       { property: "og:title", content: "Terms of Use — Bricxley" },
-      { property: "og:description", content: "How Bricxley may be used by renters, owners and agents." },
+      {
+        property: "og:description",
+        content: "How Bricxley may be used by renters, owners and agents.",
+      },
     ],
   }),
   component: () => (

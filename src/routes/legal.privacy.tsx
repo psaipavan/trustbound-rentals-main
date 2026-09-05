@@ -11,7 +11,10 @@ export const Route = createFileRoute("/legal/privacy")({
           "How Bricxley handles your personal data, phone number privacy and controlled contact sharing.",
       },
       { property: "og:title", content: "Privacy Policy — Bricxley" },
-      { property: "og:description", content: "Your number stays private until you choose to share it." },
+      {
+        property: "og:description",
+        content: "Your number stays private until you choose to share it.",
+      },
     ],
   }),
   component: () => (

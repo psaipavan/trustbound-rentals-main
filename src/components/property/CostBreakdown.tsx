@@ -21,11 +21,7 @@ export function CostBreakdown({ property }: { property: Property }) {
         <dl className="mt-2 space-y-2 text-sm">
           <Line label="Monthly Rent" value={inr(property.rent)} />
           <Line label="Maintenance" value={inr(property.maintenance)} />
-          <Line
-            label="Total monthly"
-            value={inr(property.rent + property.maintenance)}
-            emphasis
-          />
+          <Line label="Total monthly" value={inr(property.rent + property.maintenance)} emphasis />
         </dl>
 
         <p className="mt-6 text-xs font-semibold uppercase tracking-wider text-muted-foreground">

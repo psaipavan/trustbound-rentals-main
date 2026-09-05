@@ -81,6 +81,10 @@ export function getInitialInterestDraft(
   };
 }
 
+export function getInterestSubmitLabel(isSubmitting: boolean) {
+  return isSubmitting ? "Sending…" : "Send Interest";
+}
+
 export function InterestWizard({
   propertyId,
   propertyTitle,
@@ -161,9 +165,16 @@ export function InterestWizard({
           );
         })}
       </ol>
+      <p id="interest-submit-status" className="sr-only" role="status" aria-live="polite">
+        {isSubmitting ? "Sending your interest" : ""}
+      </p>
 
       {step === 1 ? (
-        <section aria-labelledby="interest-details-title" className="space-y-5">
+        <section
+          key="details"
+          aria-labelledby="interest-details-title"
+          className="space-y-5 motion-safe:animate-step-in"
+        >
           <div>
             <h2 id="interest-details-title" className="text-lg font-bold">
               Your details
@@ -221,7 +232,11 @@ export function InterestWizard({
       ) : null}
 
       {step === 2 ? (
-        <section aria-labelledby="interest-preferences-title" className="space-y-5">
+        <section
+          key="preferences"
+          aria-labelledby="interest-preferences-title"
+          className="space-y-5 motion-safe:animate-step-in"
+        >
           <div>
             <h2 id="interest-preferences-title" className="text-lg font-bold">
               Preferences
@@ -269,7 +284,11 @@ export function InterestWizard({
       ) : null}
 
       {step === 3 ? (
-        <section aria-labelledby="interest-review-title" className="space-y-5">
+        <section
+          key="review"
+          aria-labelledby="interest-review-title"
+          className="space-y-5 motion-safe:animate-step-in"
+        >
           <div>
             <h2 id="interest-review-title" className="text-lg font-bold">
               Review your interest
@@ -298,8 +317,8 @@ export function InterestWizard({
             >
               ← Back
             </Button>
-            <Button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? "Sending…" : "Send Interest"}
+            <Button type="submit" disabled={isSubmitting} aria-describedby="interest-submit-status">
+              {getInterestSubmitLabel(isSubmitting)}
             </Button>
           </div>
         </section>

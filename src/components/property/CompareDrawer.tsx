@@ -1,7 +1,13 @@
 import { Link } from "@tanstack/react-router";
 import { Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
 import { properties } from "@/data/properties";
 import { hoursAgo, inr } from "@/lib/format";
 import { useSaved } from "@/lib/saved-store";
@@ -89,7 +95,8 @@ export function CompareDrawer() {
                         {row.key === "availability" &&
                           `Confirmed ${hoursAgo(p.availabilityConfirmedHoursAgo)}`}
                         {row.key === "score" && `${p.boundScore.total} / 100`}
-                        {row.key === "total" && inr(p.rent + p.deposit + p.maintenance + p.brokerage)}
+                        {row.key === "total" &&
+                          inr(p.rent + p.deposit + p.maintenance + p.brokerage)}
                       </td>
                     ))}
                   </tr>

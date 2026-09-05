@@ -130,12 +130,7 @@ export function MapView({
             mapColors.markerActive,
             mapColors.marker,
           ],
-          "circle-radius": [
-            "case",
-            ["boolean", ["feature-state", "active"], false],
-            24,
-            20,
-          ],
+          "circle-radius": ["case", ["boolean", ["feature-state", "active"], false], 24, 20],
           "circle-stroke-width": 3,
           "circle-stroke-color": "#ffffff",
         },
@@ -160,7 +155,8 @@ export function MapView({
         const clusterId = feature.properties?.["cluster_id"] as number;
         const source = map.getSource("properties") as maplibregl.GeoJSONSource;
         void source.getClusterExpansionZoom(clusterId).then((zoom: number) => {
-          const [lng, lat] = (feature.geometry as { coordinates: [number, number] }).coordinates as [number, number];
+          const [lng, lat] = (feature.geometry as { coordinates: [number, number] })
+            .coordinates as [number, number];
           map.easeTo({ center: [lng, lat], zoom });
         });
       });
@@ -290,9 +286,7 @@ export function MapView({
       >
         <div>
           <p className="font-semibold text-foreground">Map couldn’t load</p>
-          <p className="mt-1">
-            The list view below still shows every matching home in Hyderabad.
-          </p>
+          <p className="mt-1">The list view below still shows every matching home in Hyderabad.</p>
         </div>
       </div>
     );
