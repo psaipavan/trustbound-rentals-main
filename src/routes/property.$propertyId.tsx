@@ -1,5 +1,12 @@
 import { useEffect } from "react";
-import { createFileRoute, Link, notFound, Outlet, useRouterState } from "@tanstack/react-router";
+import {
+  createFileRoute,
+  Link,
+  notFound,
+  Outlet,
+  useNavigate,
+  useRouterState,
+} from "@tanstack/react-router";
 import { Heart, MapPin, Share2 } from "lucide-react";
 import { toast } from "sonner";
 import { PropertyGallery } from "@/components/property/PropertyGallery";
@@ -68,6 +75,7 @@ function PropertyDetail() {
   const { property } = Route.useLoaderData();
   const { isSaved, toggle } = useSaved();
   const { actor } = useSession();
+  const navigate = useNavigate({ from: "/property/$propertyId" });
   const { data: interests = [] } = useTenantInterestsQuery(actor);
   const saved = isSaved(property.id);
   const isAgent = property.lister.type === "agent";
@@ -78,6 +86,19 @@ function PropertyDetail() {
         interest.status === "SUBMITTED" ||
         interest.status === "ACCEPTED"),
   );
+
+  const toggleSaved = async () => {
+    try {
+      const result = await toggle(property.id);
+      if (result === "auth-required") {
+        await navigate({ to: "/auth", search: { redirect: `/property/${property.id}` } });
+        return;
+      }
+      toast.success(result === "saved" ? "Saved to your homes" : "Removed from saved homes");
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "We couldn't update saved homes.");
+    }
+  };
 
   useEffect(() => {
     trackWorkflowEvent("property_viewed", { propertyId: property.id });
@@ -150,7 +171,7 @@ function PropertyDetail() {
                 <div className="flex flex-wrap gap-2">
                   <button
                     type="button"
-                    onClick={() => toggle(property.id)}
+                    onClick={() => void toggleSaved()}
                     aria-pressed={saved}
                     className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-sm font-medium transition hover:border-primary"
                   >

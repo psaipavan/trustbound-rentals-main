@@ -39,6 +39,18 @@ export function PropertyCard({
       params: { propertyId: property.id },
     });
   };
+  const toggleSaved = async () => {
+    try {
+      const result = await toggle(property.id);
+      if (result === "auth-required") {
+        void router.navigate({ to: "/auth", search: { redirect: router.state.location.pathname } });
+        return;
+      }
+      toast.success(result === "saved" ? "Saved to your homes" : "Removed from saved homes");
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "We couldn't update saved homes.");
+    }
+  };
 
   return (
     <article
@@ -78,8 +90,7 @@ export function PropertyCard({
           type="button"
           onClick={(e) => {
             e.stopPropagation();
-            toggle(property.id);
-            toast.success(saved ? "Removed from saved homes" : "Saved to your homes");
+            void toggleSaved();
           }}
           aria-pressed={saved}
           aria-label={saved ? "Remove from saved homes" : "Save this home"}

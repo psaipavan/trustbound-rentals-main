@@ -1,4 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useState } from "react";
 import { toast } from "sonner";
 import {
   BarChart3,
@@ -21,6 +22,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useSession } from "@/lib/auth/session";
+import { createProperty } from "@/lib/properties/service";
 
 const benefits = [
   { icon: Send, text: "Post your property in minutes" },
@@ -52,6 +55,46 @@ export const Route = createFileRoute("/list-property")({
 });
 
 function ListPropertyPage() {
+  const { actor } = useSession();
+  const navigate = useNavigate({ from: "/list-property" });
+  const [propertyType, setPropertyType] = useState("Apartment");
+  const [listedAs, setListedAs] = useState<"owner" | "agent">("owner");
+  const [isSaving, setIsSaving] = useState(false);
+
+  const submit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!actor) {
+      await navigate({ to: "/auth", search: { redirect: "/list-property", role: listedAs } });
+      return;
+    }
+    if (actor.role !== listedAs) {
+      await navigate({ to: "/auth", search: { redirect: "/list-property", role: listedAs } });
+      return;
+    }
+    const form = new FormData(event.currentTarget);
+    setIsSaving(true);
+    try {
+      await createProperty(actor, {
+        title: String(form.get("title") ?? ""),
+        locality: String(form.get("locality") ?? ""),
+        propertyType,
+        monthlyRent: Number(form.get("rent") ?? 0),
+        deposit: Number(form.get("deposit") ?? 0),
+        brokerage: Number(form.get("brokerage") ?? 0),
+        description: String(form.get("description") ?? ""),
+        listedAs,
+      });
+      toast.success("Listing draft saved", {
+        description: "It will be published after verification is complete.",
+      });
+      event.currentTarget.reset();
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "We couldn't save this listing draft.");
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
   return (
     <>
       <PageHero
@@ -75,15 +118,7 @@ function ListPropertyPage() {
           </ul>
         </div>
 
-        <form
-          className="surface-card space-y-5 p-6"
-          onSubmit={(e) => {
-            e.preventDefault();
-            toast.success("Listing draft saved", {
-              description: "Verification and publishing connect once your account is live.",
-            });
-          }}
-        >
+        <form className="surface-card space-y-5 p-6" onSubmit={(event) => void submit(event)}>
           <h2 className="text-xl font-bold">Start your listing</h2>
 
           <div className="grid gap-4 sm:grid-cols-2">
@@ -91,17 +126,18 @@ function ListPropertyPage() {
               <Label htmlFor="lp-title">Property title</Label>
               <Input
                 id="lp-title"
+                name="title"
                 placeholder="e.g. Bright 2BHK in a quiet gated community"
                 required
               />
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="lp-locality">Locality</Label>
-              <Input id="lp-locality" placeholder="Gachibowli" required />
+              <Input id="lp-locality" name="locality" placeholder="Gachibowli" required />
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="lp-type">Property type</Label>
-              <Select defaultValue="Apartment">
+              <Select value={propertyType} onValueChange={setPropertyType}>
                 <SelectTrigger id="lp-type">
                   <SelectValue />
                 </SelectTrigger>
@@ -118,15 +154,25 @@ function ListPropertyPage() {
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="lp-rent">Monthly rent (₹)</Label>
-              <Input id="lp-rent" type="number" min={0} placeholder="32000" required />
+              <Input id="lp-rent" name="rent" type="number" min={0} placeholder="32000" required />
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="lp-deposit">Deposit (₹)</Label>
-              <Input id="lp-deposit" type="number" min={0} placeholder="64000" required />
+              <Input
+                id="lp-deposit"
+                name="deposit"
+                type="number"
+                min={0}
+                placeholder="64000"
+                required
+              />
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="lp-role">I am the</Label>
-              <Select defaultValue="owner">
+              <Select
+                value={listedAs}
+                onValueChange={(value) => setListedAs(value as "owner" | "agent")}
+              >
                 <SelectTrigger id="lp-role">
                   <SelectValue />
                 </SelectTrigger>
@@ -138,12 +184,13 @@ function ListPropertyPage() {
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="lp-brokerage">Brokerage (₹)</Label>
-              <Input id="lp-brokerage" type="number" min={0} placeholder="0" />
+              <Input id="lp-brokerage" name="brokerage" type="number" min={0} placeholder="0" />
             </div>
             <div className="space-y-1.5 sm:col-span-2">
               <Label htmlFor="lp-desc">Description</Label>
               <Textarea
                 id="lp-desc"
+                name="description"
                 rows={4}
                 placeholder="Tell renters what makes this home good."
               />
@@ -155,8 +202,8 @@ function ListPropertyPage() {
             contact — brokerage is never hidden on Bricxley.
           </p>
 
-          <Button type="submit" size="lg" className="w-full">
-            Save listing draft
+          <Button type="submit" size="lg" className="w-full" disabled={isSaving}>
+            {isSaving ? "Saving listing…" : "Save listing draft"}
           </Button>
         </form>
       </section>

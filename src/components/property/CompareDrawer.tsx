@@ -68,7 +68,7 @@ export function CompareDrawer() {
                       </Link>
                       <button
                         type="button"
-                        onClick={() => toggle(p.id)}
+                        onClick={() => void toggle(p.id)}
                         className="mt-1 block text-xs font-medium text-muted-foreground hover:text-destructive"
                       >
                         Remove

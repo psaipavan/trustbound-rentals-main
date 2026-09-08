@@ -41,10 +41,17 @@ export function WorkflowConversation({
       void navigate({ to: "/auth", search: { redirect: `${inboxPath}/${conversationId}` } });
       return;
     }
-    if (actor.role !== role) void navigate({ to: dashboardForRole(actor.role) });
+    if (actor.role !== role && !(role === "owner" && actor.role === "agent")) {
+      void navigate({ to: dashboardForRole(actor.role) });
+    }
   }, [actor, conversationId, inboxPath, isReady, navigate, role]);
 
-  if (!isReady || !actor || actor.role !== role || conversation.isPending) {
+  if (
+    !isReady ||
+    !actor ||
+    (actor.role !== role && !(role === "owner" && actor.role === "agent")) ||
+    conversation.isPending
+  ) {
     return (
       <div className="container-page py-12 text-sm text-muted-foreground">
         Loading conversation…

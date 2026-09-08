@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { trackWorkflowEvent } from "@/lib/analytics";
-import { createMockWorkflowRepository } from "./mock-repository";
-import { WorkflowService } from "./service";
+import { dispatchTransactionalEmail } from "@/lib/notifications/functions";
+import { SupabaseWorkflowService } from "./supabase-service";
 import {
   WorkflowError,
   type CreateVisitInput,
@@ -9,7 +9,7 @@ import {
   type WorkflowActor,
 } from "./types";
 
-const workflowService = new WorkflowService(createMockWorkflowRepository());
+const workflowService = new SupabaseWorkflowService();
 
 export const workflowKeys = {
   tenantInterests: (tenantId: string) => ["tenant-interests", tenantId] as const,
@@ -90,6 +90,9 @@ export function useCreateInterestMutation(actor: WorkflowActor | null) {
       void queryClient.invalidateQueries({
         queryKey: workflowKeys.interest(interest.tenantId, interest.id),
       });
+      void dispatchTransactionalEmail({
+        data: { event: "INTEREST_RECEIVED", entityId: interest.id },
+      }).catch(() => undefined);
     },
   });
 }
@@ -113,6 +116,9 @@ export function useAcceptInterestMutation(actor: WorkflowActor | null) {
         interestId: interest.id,
         propertyId: interest.propertyId,
       });
+      void dispatchTransactionalEmail({
+        data: { event: "INTEREST_ACCEPTED", entityId: interest.id },
+      }).catch(() => undefined);
       await Promise.all([
         queryClient.invalidateQueries({ queryKey: workflowKeys.ownerInterests(interest.listerId) }),
         queryClient.invalidateQueries({
@@ -209,6 +215,9 @@ export function useSendMessageMutation(actor: WorkflowActor | null) {
           queryKey: workflowKeys.conversations(conversation.listerId),
         }),
       ]);
+      void dispatchTransactionalEmail({
+        data: { event: "NEW_MESSAGE", entityId: message.conversationId },
+      }).catch(() => undefined);
     },
   });
 }
@@ -257,6 +266,9 @@ export function useCreateVisitMutation(actor: WorkflowActor | null) {
           queryKey: workflowKeys.conversation(conversation.listerId, conversation.id),
         }),
       ]);
+      void dispatchTransactionalEmail({
+        data: { event: "VISIT_REQUESTED", entityId: visit.id },
+      }).catch(() => undefined);
     },
   });
 }
@@ -287,6 +299,9 @@ export function useConfirmVisitMutation(actor: WorkflowActor | null) {
           queryKey: workflowKeys.conversations(conversation.listerId),
         }),
       ]);
+      void dispatchTransactionalEmail({
+        data: { event: "VISIT_CONFIRMED", entityId: visit.id },
+      }).catch(() => undefined);
     },
   });
 }

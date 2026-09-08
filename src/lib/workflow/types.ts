@@ -25,11 +25,12 @@ export const visitStatuses = [
 
 export type VisitStatus = (typeof visitStatuses)[number];
 
-export type WorkflowRole = "tenant" | "owner" | "agent";
+export type WorkflowRole = "tenant" | "owner" | "agent" | "admin";
 
 export type WorkflowActor = {
   id: string;
   role: WorkflowRole;
+  roles?: WorkflowRole[];
   displayName: string;
 };
 

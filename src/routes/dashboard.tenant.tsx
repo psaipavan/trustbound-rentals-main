@@ -5,6 +5,12 @@ import { PropertyCard } from "@/components/property/PropertyCard";
 import { Button } from "@/components/ui/button";
 import { properties } from "@/data/properties";
 import { useSaved } from "@/lib/saved-store";
+import { useSession } from "@/lib/auth/session";
+import {
+  useConversationsQuery,
+  useTenantInterestsQuery,
+  useVisitsQuery,
+} from "@/lib/workflow/query";
 
 export const Route = createFileRoute("/dashboard/tenant")({
   head: () => ({
@@ -72,7 +78,17 @@ const sections = [
 
 function TenantDashboard() {
   const { saved, setCompareOpen } = useSaved();
+  const { actor } = useSession();
+  const interests = useTenantInterestsQuery(actor);
+  const visits = useVisitsQuery(actor);
+  const conversations = useConversationsQuery(actor);
   const savedItems = properties.filter((p) => saved.includes(p.id));
+  const activeInterests = (interests.data ?? []).filter(
+    (item) => item.status === "SUBMITTED",
+  ).length;
+  const upcomingVisits = (visits.data ?? []).filter(
+    (item) => item.status === "REQUESTED" || item.status === "CONFIRMED",
+  ).length;
 
   return (
     <DashboardShell
@@ -81,29 +97,43 @@ function TenantDashboard() {
       subtitle="Saved homes, inquiries, visits and secure messages in one place."
       sections={sections}
       aside={
-        <section className="surface-card p-6">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <h2 className="text-lg font-bold">Saved homes</h2>
-            {savedItems.length > 0 ? (
-              <Button variant="outline" size="sm" onClick={() => setCompareOpen(true)}>
-                Compare {savedItems.length}
-              </Button>
-            ) : null}
+        <section className="space-y-5">
+          <div className="grid gap-3 sm:grid-cols-3">
+            {[
+              ["Active interests", activeInterests],
+              ["Upcoming visits", upcomingVisits],
+              ["Secure chats", (conversations.data ?? []).length],
+            ].map(([label, value]) => (
+              <div key={String(label)} className="surface-card p-4">
+                <p className="text-2xl font-extrabold">{value}</p>
+                <p className="mt-1 text-xs text-muted-foreground">{label}</p>
+              </div>
+            ))}
           </div>
-          {savedItems.length === 0 ? (
-            <div className="mt-4 rounded-2xl border border-dashed border-border p-10 text-center">
-              <p className="text-sm text-muted-foreground">You haven’t saved any homes yet.</p>
-              <Button asChild className="mt-4">
-                <Link to="/rent">Browse verified rentals</Link>
-              </Button>
+          <section className="surface-card p-6">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <h2 className="text-lg font-bold">Saved homes</h2>
+              {savedItems.length > 0 ? (
+                <Button variant="outline" size="sm" onClick={() => setCompareOpen(true)}>
+                  Compare {savedItems.length}
+                </Button>
+              ) : null}
             </div>
-          ) : (
-            <div className="mt-5 grid gap-5 sm:grid-cols-2">
-              {savedItems.map((p) => (
-                <PropertyCard key={p.id} property={p} />
-              ))}
-            </div>
-          )}
+            {savedItems.length === 0 ? (
+              <div className="mt-4 rounded-2xl border border-dashed border-border p-10 text-center">
+                <p className="text-sm text-muted-foreground">You haven’t saved any homes yet.</p>
+                <Button asChild className="mt-4">
+                  <Link to="/rent">Browse verified rentals</Link>
+                </Button>
+              </div>
+            ) : (
+              <div className="mt-5 grid gap-5 sm:grid-cols-2">
+                {savedItems.map((p) => (
+                  <PropertyCard key={p.id} property={p} />
+                ))}
+              </div>
+            )}
+          </section>
         </section>
       }
     />

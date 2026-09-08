@@ -23,10 +23,17 @@ function OwnerVisits() {
       void navigate({ to: "/auth", search: { redirect: "/owner/visits" } });
       return;
     }
-    if (actor.role !== "owner") void navigate({ to: dashboardForRole(actor.role) });
+    if (actor.role !== "owner" && actor.role !== "agent") {
+      void navigate({ to: dashboardForRole(actor.role) });
+    }
   }, [actor, isReady, navigate]);
 
-  if (!isReady || !actor || actor.role !== "owner" || visits.isPending) {
+  if (
+    !isReady ||
+    !actor ||
+    (actor.role !== "owner" && actor.role !== "agent") ||
+    visits.isPending
+  ) {
     return (
       <div className="container-page py-12 text-sm text-muted-foreground">Loading visits…</div>
     );

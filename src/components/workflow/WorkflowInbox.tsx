@@ -22,12 +22,18 @@ export function WorkflowInbox({ role }: { role: InboxRole }) {
       void navigate({ to: "/auth", search: { redirect: inboxPath } });
       return;
     }
-    if (actor.role !== role) void navigate({ to: dashboardForRole(actor.role) });
+    if (actor.role !== role && !(role === "owner" && actor.role === "agent")) {
+      void navigate({ to: dashboardForRole(actor.role) });
+    }
   }, [actor, inboxPath, isReady, navigate, role]);
 
   if (pathname !== inboxPath) return <Outlet />;
 
-  if (!isReady || !actor || actor.role !== role) {
+  if (
+    !isReady ||
+    !actor ||
+    (actor.role !== role && !(role === "owner" && actor.role === "agent"))
+  ) {
     return (
       <div className="container-page py-12 text-sm text-muted-foreground">Loading messages…</div>
     );

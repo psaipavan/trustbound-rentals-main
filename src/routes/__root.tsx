@@ -163,9 +163,14 @@ function ApplicationNavigation() {
     actor?.role === "tenant" &&
     (pathname.startsWith("/tenant/") || /^\/property\/[^/]+\/interest\/?$/.test(pathname));
   const isOwnerWorkflow = actor?.role === "owner" && pathname.startsWith("/owner/");
+  const isAgentWorkflow = actor?.role === "agent" && pathname.startsWith("/owner/");
 
-  if (isReady && (isTenantWorkflow || isOwnerWorkflow) && actor) {
-    return <WorkflowNavbar role={actor.role === "owner" ? "owner" : "tenant"} />;
+  if (isReady && (isTenantWorkflow || isOwnerWorkflow || isAgentWorkflow) && actor) {
+    return (
+      <WorkflowNavbar
+        role={actor.role === "tenant" ? "tenant" : actor.role === "owner" ? "owner" : "agent"}
+      />
+    );
   }
 
   return <Navbar />;

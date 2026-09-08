@@ -8,7 +8,7 @@ import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/s
 import { useSession } from "@/lib/auth/session";
 import type { WorkflowRole } from "@/lib/workflow/types";
 
-type WorkflowNavRole = Extract<WorkflowRole, "tenant" | "owner">;
+type WorkflowNavRole = Extract<WorkflowRole, "tenant" | "owner" | "agent">;
 
 const tenantDesktopLinks = [
   { to: "/rent", label: "Find a Home" },
@@ -32,6 +32,14 @@ const ownerDesktopLinks = [
   { to: "/owner/visits", label: "Visits" },
 ] as const;
 
+const agentDesktopLinks = [
+  { to: "/dashboard/agent", label: "Overview" },
+  { to: "/list-property", label: "My Properties" },
+  { to: "/owner/interests", label: "Interests" },
+  { to: "/owner/messages", label: "Messages" },
+  { to: "/owner/visits", label: "Visits" },
+] as const;
+
 function NavLink({ to, label, onClick }: { to: string; label: string; onClick?: () => void }) {
   return (
     <Link
@@ -49,8 +57,13 @@ export function WorkflowNavbar({ role }: { role: WorkflowNavRole }) {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { actor } = useSession();
-  const desktopLinks = role === "tenant" ? tenantDesktopLinks : ownerDesktopLinks;
-  const mobileLinks = role === "tenant" ? tenantMobileLinks : ownerDesktopLinks;
+  const desktopLinks =
+    role === "tenant"
+      ? tenantDesktopLinks
+      : role === "agent"
+        ? agentDesktopLinks
+        : ownerDesktopLinks;
+  const mobileLinks = role === "tenant" ? tenantMobileLinks : desktopLinks;
   const initial = actor?.displayName.slice(0, 1).toUpperCase() ?? "U";
 
   useEffect(() => {
@@ -78,7 +91,13 @@ export function WorkflowNavbar({ role }: { role: WorkflowNavRole }) {
         </div>
 
         <Link
-          to={(role === "tenant" ? "/dashboard/tenant" : "/dashboard/owner") as never}
+          to={
+            (role === "tenant"
+              ? "/dashboard/tenant"
+              : role === "agent"
+                ? "/dashboard/agent"
+                : "/dashboard/owner") as never
+          }
           className="hidden items-center gap-2 rounded-full p-1 pr-3 text-sm font-medium hover:bg-muted lg:flex"
           aria-label="Open profile"
         >
@@ -104,7 +123,13 @@ export function WorkflowNavbar({ role }: { role: WorkflowNavRole }) {
                 <NavLink key={link.label} {...link} onClick={() => setOpen(false)} />
               ))}
               <NavLink
-                to={role === "tenant" ? "/dashboard/tenant" : "/dashboard/owner"}
+                to={
+                  role === "tenant"
+                    ? "/dashboard/tenant"
+                    : role === "agent"
+                      ? "/dashboard/agent"
+                      : "/dashboard/owner"
+                }
                 label="Profile"
                 onClick={() => setOpen(false)}
               />
