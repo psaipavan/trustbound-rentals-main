@@ -305,3 +305,36 @@ export function useConfirmVisitMutation(actor: WorkflowActor | null) {
     },
   });
 }
+
+export function useCancelVisitMutation(actor: WorkflowActor | null) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (visitId: string) => workflowService.cancelVisit(requireActor(actor), visitId),
+    onSuccess: async (visit) => {
+      trackWorkflowEvent("visit_cancelled", { interestId: visit.interestId, visitId: visit.id });
+      const conversation = await workflowService.getConversationForInterest(
+        requireActor(actor),
+        visit.interestId,
+      );
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: workflowKeys.visits(visit.tenantId) }),
+        queryClient.invalidateQueries({ queryKey: workflowKeys.visits(visit.listerId) }),
+        queryClient.invalidateQueries({
+          queryKey: workflowKeys.conversation(conversation.tenantId, conversation.id),
+        }),
+        queryClient.invalidateQueries({
+          queryKey: workflowKeys.conversation(conversation.listerId, conversation.id),
+        }),
+        queryClient.invalidateQueries({
+          queryKey: workflowKeys.conversations(conversation.tenantId),
+        }),
+        queryClient.invalidateQueries({
+          queryKey: workflowKeys.conversations(conversation.listerId),
+        }),
+      ]);
+      void dispatchTransactionalEmail({
+        data: { event: "VISIT_CANCELLED", entityId: visit.id },
+      }).catch(() => undefined);
+    },
+  });
+}

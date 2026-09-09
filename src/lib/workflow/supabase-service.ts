@@ -292,4 +292,12 @@ export class SupabaseWorkflowService {
     );
     return mapVisit(data as unknown as Row);
   }
+
+  async cancelVisit(_actor: WorkflowActor, visitId: string) {
+    const data = await requireResult(
+      getSupabaseBrowserClient().rpc("cancel_visit", { p_visit_id: visitId }),
+      "We couldn't cancel this visit.",
+    );
+    return mapVisit(data as unknown as Row);
+  }
 }
