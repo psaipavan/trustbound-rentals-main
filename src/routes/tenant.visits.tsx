@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { CalendarDays, Clock3 } from "lucide-react";
+import { DashboardShell } from "@/components/dashboard/DashboardShell";
 import { Button } from "@/components/ui/button";
 import { getProperty } from "@/data/properties";
 import { dashboardForRole, useSession } from "@/lib/auth/session";
@@ -83,23 +84,26 @@ function TenantVisits() {
 
   const allVisits = visits.data ?? [];
   const upcoming = allVisits.filter(isUpcoming);
-  const past = allVisits.filter((visit) => !isUpcoming(visit));
+  const completed = allVisits.filter(
+    (visit) => visit.status === "COMPLETED" || visit.status === "NO_SHOW",
+  );
+  const cancelled = allVisits.filter((visit) => visit.status === "CANCELLED");
 
   return (
-    <div className="container-page py-10 sm:py-12">
-      <h1 className="text-2xl font-extrabold">Visits</h1>
-      <p className="mt-1 text-sm text-muted-foreground">
-        Your requested and confirmed home visits.
-      </p>
+    <DashboardShell
+      role="tenant"
+      title="Visits"
+      subtitle="Your requested and confirmed home visits."
+    >
       {allVisits.length === 0 ? (
-        <div className="mt-8 surface-card p-6">
+        <div className="surface-card p-6">
           <p className="text-muted-foreground">No visits are scheduled yet.</p>
           <Button asChild className="mt-4">
             <Link to="/rent">Find a Home</Link>
           </Button>
         </div>
       ) : (
-        <div className="mt-8 grid gap-8 lg:grid-cols-2">
+        <div className="grid gap-8 md:grid-cols-3">
           <section>
             <h2 className="mb-3 text-lg font-bold">Upcoming</h2>
             {upcoming.length ? (
@@ -109,15 +113,23 @@ function TenantVisits() {
             )}
           </section>
           <section>
-            <h2 className="mb-3 text-lg font-bold">Past</h2>
-            {past.length ? (
-              <VisitList visits={past} />
+            <h2 className="mb-3 text-lg font-bold">Completed</h2>
+            {completed.length ? (
+              <VisitList visits={completed} />
             ) : (
-              <p className="text-sm text-muted-foreground">No past visits.</p>
+              <p className="text-sm text-muted-foreground">No completed visits.</p>
+            )}
+          </section>
+          <section>
+            <h2 className="mb-3 text-lg font-bold">Cancelled</h2>
+            {cancelled.length ? (
+              <VisitList visits={cancelled} />
+            ) : (
+              <p className="text-sm text-muted-foreground">No cancelled visits.</p>
             )}
           </section>
         </div>
       )}
-    </div>
+    </DashboardShell>
   );
 }

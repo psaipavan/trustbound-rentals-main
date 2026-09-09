@@ -46,11 +46,57 @@ export function OwnerInterestList({
 
         return (
           <li key={interest.id}>
-            <InterestCard interest={interest} action={action} />
+            <InterestCard
+              interest={interest}
+              action={
+                <div className="space-y-3">
+                  <OwnerInterestDetails interest={interest} />
+                  {action}
+                </div>
+              }
+            />
           </li>
         );
       })}
     </ul>
+  );
+}
+
+function OwnerInterestDetails({ interest }: { interest: Interest }) {
+  const moveIn = new Intl.DateTimeFormat("en-IN", { dateStyle: "medium" }).format(
+    new Date(interest.moveInDate),
+  );
+
+  return (
+    <details className="rounded-lg border border-border bg-muted/35 px-3 py-2 text-sm">
+      <summary className="cursor-pointer font-semibold text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+        View request details
+      </summary>
+      <dl className="mt-3 grid gap-2 text-muted-foreground">
+        <div className="flex justify-between gap-4">
+          <dt>Tenant</dt>
+          <dd className="text-right font-medium text-foreground">{interest.tenantName}</dd>
+        </div>
+        <div className="flex justify-between gap-4">
+          <dt>Move-in</dt>
+          <dd className="text-right font-medium text-foreground">{moveIn}</dd>
+        </div>
+        <div className="flex justify-between gap-4">
+          <dt>Occupants</dt>
+          <dd className="text-right font-medium text-foreground">{interest.occupants}</dd>
+        </div>
+        <div className="flex justify-between gap-4">
+          <dt>About</dt>
+          <dd className="text-right font-medium text-foreground">{interest.occupationType}</dd>
+        </div>
+        {interest.message ? (
+          <div className="border-t border-border pt-2">
+            <dt>Message</dt>
+            <dd className="mt-1 whitespace-pre-line text-foreground">{interest.message}</dd>
+          </div>
+        ) : null}
+      </dl>
+    </details>
   );
 }
 

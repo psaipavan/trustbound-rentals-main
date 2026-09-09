@@ -134,6 +134,7 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const pathname = useRouterState({ select: (state) => state.location.pathname });
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -148,7 +149,7 @@ function RootComponent() {
             <Footer />
           </div>
           <CompareDrawer />
-          <BoundAiLauncher />
+          {pathname !== "/auth" ? <BoundAiLauncher /> : null}
           <Toaster position="top-center" />
         </SavedProvider>
       </SessionProvider>

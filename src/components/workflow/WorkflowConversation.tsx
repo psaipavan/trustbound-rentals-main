@@ -3,6 +3,7 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import { Lock, Send, UserRound } from "lucide-react";
 import { toast } from "sonner";
 import { VisitScheduler } from "@/components/property/VisitScheduler";
+import { DashboardShell } from "@/components/dashboard/DashboardShell";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { getProperty, presetChatQuestions } from "@/data/properties";
@@ -76,6 +77,8 @@ export function WorkflowConversation({
   const latestVisit = (visits.data ?? [])
     .filter((visit) => visit.interestId === item.interestId)
     .sort((a, b) => b.createdAt.localeCompare(a.createdAt))[0];
+  const dashboardRole =
+    actor.role === "tenant" ? "tenant" : actor.role === "agent" ? "agent" : "owner";
 
   const submitMessage = async (body: string) => {
     if (!body.trim()) return;
@@ -111,7 +114,11 @@ export function WorkflowConversation({
   };
 
   return (
-    <div className="container-page py-8 sm:py-10">
+    <DashboardShell
+      role={dashboardRole}
+      title="Messages"
+      subtitle="Private conversations are available only after a confirmed match."
+    >
       <Link to={inboxPath as never} className="text-sm font-medium text-primary hover:underline">
         ← Back to messages
       </Link>
@@ -241,6 +248,6 @@ export function WorkflowConversation({
           </div>
         </aside>
       </div>
-    </div>
+    </DashboardShell>
   );
 }

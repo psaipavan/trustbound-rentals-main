@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Link, Outlet, useNavigate, useRouterState } from "@tanstack/react-router";
 import { MessageCircleMore } from "lucide-react";
+import { DashboardShell } from "@/components/dashboard/DashboardShell";
 import { Button } from "@/components/ui/button";
 import { getProperty } from "@/data/properties";
 import { dashboardForRole, useSession } from "@/lib/auth/session";
@@ -55,14 +56,16 @@ export function WorkflowInbox({ role }: { role: InboxRole }) {
   }
 
   const items = conversations.data ?? [];
+  const dashboardRole =
+    actor.role === "tenant" ? "tenant" : actor.role === "agent" ? "agent" : "owner";
   return (
-    <div className="container-page py-10 sm:py-12">
-      <h1 className="text-2xl font-extrabold">Messages</h1>
-      <p className="mt-1 text-sm text-muted-foreground">
-        Keep every matched conversation private and in one place.
-      </p>
+    <DashboardShell
+      role={dashboardRole}
+      title="Messages"
+      subtitle="Keep every matched conversation private and in one place."
+    >
       {!items.length ? (
-        <div className="mt-8 surface-card p-6 text-center">
+        <div className="surface-card p-6 text-center">
           <MessageCircleMore className="mx-auto h-8 w-8 text-primary" aria-hidden />
           <h2 className="mt-3 font-bold">No secure chats yet</h2>
           <p className="mt-1 text-sm text-muted-foreground">
@@ -104,6 +107,6 @@ export function WorkflowInbox({ role }: { role: InboxRole }) {
           })}
         </ul>
       )}
-    </div>
+    </DashboardShell>
   );
 }

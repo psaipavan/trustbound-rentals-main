@@ -1,24 +1,11 @@
-import { createFileRoute } from "@tanstack/react-router";
-import {
-  BadgeCheck,
-  Building2,
-  CalendarCheck,
-  IndianRupee,
-  MessagesSquare,
-  UserRound,
-  Users,
-} from "lucide-react";
-import { DashboardShell } from "@/components/dashboard/DashboardShell";
-import { properties } from "@/data/properties";
-import { inr } from "@/lib/format";
-import { useSession } from "@/lib/auth/session";
-import {
-  useConversationsQuery,
-  useOwnerInterestsQuery,
-  useVisitsQuery,
-} from "@/lib/workflow/query";
 import { useQuery } from "@tanstack/react-query";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { Building2, CalendarDays, Plus, Send } from "lucide-react";
+import { DashboardShell, DashboardStat } from "@/components/dashboard/DashboardShell";
+import { Button } from "@/components/ui/button";
+import { useSession } from "@/lib/auth/session";
 import { listManagedProperties } from "@/lib/properties/service";
+import { useOwnerInterestsQuery, useVisitsQuery } from "@/lib/workflow/query";
 
 export const Route = createFileRoute("/dashboard/agent")({
   head: () => ({
@@ -26,148 +13,99 @@ export const Route = createFileRoute("/dashboard/agent")({
       { title: "Agent dashboard — Bricxley" },
       {
         name: "description",
-        content:
-          "Verified agents manage properties, leads, visits, messages, brokerage settings and verification on Bricxley.",
-      },
-      { property: "og:title", content: "Agent dashboard — Bricxley" },
-      {
-        property: "og:description",
-        content: "Transparency that separates legitimate agents from impostors.",
+        content: "Manage client interests, transparent listings and visits on Bricxley.",
       },
     ],
   }),
   component: AgentDashboard,
 });
 
-const sections = [
-  {
-    key: "properties",
-    label: "Properties",
-    icon: Building2,
-    description: "Listings you represent, each labelled as an agent listing.",
-    items: ["Active", "Pending verification", "Rented", "Archived"],
-  },
-  {
-    key: "leads",
-    label: "Leads",
-    icon: Users,
-    description: "Tenant interest across your portfolio.",
-    items: ["New leads", "Qualified", "Visit booked", "Closed"],
-  },
-  {
-    key: "visits",
-    label: "Visits",
-    icon: CalendarCheck,
-    description: "Coordinate viewings without exchanging numbers first.",
-    items: ["Today", "This week", "Awaiting confirmation", "Completed"],
-  },
-  {
-    key: "messages",
-    label: "Messages",
-    icon: MessagesSquare,
-    description: "Secure Bricxley Chat threads.",
-    items: ["Unread", "Active", "Contact sharing requests", "Archived"],
-  },
-  {
-    key: "brokerage",
-    label: "Brokerage Settings",
-    icon: IndianRupee,
-    description: "Brokerage is always shown to tenants before contact.",
-    items: ["Default brokerage", "Per-listing override", "Fee disclosure text", "Invoices"],
-  },
-  {
-    key: "verification",
-    label: "Verification",
-    icon: BadgeCheck,
-    description: "Identity, agency and licence records on file.",
-    items: ["Identity documents", "Agency registration", "Licence status", "Re-verification"],
-  },
-  {
-    key: "profile",
-    label: "Profile",
-    icon: UserRound,
-    description: "Your public agent profile as tenants see it.",
-    items: [
-      "Agency details",
-      "Active listings",
-      "Response time",
-      "Ratings (when real reviews exist)",
-    ],
-  },
-];
+function firstName(value: string | undefined) {
+  return value?.trim().split(/\s+/)[0] || "there";
+}
 
 function AgentDashboard() {
   const { actor } = useSession();
   const interests = useOwnerInterestsQuery(actor);
   const visits = useVisitsQuery(actor);
-  const conversations = useConversationsQuery(actor);
   const managedProperties = useQuery({
     queryKey: ["managed-properties", actor?.id],
     queryFn: () => listManagedProperties(actor!),
     enabled: actor?.role === "agent",
   });
   const mine = managedProperties.data ?? [];
+  const upcomingVisits = (visits.data ?? []).filter(
+    (item) => item.status === "REQUESTED" || item.status === "CONFIRMED",
+  ).length;
 
   return (
     <DashboardShell
       role="agent"
-      title="Transparency is your advantage."
-      subtitle="Verified agents stand apart when identity, agency and brokerage are visible upfront."
-      sections={sections}
-      aside={
-        <section className="space-y-4">
-          <div className="grid gap-3 sm:grid-cols-3">
-            {[
-              ["Active listings", mine.filter((item) => item.status === "PUBLISHED").length],
-              [
-                "New interests",
-                (interests.data ?? []).filter((item) => item.status === "SUBMITTED").length,
-              ],
-              ["Secure chats", (conversations.data ?? []).length],
-              [
-                "Upcoming visits",
-                (visits.data ?? []).filter(
-                  (item) => item.status === "REQUESTED" || item.status === "CONFIRMED",
-                ).length,
-              ],
-            ].map(([label, value]) => (
-              <div key={String(label)} className="surface-card p-4">
-                <p className="text-2xl font-extrabold">{value}</p>
-                <p className="mt-1 text-xs text-muted-foreground">{label}</p>
-              </div>
-            ))}
-          </div>
-          <section className="surface-card p-6">
-            <h2 className="text-lg font-bold">Your agent listings</h2>
-            <p className="mt-1 text-sm text-muted-foreground">
-              Each of these displays the Agent Listing label and your brokerage to tenants.
-            </p>
-            {!mine.length ? (
-              <p className="mt-4 text-sm text-muted-foreground">
-                Your agent listing drafts will appear here.
+      title={`Good morning, ${firstName(actor?.displayName)}! 👋`}
+      subtitle="Manage your clients and listings."
+      action={
+        <Button asChild>
+          <Link to="/list-property">
+            <Plus className="h-4 w-4" aria-hidden /> Add Listing
+          </Link>
+        </Button>
+      }
+    >
+      <div className="space-y-6">
+        <div className="grid gap-3 sm:grid-cols-3">
+          <DashboardStat
+            label="Active Listings"
+            value={mine.filter((property) => property.status === "PUBLISHED").length}
+            icon={Building2}
+          />
+          <DashboardStat
+            label="Client Interests"
+            value={(interests.data ?? []).length}
+            icon={Send}
+          />
+          <DashboardStat label="Upcoming Visits" value={upcomingVisits} icon={CalendarDays} />
+        </div>
+
+        <section className="surface-card p-5 sm:p-6">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h2 className="text-lg font-bold">My Listings</h2>
+              <p className="mt-1 text-sm text-muted-foreground">
+                Agent listings always show brokerage before a tenant connects.
               </p>
-            ) : null}
-            <ul className="mt-5 space-y-3">
-              {mine.map((p) => (
-                <li
-                  key={p.id}
-                  className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-border bg-background px-4 py-3.5"
-                >
-                  <div>
-                    <p className="text-sm font-semibold">{p.title}</p>
-                    <p className="text-xs text-muted-foreground">
-                      {p.locality} · {inr(p.monthlyRent)} / month
-                    </p>
-                  </div>
-                  <span className="rounded-full bg-warning/15 px-3 py-1 text-xs font-semibold text-warning-foreground">
-                    {p.status}
+            </div>
+            <Button asChild variant="ghost" size="sm">
+              <Link to="/owner/properties">View all</Link>
+            </Button>
+          </div>
+
+          {managedProperties.isPending ? (
+            <div className="mt-5 grid gap-3 sm:grid-cols-2">
+              {Array.from({ length: 2 }, (_, index) => (
+                <div key={index} className="h-24 animate-pulse rounded-xl bg-muted" />
+              ))}
+            </div>
+          ) : mine.length ? (
+            <ul className="mt-5 grid gap-3 sm:grid-cols-2">
+              {mine.slice(0, 4).map((property) => (
+                <li key={property.id} className="rounded-xl border border-border bg-background p-4">
+                  <span className="text-xs font-bold uppercase tracking-wide text-primary">
+                    Agent listing
                   </span>
+                  <p className="mt-2 truncate font-semibold">{property.title}</p>
+                  <p className="mt-1 text-sm text-muted-foreground">
+                    {property.locality} · ₹{property.monthlyRent.toLocaleString("en-IN")} / month
+                  </p>
                 </li>
               ))}
             </ul>
-          </section>
+          ) : (
+            <div className="mt-5 rounded-xl border border-dashed border-border p-6 text-sm text-muted-foreground">
+              Your agent listings will appear here once you add them.
+            </div>
+          )}
         </section>
-      }
-    />
+      </div>
+    </DashboardShell>
   );
 }
