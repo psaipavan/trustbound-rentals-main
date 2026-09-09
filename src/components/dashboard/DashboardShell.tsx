@@ -39,6 +39,9 @@ export function DashboardShell({
   useEffect(() => {
     if (!isReady) return;
     if (!actor) {
+      // During navigation the leaving dashboard can render once more after the
+      // location has become /auth. Keep the original protected path intact.
+      if (pathname === "/auth") return;
       void navigate({ to: "/auth", search: { redirect: pathname } });
       return;
     }
