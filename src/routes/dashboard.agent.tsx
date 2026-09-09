@@ -11,6 +11,14 @@ import {
 import { DashboardShell } from "@/components/dashboard/DashboardShell";
 import { properties } from "@/data/properties";
 import { inr } from "@/lib/format";
+import { useSession } from "@/lib/auth/session";
+import {
+  useConversationsQuery,
+  useOwnerInterestsQuery,
+  useVisitsQuery,
+} from "@/lib/workflow/query";
+import { useQuery } from "@tanstack/react-query";
+import { listManagedProperties } from "@/lib/properties/service";
 
 export const Route = createFileRoute("/dashboard/agent")({
   head: () => ({
@@ -89,7 +97,16 @@ const sections = [
 ];
 
 function AgentDashboard() {
-  const mine = properties.filter((p) => p.lister.type === "agent");
+  const { actor } = useSession();
+  const interests = useOwnerInterestsQuery(actor);
+  const visits = useVisitsQuery(actor);
+  const conversations = useConversationsQuery(actor);
+  const managedProperties = useQuery({
+    queryKey: ["managed-properties", actor?.id],
+    queryFn: () => listManagedProperties(actor!),
+    enabled: actor?.role === "agent",
+  });
+  const mine = managedProperties.data ?? [];
 
   return (
     <DashboardShell
@@ -98,29 +115,57 @@ function AgentDashboard() {
       subtitle="Verified agents stand apart when identity, agency and brokerage are visible upfront."
       sections={sections}
       aside={
-        <section className="surface-card p-6">
-          <h2 className="text-lg font-bold">Your agent listings</h2>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Each of these displays the Agent Listing label and your brokerage to tenants.
-          </p>
-          <ul className="mt-5 space-y-3">
-            {mine.map((p) => (
-              <li
-                key={p.id}
-                className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-border bg-background px-4 py-3.5"
-              >
-                <div>
-                  <p className="text-sm font-semibold">{p.title}</p>
-                  <p className="text-xs text-muted-foreground">
-                    {p.locality} · {inr(p.rent)} / month
-                  </p>
-                </div>
-                <span className="rounded-full bg-warning/15 px-3 py-1 text-xs font-semibold text-warning-foreground">
-                  Brokerage {inr(p.brokerage)}
-                </span>
-              </li>
+        <section className="space-y-4">
+          <div className="grid gap-3 sm:grid-cols-3">
+            {[
+              ["Active listings", mine.filter((item) => item.status === "PUBLISHED").length],
+              [
+                "New interests",
+                (interests.data ?? []).filter((item) => item.status === "SUBMITTED").length,
+              ],
+              ["Secure chats", (conversations.data ?? []).length],
+              [
+                "Upcoming visits",
+                (visits.data ?? []).filter(
+                  (item) => item.status === "REQUESTED" || item.status === "CONFIRMED",
+                ).length,
+              ],
+            ].map(([label, value]) => (
+              <div key={String(label)} className="surface-card p-4">
+                <p className="text-2xl font-extrabold">{value}</p>
+                <p className="mt-1 text-xs text-muted-foreground">{label}</p>
+              </div>
             ))}
-          </ul>
+          </div>
+          <section className="surface-card p-6">
+            <h2 className="text-lg font-bold">Your agent listings</h2>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Each of these displays the Agent Listing label and your brokerage to tenants.
+            </p>
+            {!mine.length ? (
+              <p className="mt-4 text-sm text-muted-foreground">
+                Your agent listing drafts will appear here.
+              </p>
+            ) : null}
+            <ul className="mt-5 space-y-3">
+              {mine.map((p) => (
+                <li
+                  key={p.id}
+                  className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-border bg-background px-4 py-3.5"
+                >
+                  <div>
+                    <p className="text-sm font-semibold">{p.title}</p>
+                    <p className="text-xs text-muted-foreground">
+                      {p.locality} · {inr(p.monthlyRent)} / month
+                    </p>
+                  </div>
+                  <span className="rounded-full bg-warning/15 px-3 py-1 text-xs font-semibold text-warning-foreground">
+                    {p.status}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </section>
         </section>
       }
     />

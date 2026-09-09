@@ -1,5 +1,6 @@
-import { useState } from "react";
-import { Link } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
+import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
+import { dashboardForRole, useSession } from "@/lib/auth/session";
 import { cn } from "@/lib/utils";
 
 export type DashboardSection = {
@@ -11,9 +12,9 @@ export type DashboardSection = {
 };
 
 const roleLinks = [
-  { to: "/dashboard/tenant", label: "Tenant" },
-  { to: "/dashboard/owner", label: "Owner" },
-  { to: "/dashboard/agent", label: "Agent" },
+  { to: "/dashboard/tenant", role: "tenant", label: "Tenant" },
+  { to: "/dashboard/owner", role: "owner", label: "Owner" },
+  { to: "/dashboard/agent", role: "agent", label: "Agent" },
 ] as const;
 
 export function DashboardShell({
@@ -29,8 +30,26 @@ export function DashboardShell({
   sections: DashboardSection[];
   aside?: React.ReactNode;
 }) {
+  const { actor, isReady, switchRole } = useSession();
+  const navigate = useNavigate();
+  const pathname = useRouterState({ select: (state) => state.location.pathname });
   const [active, setActive] = useState(sections[0]?.key ?? "");
   const current = sections.find((s) => s.key === active) ?? sections[0];
+
+  useEffect(() => {
+    if (!isReady) return;
+    if (!actor) {
+      void navigate({ to: "/auth", search: { redirect: pathname } });
+      return;
+    }
+    if (actor.role !== role) void navigate({ to: dashboardForRole(actor.role) });
+  }, [actor, isReady, navigate, pathname, role]);
+
+  if (!isReady || !actor || actor.role !== role) {
+    return (
+      <div className="container-page py-16 text-sm text-muted-foreground">Loading dashboard…</div>
+    );
+  }
   if (!current) return null;
 
   return (
@@ -45,18 +64,21 @@ export function DashboardShell({
             <p className="mt-2 text-muted-foreground">{subtitle}</p>
           </div>
           <div className="flex gap-1 rounded-full border border-border bg-card p-1">
-            {roleLinks.map((r) => (
-              <Link
-                key={r.to}
-                to={r.to}
-                className="rounded-full px-3.5 py-1.5 text-sm font-medium text-muted-foreground transition hover:text-foreground"
-                activeProps={{
-                  className: "bg-primary text-primary-foreground hover:text-primary-foreground",
-                }}
-              >
-                {r.label}
-              </Link>
-            ))}
+            {roleLinks
+              .filter((item) => (actor.roles ?? [actor.role]).includes(item.role))
+              .map((r) => (
+                <Link
+                  key={r.to}
+                  to={r.to}
+                  onClick={() => void switchRole(r.role)}
+                  className="rounded-full px-3.5 py-1.5 text-sm font-medium text-muted-foreground transition hover:text-foreground"
+                  activeProps={{
+                    className: "bg-primary text-primary-foreground hover:text-primary-foreground",
+                  }}
+                >
+                  {r.label}
+                </Link>
+              ))}
           </div>
         </div>
 
@@ -102,8 +124,8 @@ export function DashboardShell({
                 ))}
               </ul>
               <p className="mt-5 rounded-lg bg-muted p-3 text-xs text-muted-foreground">
-                Prototype view. Once accounts and the database are connected, this panel shows your
-                live records.
+                Your Bricxley account controls these records. Updates from interests, messages and
+                visits appear here as they happen.
               </p>
             </section>
             {aside}

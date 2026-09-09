@@ -8,6 +8,7 @@ export type WorkflowAnalyticsEvent =
   | "chat_started"
   | "visit_requested"
   | "visit_confirmed"
+  | "visit_cancelled"
   | "contact_shared";
 
 export type WorkflowAnalyticsPayloads = {
@@ -20,6 +21,7 @@ export type WorkflowAnalyticsPayloads = {
   chat_started: { conversationId: string; interestId: string };
   visit_requested: { interestId: string; visitId: string };
   visit_confirmed: { interestId: string; visitId: string };
+  visit_cancelled: { interestId: string; visitId: string };
   contact_shared: { conversationId: string };
 };
 

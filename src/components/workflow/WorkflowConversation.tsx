@@ -9,6 +9,7 @@ import { getProperty, presetChatQuestions } from "@/data/properties";
 import { dashboardForRole, useSession } from "@/lib/auth/session";
 import {
   useConversationQuery,
+  useCancelVisitMutation,
   useCreateVisitMutation,
   useSendMessageMutation,
   useShareContactMutation,
@@ -32,6 +33,7 @@ export function WorkflowConversation({
   const sendMessage = useSendMessageMutation(actor);
   const shareContact = useShareContactMutation(actor);
   const createVisit = useCreateVisitMutation(actor);
+  const cancelVisit = useCancelVisitMutation(actor);
   const [message, setMessage] = useState("");
   const inboxPath = `/${role}/messages`;
 
@@ -41,10 +43,17 @@ export function WorkflowConversation({
       void navigate({ to: "/auth", search: { redirect: `${inboxPath}/${conversationId}` } });
       return;
     }
-    if (actor.role !== role) void navigate({ to: dashboardForRole(actor.role) });
+    if (actor.role !== role && !(role === "owner" && actor.role === "agent")) {
+      void navigate({ to: dashboardForRole(actor.role) });
+    }
   }, [actor, conversationId, inboxPath, isReady, navigate, role]);
 
-  if (!isReady || !actor || actor.role !== role || conversation.isPending) {
+  if (
+    !isReady ||
+    !actor ||
+    (actor.role !== role && !(role === "owner" && actor.role === "agent")) ||
+    conversation.isPending
+  ) {
     return (
       <div className="container-page py-12 text-sm text-muted-foreground">
         Loading conversation…
@@ -80,6 +89,16 @@ export function WorkflowConversation({
 
   const requestVisit = async (scheduledAt: string) => {
     await createVisit.mutateAsync({ interestId: item.interestId, scheduledAt });
+  };
+
+  const cancelScheduledVisit = async () => {
+    if (!latestVisit) return;
+    try {
+      await cancelVisit.mutateAsync(latestVisit.id);
+      toast.success("Visit cancelled — the other participant has been notified.");
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "We couldn't cancel this visit.");
+    }
   };
 
   const recordContactConsent = async () => {
@@ -180,16 +199,27 @@ export function WorkflowConversation({
               Propose a time. The listing manager confirms it before the visit.
             </p>
             {latestVisit ? (
-              <p className="mt-3 rounded-lg bg-muted px-3 py-2 text-sm font-medium">
+              <div className="mt-3 rounded-lg bg-muted px-3 py-2 text-sm font-medium">
                 Visit {latestVisit.status.toLowerCase()}
-              </p>
+              </div>
             ) : null}
             <div className="mt-4">
-              <VisitScheduler
-                propertyTitle={property?.title ?? "This home"}
-                onRequest={requestVisit}
-                isRequesting={createVisit.isPending}
-              />
+              {latestVisit?.status === "REQUESTED" || latestVisit?.status === "CONFIRMED" ? (
+                <Button
+                  className="w-full"
+                  variant="outline"
+                  onClick={() => void cancelScheduledVisit()}
+                  disabled={cancelVisit.isPending}
+                >
+                  {cancelVisit.isPending ? "Cancelling…" : "Cancel visit"}
+                </Button>
+              ) : (
+                <VisitScheduler
+                  propertyTitle={property?.title ?? "This home"}
+                  onRequest={requestVisit}
+                  isRequesting={createVisit.isPending}
+                />
+              )}
             </div>
           </div>
           <div className="surface-card p-5">

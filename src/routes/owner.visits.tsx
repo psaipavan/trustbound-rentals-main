@@ -1,11 +1,15 @@
 import { useEffect } from "react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { CalendarDays, CheckCircle2, Clock3 } from "lucide-react";
+import { CalendarDays, CheckCircle2, Clock3, XCircle } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { getProperty } from "@/data/properties";
 import { dashboardForRole, useSession } from "@/lib/auth/session";
-import { useConfirmVisitMutation, useVisitsQuery } from "@/lib/workflow/query";
+import {
+  useCancelVisitMutation,
+  useConfirmVisitMutation,
+  useVisitsQuery,
+} from "@/lib/workflow/query";
 
 export const Route = createFileRoute("/owner/visits")({
   component: OwnerVisits,
@@ -16,6 +20,7 @@ function OwnerVisits() {
   const navigate = useNavigate({ from: "/owner/visits" });
   const visits = useVisitsQuery(actor);
   const confirmVisit = useConfirmVisitMutation(actor);
+  const cancelVisit = useCancelVisitMutation(actor);
 
   useEffect(() => {
     if (!isReady) return;
@@ -23,10 +28,17 @@ function OwnerVisits() {
       void navigate({ to: "/auth", search: { redirect: "/owner/visits" } });
       return;
     }
-    if (actor.role !== "owner") void navigate({ to: dashboardForRole(actor.role) });
+    if (actor.role !== "owner" && actor.role !== "agent") {
+      void navigate({ to: dashboardForRole(actor.role) });
+    }
   }, [actor, isReady, navigate]);
 
-  if (!isReady || !actor || actor.role !== "owner" || visits.isPending) {
+  if (
+    !isReady ||
+    !actor ||
+    (actor.role !== "owner" && actor.role !== "agent") ||
+    visits.isPending
+  ) {
     return (
       <div className="container-page py-12 text-sm text-muted-foreground">Loading visits…</div>
     );
@@ -48,6 +60,15 @@ function OwnerVisits() {
       toast.success("Visit confirmed — the tenant has been notified.");
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "We couldn't confirm this visit.");
+    }
+  };
+
+  const cancel = async (visitId: string) => {
+    try {
+      await cancelVisit.mutateAsync(visitId);
+      toast.success("Visit cancelled — the tenant has been notified.");
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "We couldn't cancel this visit.");
     }
   };
 
@@ -89,15 +110,28 @@ function OwnerVisits() {
                     </p>
                   </div>
                 </div>
-                {visit.status === "REQUESTED" ? (
-                  <Button
-                    size="sm"
-                    disabled={confirmVisit.isPending}
-                    onClick={() => void confirm(visit.id)}
-                  >
-                    <CheckCircle2 className="h-4 w-4" />
-                    Confirm visit
-                  </Button>
+                {visit.status === "REQUESTED" || visit.status === "CONFIRMED" ? (
+                  <div className="flex gap-2">
+                    {visit.status === "REQUESTED" ? (
+                      <Button
+                        size="sm"
+                        disabled={confirmVisit.isPending || cancelVisit.isPending}
+                        onClick={() => void confirm(visit.id)}
+                      >
+                        <CheckCircle2 className="h-4 w-4" />
+                        Confirm visit
+                      </Button>
+                    ) : null}
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      disabled={confirmVisit.isPending || cancelVisit.isPending}
+                      onClick={() => void cancel(visit.id)}
+                    >
+                      <XCircle className="h-4 w-4" />
+                      Cancel
+                    </Button>
+                  </div>
                 ) : null}
               </li>
             );
