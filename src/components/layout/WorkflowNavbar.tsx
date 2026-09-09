@@ -12,6 +12,7 @@ type WorkflowNavRole = Extract<WorkflowRole, "tenant" | "owner" | "agent">;
 
 const tenantDesktopLinks = [
   { to: "/rent", label: "Find a Home" },
+  { to: "/tenant/saved", label: "Saved Homes" },
   { to: "/tenant/interests", label: "My Interests" },
   { to: "/tenant/messages", label: "Messages" },
   { to: "/tenant/visits", label: "Visits" },
@@ -27,14 +28,14 @@ const tenantMobileLinks = [
 const ownerDesktopLinks = [
   { to: "/dashboard/owner", label: "Dashboard" },
   { to: "/owner/interests", label: "Interests" },
-  { to: "/list-property", label: "My Properties" },
+  { to: "/owner/properties", label: "My Properties" },
   { to: "/owner/messages", label: "Messages" },
   { to: "/owner/visits", label: "Visits" },
 ] as const;
 
 const agentDesktopLinks = [
   { to: "/dashboard/agent", label: "Overview" },
-  { to: "/list-property", label: "My Properties" },
+  { to: "/owner/properties", label: "My Listings" },
   { to: "/owner/interests", label: "Interests" },
   { to: "/owner/messages", label: "Messages" },
   { to: "/owner/visits", label: "Visits" },

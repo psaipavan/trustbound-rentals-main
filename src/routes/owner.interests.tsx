@@ -6,6 +6,7 @@ import {
   selectOwnerInterestTab,
   type OwnerInterestTab,
 } from "@/components/workflow/OwnerInterestList";
+import { DashboardShell } from "@/components/dashboard/DashboardShell";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { dashboardForRole, useSession } from "@/lib/auth/session";
@@ -48,6 +49,7 @@ function OwnerInterests() {
     (conversations.data ?? []).map((conversation) => [conversation.interestId, conversation.id]),
   );
   const selectedInterests = selectOwnerInterestTab(interests.data ?? [], tab);
+  const dashboardRole = actor.role === "agent" ? "agent" : "owner";
   const isUpdating = acceptInterest.isPending || declineInterest.isPending;
 
   const accept = async (interestId: string) => {
@@ -70,16 +72,12 @@ function OwnerInterests() {
   };
 
   return (
-    <div className="container-page py-10 sm:py-12">
-      <h1 className="text-2xl font-extrabold">Tenant interests</h1>
-      <p className="mt-1 text-sm text-muted-foreground">
-        Review requests, match when it feels right, and keep the conversation in Bricxley.
-      </p>
-      <Tabs
-        value={tab}
-        onValueChange={(value) => setTab(value as OwnerInterestTab)}
-        className="mt-6"
-      >
+    <DashboardShell
+      role={dashboardRole}
+      title={dashboardRole === "agent" ? "Client Interests" : "Tenant Interests"}
+      subtitle="Review requests, match when it feels right, and keep the conversation in Bricxley."
+    >
+      <Tabs value={tab} onValueChange={(value) => setTab(value as OwnerInterestTab)}>
         <TabsList aria-label="Interest status">
           <TabsTrigger value="pending">To review</TabsTrigger>
           <TabsTrigger value="matched">Matched</TabsTrigger>
@@ -125,7 +123,7 @@ function OwnerInterests() {
           No {tab === "pending" ? "interests to review" : `${tab} interests`} right now.
         </div>
       ) : null}
-    </div>
+    </DashboardShell>
   );
 }
 

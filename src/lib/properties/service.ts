@@ -34,7 +34,9 @@ export type ManagedProperty = {
   id: string;
   title: string;
   locality: string;
+  propertyType: string;
   monthlyRent: number;
+  brokerage: number;
   status: string;
   listedAs: "owner" | "agent";
 };
@@ -42,7 +44,7 @@ export type ManagedProperty = {
 export async function listManagedProperties(actor: WorkflowActor): Promise<ManagedProperty[]> {
   const { data, error } = await getSupabaseBrowserClient()
     .from("properties")
-    .select("id,title,locality,monthly_rent,status,listed_as")
+    .select("id,title,locality,property_type,monthly_rent,brokerage,status,listed_as")
     .eq("manager_id", actor.id)
     .order("updated_at", { ascending: false });
   if (error) throw new Error("We couldn't load your properties.");
@@ -50,7 +52,9 @@ export async function listManagedProperties(actor: WorkflowActor): Promise<Manag
     id: String(row["id"]),
     title: String(row["title"]),
     locality: String(row["locality"]),
+    propertyType: String(row["property_type"]),
     monthlyRent: Number(row["monthly_rent"]),
+    brokerage: Number(row["brokerage"]),
     status: String(row["status"]),
     listedAs: row["listed_as"] as "owner" | "agent",
   }));

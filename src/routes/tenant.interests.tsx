@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { createFileRoute, Link, Outlet, useNavigate, useRouterState } from "@tanstack/react-router";
+import { DashboardShell } from "@/components/dashboard/DashboardShell";
 import { Button } from "@/components/ui/button";
 import {
   InterestCard,
@@ -45,12 +46,12 @@ function TenantInterests() {
   );
 
   return (
-    <div className="container-page py-10 sm:py-12">
-      <h1 className="text-2xl font-extrabold">My Interests</h1>
-      <p className="mt-1 text-sm text-muted-foreground">
-        Track responses to the homes you’ve contacted.
-      </p>
-      <Tabs value={tab} onValueChange={(value) => setTab(value as InterestTab)} className="mt-6">
+    <DashboardShell
+      role="tenant"
+      title="My Interests"
+      subtitle="Track responses to the homes you’ve contacted."
+    >
+      <Tabs value={tab} onValueChange={(value) => setTab(value as InterestTab)}>
         <TabsList aria-label="Interest status">
           <TabsTrigger value="pending">Pending</TabsTrigger>
           <TabsTrigger value="matched">Matched</TabsTrigger>
@@ -58,10 +59,10 @@ function TenantInterests() {
         </TabsList>
       </Tabs>
       {interests.isPending ? (
-        <p className="mt-8 text-muted-foreground">Loading your interests…</p>
+        <p className="mt-6 text-muted-foreground">Loading your interests…</p>
       ) : null}
       {interests.isError ? (
-        <div className="mt-8 surface-card p-6">
+        <div className="mt-6 surface-card p-6">
           <p className="text-muted-foreground">We couldn’t load your interests.</p>
           <Button variant="outline" className="mt-4" onClick={() => void interests.refetch()}>
             Try again
@@ -69,7 +70,7 @@ function TenantInterests() {
         </div>
       ) : null}
       {!interests.isPending && interests.data?.length === 0 ? (
-        <div className="mt-8 surface-card p-6">
+        <div className="mt-6 surface-card p-6">
           <p className="text-muted-foreground">You haven’t sent an interest yet.</p>
           <Button asChild className="mt-4">
             <Link to="/rent">Find a Home</Link>
@@ -115,6 +116,6 @@ function TenantInterests() {
           No {tab} interests right now.
         </div>
       ) : null}
-    </div>
+    </DashboardShell>
   );
 }

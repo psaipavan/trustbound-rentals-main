@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { CalendarDays, CheckCircle2, Clock3, XCircle } from "lucide-react";
 import { toast } from "sonner";
+import { DashboardShell } from "@/components/dashboard/DashboardShell";
 import { Button } from "@/components/ui/button";
 import { getProperty } from "@/data/properties";
 import { dashboardForRole, useSession } from "@/lib/auth/session";
@@ -73,14 +74,15 @@ function OwnerVisits() {
   };
 
   const items = visits.data ?? [];
+  const dashboardRole = actor.role === "agent" ? "agent" : "owner";
   return (
-    <div className="container-page py-10 sm:py-12">
-      <h1 className="text-2xl font-extrabold">Visits</h1>
-      <p className="mt-1 text-sm text-muted-foreground">
-        Confirm proposed times and keep each visit connected to its secure chat.
-      </p>
+    <DashboardShell
+      role={dashboardRole}
+      title="Visits"
+      subtitle="Confirm proposed times and keep each visit connected to its secure chat."
+    >
       {!items.length ? (
-        <div className="mt-8 surface-card p-6 text-muted-foreground">
+        <div className="surface-card p-6 text-muted-foreground">
           Visit requests from matched tenants will appear here.
         </div>
       ) : (
@@ -138,6 +140,6 @@ function OwnerVisits() {
           })}
         </ul>
       )}
-    </div>
+    </DashboardShell>
   );
 }
