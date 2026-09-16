@@ -11,6 +11,8 @@ import { WorkflowError, type WorkflowActor, type WorkflowRole } from "@/lib/work
 import { getSupabaseBrowserClient, isSupabaseConfigured } from "@/lib/supabase/client";
 
 const roles: WorkflowRole[] = ["tenant", "owner", "agent", "admin"];
+const previewRoles = ["tenant", "owner", "agent"] as const;
+const previewSessionKey = "bricxley-local-preview-session";
 
 type Account = {
   id: string;
@@ -18,11 +20,22 @@ type Account = {
   roles: WorkflowRole[];
 };
 
+type PreviewRole = (typeof previewRoles)[number];
+
+type PreviewSession = {
+  id: string;
+  displayName: string;
+  roles: PreviewRole[];
+  activeRole: PreviewRole;
+};
+
 type SessionContextValue = {
   account: Account | null;
   actor: WorkflowActor | null;
   isReady: boolean;
   isConfigured: boolean;
+  canUseLocalPreview: boolean;
+  startLocalPreview: (role: Exclude<WorkflowRole, "admin">) => Promise<void>;
   signInWithGoogle: (role: Exclude<WorkflowRole, "admin">, redirect?: string) => Promise<void>;
   completePhoneSignIn: (sessionTokenHash: string) => Promise<void>;
   enableRole: (role: Exclude<WorkflowRole, "admin">) => Promise<void>;
@@ -32,6 +45,55 @@ type SessionContextValue = {
 };
 
 const SessionContext = createContext<SessionContextValue | null>(null);
+
+function isPreviewRole(value: unknown): value is PreviewRole {
+  return typeof value === "string" && previewRoles.includes(value as PreviewRole);
+}
+
+function readPreviewSession(): PreviewSession | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const stored = window.sessionStorage.getItem(previewSessionKey);
+    if (!stored) return null;
+    const value: unknown = JSON.parse(stored);
+    if (!value || typeof value !== "object") return null;
+    const session = value as Partial<PreviewSession>;
+    const sessionRoles = Array.isArray(session.roles) ? session.roles.filter(isPreviewRole) : [];
+    if (
+      typeof session.id !== "string" ||
+      typeof session.displayName !== "string" ||
+      !isPreviewRole(session.activeRole) ||
+      !sessionRoles.includes(session.activeRole)
+    ) {
+      return null;
+    }
+    return { ...session, roles: sessionRoles, activeRole: session.activeRole };
+  } catch {
+    return null;
+  }
+}
+
+function savePreviewSession(session: PreviewSession) {
+  window.sessionStorage.setItem(previewSessionKey, JSON.stringify(session));
+}
+
+function clearPreviewSession() {
+  window.sessionStorage.removeItem(previewSessionKey);
+}
+
+function applyPreviewSession(
+  session: PreviewSession,
+  setAccount: (account: Account) => void,
+  setActor: (actor: WorkflowActor) => void,
+) {
+  const account = {
+    id: session.id,
+    displayName: session.displayName,
+    roles: session.roles,
+  };
+  setAccount(account);
+  setActor({ ...account, role: session.activeRole });
+}
 
 function toRole(value: unknown): WorkflowRole | null {
   return typeof value === "string" && roles.includes(value as WorkflowRole)
@@ -44,11 +106,16 @@ export function SessionProvider({ children }: { children: ReactNode }) {
   const [actor, setActor] = useState<WorkflowActor | null>(null);
   const [isReady, setIsReady] = useState(false);
   const configured = isSupabaseConfigured();
+  const canUseLocalPreview = !configured && import.meta.env.DEV;
 
   const refresh = useCallback(async () => {
     if (!configured) {
-      setAccount(null);
-      setActor(null);
+      const preview = canUseLocalPreview ? readPreviewSession() : null;
+      if (preview) applyPreviewSession(preview, setAccount, setActor);
+      else {
+        setAccount(null);
+        setActor(null);
+      }
       setIsReady(true);
       return;
     }
@@ -88,7 +155,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
     setAccount(nextAccount);
     setActor(role ? { ...nextAccount, role } : null);
     setIsReady(true);
-  }, [configured]);
+  }, [canUseLocalPreview, configured]);
 
   useEffect(() => {
     void refresh();
@@ -105,6 +172,21 @@ export function SessionProvider({ children }: { children: ReactNode }) {
       actor,
       isReady,
       isConfigured: configured,
+      canUseLocalPreview,
+      startLocalPreview: async (role) => {
+        if (!canUseLocalPreview) {
+          throw new Error("Local preview is only available while running the development server.");
+        }
+        const session: PreviewSession = {
+          id: "local-preview-user",
+          displayName: "Preview user",
+          roles: [role],
+          activeRole: role,
+        };
+        savePreviewSession(session);
+        applyPreviewSession(session, setAccount, setActor);
+        setIsReady(true);
+      },
       signInWithGoogle: async (role, redirect) => {
         const supabase = getSupabaseBrowserClient();
         const callback = new URL("/auth", window.location.origin);
@@ -127,6 +209,15 @@ export function SessionProvider({ children }: { children: ReactNode }) {
         await refresh();
       },
       enableRole: async (role) => {
+        if (!configured) {
+          const current = readPreviewSession();
+          if (!current) throw new Error("Start a local preview before choosing a role.");
+          const nextRoles = current.roles.includes(role) ? current.roles : [...current.roles, role];
+          const next = { ...current, roles: nextRoles };
+          savePreviewSession(next);
+          applyPreviewSession(next, setAccount, setActor);
+          return;
+        }
         const { error } = await getSupabaseBrowserClient().rpc("enable_my_role", {
           requested_role: role,
         });
@@ -136,6 +227,15 @@ export function SessionProvider({ children }: { children: ReactNode }) {
       switchRole: async (role) => {
         if (!account?.roles.includes(role))
           throw new Error("That role is not enabled for this account.");
+        if (!configured) {
+          const current = readPreviewSession();
+          if (!current || !isPreviewRole(role))
+            throw new Error("That role is not available in this local preview.");
+          const next = { ...current, activeRole: role };
+          savePreviewSession(next);
+          applyPreviewSession(next, setAccount, setActor);
+          return;
+        }
         const { error } = await getSupabaseBrowserClient()
           .from("profiles")
           .update({ last_active_role: role })
@@ -145,13 +245,14 @@ export function SessionProvider({ children }: { children: ReactNode }) {
       },
       signOut: async () => {
         if (configured) await getSupabaseBrowserClient().auth.signOut();
+        else clearPreviewSession();
         setAccount(null);
         setActor(null);
         setIsReady(true);
       },
       refresh,
     }),
-    [account, actor, configured, isReady, refresh],
+    [account, actor, canUseLocalPreview, configured, isReady, refresh],
   );
 
   return <SessionContext.Provider value={value}>{children}</SessionContext.Provider>;
