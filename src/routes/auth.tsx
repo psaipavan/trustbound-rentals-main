@@ -68,6 +68,8 @@ function AuthPage() {
     account,
     isReady,
     isConfigured,
+    canUseLocalPreview,
+    startLocalPreview: beginLocalPreview,
     enableRole,
     switchRole,
     signInWithGoogle,
@@ -167,6 +169,18 @@ function AuthPage() {
       await signInWithGoogle(requestedRole, getSafeRedirect(search.redirect));
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "Google sign-in could not be started.");
+      setBusy(null);
+    }
+  };
+
+  const startLocalPreview = async () => {
+    setBusy("role");
+    try {
+      await beginLocalPreview(requestedRole);
+      toast.success("Local preview started. Choose the roles you want to explore.");
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "We couldn't start the local preview.");
+    } finally {
       setBusy(null);
     }
   };
@@ -273,6 +287,24 @@ function AuthPage() {
                   Sign in to continue to your account.
                 </p>
                 <div className="mt-6 space-y-4">
+                  {canUseLocalPreview ? (
+                    <>
+                      <Button
+                        className="w-full"
+                        onClick={() => void startLocalPreview()}
+                        disabled={busy !== null}
+                      >
+                        {busy === "role" ? "Opening preview…" : "Explore the local preview"}
+                      </Button>
+                      <p className="text-center text-xs text-muted-foreground">
+                        Local development mode only — no phone number or account required.
+                      </p>
+                      <div className="flex items-center gap-3 pt-1 text-xs text-muted-foreground">
+                        <span className="h-px flex-1 bg-border" /> or configure authentication{" "}
+                        <span className="h-px flex-1 bg-border" />
+                      </div>
+                    </>
+                  ) : null}
                   <div className="space-y-2">
                     <Label htmlFor="phone">Mobile Number</Label>
                     <div className="flex gap-2">
@@ -334,7 +366,7 @@ function AuthPage() {
                 Checking your session…
               </p>
             ) : null}
-            {!isConfigured ? (
+            {!isConfigured && !canUseLocalPreview ? (
               <p className="mt-4 rounded-lg bg-muted p-3 text-center text-xs text-muted-foreground">
                 Authentication is not configured for this environment yet.
               </p>
